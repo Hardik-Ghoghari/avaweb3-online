@@ -1,0 +1,9 @@
+{
+  "name": "letty-trading-backend",
+  "version": "1.0.0",
+  "description": "Admin backend for Letty Trading (pure Node.js, no npm deps required)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

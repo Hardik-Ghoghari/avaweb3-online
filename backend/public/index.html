@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CCWeb3 Admin</title>
+<style>
+:root {
+  --bg:#0b0e11; --sb:#11141a; --pn:#1a1d24; --pn2:#22262f;
+  --tx:#e8ecf3; --mu:#8b94a7; --bd:#2a2f3a;
+  --up:#0ecb81; --dn:#f6465d; --ac:#7c5cfc; --ac2:#9b7cff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,-apple-system,sans-serif}
+button,select,input,textarea{font:inherit;color:var(--tx)}
+.app{display:flex;min-height:100vh}
+.side{width:220px;background:var(--sb);border-right:1px solid var(--bd);padding:18px 12px;display:flex;flex-direction:column;flex-shrink:0}
+.side .brand{display:flex;align-items:center;gap:10px;padding:4px 8px 20px}
+.side .mark{width:34px;height:34px;border-radius:10px;background:var(--ac);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff}
+.side nav{display:flex;flex-direction:column;gap:3px;flex:1}
+.side nav button{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;color:var(--mu);padding:10px 11px;border-radius:9px;text-align:left;cursor:pointer}
+.side nav button:hover{background:var(--pn);color:var(--tx)}
+.side nav button.on{background:rgba(124,92,252,.16);color:#fff;box-shadow:inset 3px 0 0 var(--ac)}
+.side .foot{margin-top:auto;border-top:1px solid var(--bd);padding:12px 8px 2px;color:var(--mu);font-size:10px}
+.main{flex:1;min-width:0;padding:22px;overflow:auto}
+.top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:20px}
+.top h1{font-size:24px;margin:2px 0}
+.kicker{font-size:10px;letter-spacing:1.5px;color:var(--ac);font-weight:700}
+.pn{background:var(--pn);border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:14px}
+.hd{font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;border-bottom:1px solid var(--bd)}
+.row:last-child{border-bottom:0}
+label{display:block;color:var(--mu);font-size:12px;margin:8px 0 4px}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--bg)}
+textarea{min-height:70px;resize:vertical}
+.go{padding:10px 16px;border:0;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;background:var(--ac)}
+.go:hover{background:var(--ac2)}
+.go.sell{background:var(--dn)}
+.go.sm{padding:6px 12px;font-size:12px}
+.x{background:var(--pn2);border:1px solid var(--bd);border-radius:8px;cursor:pointer;padding:6px 12px;color:var(--tx)}
+.x:hover{border-color:var(--ac)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--bd)}
+th{color:var(--mu);font-weight:500}
+.sc{overflow-x:auto}
+.up{color:var(--up)}.dn{color:var(--dn)}.mu{color:var(--mu)}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin-bottom:14px}
+.cards .pn{margin:0}.big{font-size:18px;font-weight:700;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}.side{width:64px}.side .brand span,.side .foot,.side nav button span:not(.mi){display:none}}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center}
+.login-box{background:var(--pn);border:1px solid var(--bd);border-radius:16px;padding:32px;width:min(360px,92%)}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#fff;color:#111;padding:10px 16px;border-radius:10px;opacity:0;transition:.2s;pointer-events:none;z-index:30;font-weight:500}
+#toast.s{opacity:1}
+tr.sel{background:rgba(124,92,252,.12)}
+code{word-break:break-all;background:var(--bg);padding:4px 6px;border-radius:6px;font-size:12px}
+.chat-box{display:flex;flex-direction:column;height:360px;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.chat-msgs{flex:1;overflow-y:auto;padding:12px;background:var(--bg)}
+.chat-msg{max-width:80%;margin-bottom:10px;padding:8px 12px;border-radius:10px;font-size:13px}
+.chat-msg.mine{background:var(--ac);color:#fff;margin-left:auto}
+.chat-msg.theirs{background:var(--pn2);margin-right:auto}
+.chat-in{display:flex;gap:8px;padding:10px;border-top:1px solid var(--bd);background:var(--pn)}
+.notif-item{padding:12px;border-bottom:1px solid var(--bd)}
+.notif-item.unread{border-left:3px solid var(--ac)}
+.hidden{display:none!important}
+.two{display:grid;gap:14px;grid-template-columns:1fr}@media(min-width:800px){.two{grid-template-columns:1fr 1fr}}
+.setting-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}@media(max-width:700px){.setting-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="loginView" class="login-wrap">
+  <div class="login-box">
+    <div style="text-align:center;margin-bottom:20px">
+      <div class="mark" style="width:48px;height:48px;border-radius:12px;background:var(--ac);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:#fff">A</div>
+      <h2 style="margin:12px 0 4px">CCWeb3 Admin</h2>
+      <div class="mu" style="font-size:13px">Control panel</div>
+    </div>
+    <label>Email</label>
+    <input id="admin-email" type="email" placeholder="Email" autocomplete="username" value="">
+    <label style="margin-top:10px">Password</label>
+    <input id="pw" type="password" placeholder="Password" autocomplete="current-password" value="">
+    <button class="go" id="loginBtn" style="width:100%;margin-top:14px">Sign in</button>
+  </div>
+</div>
+
+<div id="appView" class="app hidden">
+  <aside class="side">
+    <div class="brand"><div class="mark">A</div><div><b>CCWeb3 Admin</b><span class="mu" style="display:block;font-size:11px">Control panel</span></div></div>
+    <nav id="nav">
+      <button data-v="overview" class="on"><span class="mi">⌂</span> <span>Overview</span></button>
+      <button data-v="requests"><span class="mi">↔</span> <span>Requests</span></button>
+      <button data-v="users"><span class="mi">♙</span> <span>Users &amp; KYC</span></button>
+      <button data-v="loans"><span class="mi">💳</span> <span>Loans</span></button>
+      <button data-v="contracts"><span class="mi">◈</span> <span>Contracts</span></button>
+      <button data-v="wallets"><span class="mi">▣</span> <span>Wallets</span></button>
+      <button data-v="trading"><span class="mi">⌁</span> <span>Trading</span></button>
+      <button data-v="support"><span class="mi">◌</span> <span>Support</span></button>
+      <button data-v="audit"><span class="mi">☷</span> <span>Audit log</span></button>
+    </nav>
+    <div class="foot"><button class="x" id="logoutBtn" style="width:100%">Logout</button></div>
+  </aside>
+  <main class="main">
+    <div class="top">
+      <div><div class="kicker">CONTROL PANEL</div><h1 id="pageTitle">Overview</h1><div class="mu" id="pageSub">Monitor activity and manage the platform.</div></div>
+      <div class="mu" style="font-size:12px">API · backend</div>
+    </div>
+    <div id="content"></div>
+  </main>
+</div>
+<div id="toast"></div>
+<script>
+const API = location.origin;
+let token = sessionStorage.getItem('lettyAdminToken') || '';
+let view = 'overview';
+let selReq = null, selUser = null, selChat = null;
+
+const $ = s => document.querySelector(s);
+function toast(t){const e=$('#toast');e.textContent=t;e.className='s';clearTimeout(toast.h);toast.h=setTimeout(()=>e.className='',2200)}
+function T(t){return t?new Date(t).toLocaleString():'–'}
+function f(n,d=2){return Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d})}
+
+async function api(path, opts={}){
+  const headers = Object.assign({'Content-Type':'application/json'}, opts.headers||{});
+  if(token) headers.Authorization = 'Bearer '+token;
+  const r = await fetch(API+path, Object.assign({}, opts, {headers, body: opts.body!=null?JSON.stringify(opts.body):undefined}));
+  const data = await r.json().catch(()=>({}));
+  if(r.status===401){logout();throw new Error('Unauthorized')}
+  if(!r.ok) throw new Error(data.error||r.statusText);
+  return data;
+}
+
+function logout(){token='';sessionStorage.removeItem('lettyAdminToken');$('#appView').classList.add('hidden');$('#loginView').classList.remove('hidden')}
+function showApp(){$('#loginView').classList.add('hidden');$('#appView').classList.remove('hidden');setView(view)}
+
+$('#loginBtn').onclick=async()=>{
+  try{
+    const d=await api('/api/admin/login',{method:'POST',body:{email:($('#admin-email').value||'').trim(),password:$('#pw').value}});
+    token=d.token;sessionStorage.setItem('lettyAdminToken',token);showApp();
+  }catch(e){toast(e.message||'Login failed')}
+};
+$('#pw').onkeydown=e=>{if(e.key==='Enter')$('#loginBtn').click()};
+$('#logoutBtn').onclick=async()=>{try{await api('/api/admin/logout',{method:'POST'})}catch(_){}logout()};
+
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>setView(b.dataset.v));
+
+const titles={
+  overview:['Overview','Monitor activity and manage the platform.'],
+  requests:['Requests','Review deposits, withdrawals and approval details.'],
+  users:['Users & KYC','Manage users and review identity verification.'],
+  loans:['Loans','Review loan applications and credit funds on approval.'],
+  contracts:['Contracts','Adjust contract plan interest rates for new investments.'],
+  wallets:['Wallets','Manage deposit addresses and USDT network wallets.'],
+  trading:['Trading','Control fees, leverage, trade mode and market availability.'],
+  support:['Support','Respond to customer service conversations.'],
+  audit:['Audit log','Review administrative actions.']
+};
+
+function setView(v){
+  view=v;
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  const t=titles[v]||titles.overview;
+  $('#pageTitle').textContent=t[0];$('#pageSub').textContent=t[1];
+  render();
+}
+
+async function render(){
+  const el=$('#content');
+  el.innerHTML='<div class="mu">Loading…</div>';
+  try{
+    if(view==='overview') await renderOverview(el);
+    else if(view==='requests') await renderRequests(el);
+    else if(view==='users') await renderUsers(el);
+    else if(view==='loans') await renderLoans(el);
+    else if(view==='contracts') await renderContracts(el);
+    else if(view==='wallets') await renderWallets(el);
+    else if(view==='trading') await renderTrading(el);
+    else if(view==='support') await renderSupport(el);
+    else if(view==='audit') await renderAudit(el);
+  }catch(e){el.innerHTML='<div class="dn">'+e.message+'</div>'}
+}
+
+async function renderOverview(el){
+  const d=await api('/api/admin/overview');
+  el.innerHTML=`
+    <div class="cards">${d.cards.map(c=>`<div class="pn"><div class="mu">${c.label}</div><div class="big">${c.value}</div></div>`).join('')}</div>
+    <div class="grid2">
+      <div class="pn"><div class="hd">Recent notifications <button class="x" id="nclear">Mark all read</button></div>
+        <div class="sc" style="max-height:280px;overflow-y:auto">${d.adminNotifications.length?d.adminNotifications.map(n=>`<div class="notif-item ${n.read?'':'unread'}"><b>${n.title}</b><div class="mu" style="font-size:12px">${n.body}</div><div class="mu" style="font-size:11px;margin-top:4px">${T(n.t)}</div></div>`).join(''):'<div class="mu">No admin notifications.</div>'}</div>
+      </div>
+      <div class="pn"><div class="hd">Welcome bonus</div>
+        ${d.welcomeBonus&&d.welcomeBonus.status==='pending'?`
+          <div class="row"><span class="mu">User</span><span>${d.welcomeBonus.userId}</span></div>
+          <div class="row"><span class="mu">Amount</span><span>${d.welcomeBonus.amount} USDT</span></div>
+          <div class="row"><span class="mu">Requested</span><span>${T(d.welcomeBonus.requestedAt)}</span></div>
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <button class="go" id="wbap" style="flex:1;margin:0">Approve</button>
+            <button class="go sell" id="wbrj" style="flex:1;margin:0">Reject</button>
+          </div>`:`<div class="mu">No pending welcome bonus. ${d.welcomeBonus?`(Last: ${d.welcomeBonus.status})`:''}</div>`}
+      </div>
+    </div>`;
+  $('#nclear')&&($('#nclear').onclick=async()=>{await api('/api/admin/notifications/read-all',{method:'POST'});toast('Cleared');render()});
+  $('#wbap')&&($('#wbap').onclick=async()=>{await api('/api/admin/welcome-bonus/approve',{method:'POST'});toast('Bonus approved');render()});
+  $('#wbrj')&&($('#wbrj').onclick=async()=>{await api('/api/admin/welcome-bonus/reject',{method:'POST'});toast('Bonus rejected');render()});
+}
+
+async function renderRequests(el){
+  const d=await api('/api/admin/requests');
+  const rows=d.requests.map(r=>{
+    const addr=r.addr?(r.addr.length>18?r.addr.slice(0,10)+'…'+r.addr.slice(-6):r.addr):'–';
+    return `<tr class="${String(r.id)===String(selReq)?'sel':''}" data-rid="${r.id}" style="cursor:pointer">
+      <td>${String(r.id).slice(-6)}</td><td>${r.type}</td><td>${r.userId}</td><td>${r.asset}</td>
+      <td>${f(r.amount,4)}</td><td title="${r.addr||''}"><code style="display:inline;padding:2px 4px;font-size:11px">${addr}</code></td>
+      <td class="${r.risk.level==='High'?'dn':r.risk.level==='Medium'?'':'up'}"><b>${r.risk.level}</b></td>
+      <td>${Math.floor((Date.now()-r.createdAt)/60000)}m</td>
+      <td style="white-space:nowrap"><button class="go sm" data-ok="${r.id}">Approve</button> <button class="go sell sm" data-no="${r.id}">Decline</button></td>
+    </tr>`;
+  }).join('');
+  el.innerHTML=`
+    <div class="pn"><div class="hd">Deposit &amp; withdrawal requests</div>
+      <div class="mu" style="font-size:12px;margin-bottom:8px">Click a row to review details.</div>
+      <div class="sc">${rows?`<table><tr><th>ID</th><th>Type</th><th>User</th><th>Asset</th><th>Amount</th><th>Wallet</th><th>Risk</th><th>Age</th><th></th></tr>${rows}</table>`:'<div class="mu">Queue is empty.</div>'}</div>
+    </div>
+    <div class="pn"><div class="hd">Review details</div><div id="rd"><div class="mu">Select a request.</div></div></div>`;
+  el.querySelectorAll('tr[data-rid]').forEach(tr=>tr.onclick=e=>{if(e.target.closest('button'))return;selReq=tr.dataset.rid;renderRequestDetail()});
+  el.querySelectorAll('[data-ok]').forEach(b=>b.onclick=async e=>{e.stopPropagation();await api('/api/admin/requests/'+b.dataset.ok+'/approve',{method:'POST',body:{reviewer:'Reviewer A'}});toast('Approved');selReq=null;render()});
+  el.querySelectorAll('[data-no]').forEach(b=>b.onclick=async e=>{e.stopPropagation();await api('/api/admin/requests/'+b.dataset.no+'/reject',{method:'POST',body:{reason:'Other'}});toast('Rejected');selReq=null;render()});
+  if(selReq) renderRequestDetail();
+}
+
+async function renderRequestDetail(){
+  const box=$('#rd');if(!box||!selReq)return;
+  const d=await api('/api/admin/requests/'+selReq);
+  const r=d.request,k=d.risk,u=d.user;
+  const need=k.usd>=(await api('/api/admin/trading')).dualApproval?2:1;
+  box.innerHTML=`
+    <div class="two"><div>
+      <div class="row"><span class="mu">Type</span><span><b>${r.type}</b></span></div>
+      <div class="row"><span class="mu">Request / user</span><span>${r.id} · ${r.userId}</span></div>
+      <div class="row"><span class="mu">KYC</span><span class="${u&&u.kyc==='Verified'?'up':'dn'}">${u?u.kyc:'Unknown'}</span></div>
+      <div class="row"><span class="mu">Amount</span><span>${f(r.amount,4)} ${r.asset} (~ ${f(k.usd)} USDT)</span></div>
+      <div class="row"><span class="mu">Requested</span><span>${T(r.createdAt)}</span></div>
+      <div class="row"><span class="mu">Risk</span><span class="${k.level==='High'?'dn':k.level==='Medium'?'':'up'}"><b>${k.level} (${k.score}/100)</b></span></div>
+      <div class="row"><span class="mu">Approvals</span><span>${(r.approvals||[]).length}/${need}</span></div>
+      <label>Wallet address</label><code>${r.addr||'–'}</code>
+      <label>Risk flags</label><div>${k.flags.length?k.flags.map(x=>'• '+x).join('<br>'):'None'}</div>
+    </div><div>
+      <label>Reviewer</label><select id="rv"><option>Reviewer A</option><option>Reviewer B</option></select>
+      <label>Internal note</label><input id="rn" placeholder="Saved to audit log">
+      <label>Rejection reason</label><select id="rr"><option>Suspicious address</option><option>KYC incomplete</option><option>Exceeds limit</option><option>Source of funds unclear</option><option>Other</option></select>
+      <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+        <button class="go" style="flex:1;margin:0" id="ap">Approve</button>
+        <button class="x" style="flex:1;margin:0" id="ri">Request info</button>
+        <button class="go sell" style="flex:1;margin:0" id="rj">Reject</button>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:8px">
+        <button class="x" id="al2">Allow address</button>
+        <button class="x" id="bl">Block address</button>
+      </div>
+    </div></div>`;
+  $('#ap').onclick=async()=>{await api('/api/admin/requests/'+selReq+'/approve',{method:'POST',body:{reviewer:$('#rv').value,note:$('#rn').value}});toast('Approved');selReq=null;render()};
+  $('#rj').onclick=async()=>{await api('/api/admin/requests/'+selReq+'/reject',{method:'POST',body:{reviewer:$('#rv').value,note:$('#rn').value,reason:$('#rr').value}});toast('Rejected');selReq=null;render()};
+  $('#ri').onclick=async()=>{await api('/api/admin/requests/'+selReq+'/request-info',{method:'POST',body:{reviewer:$('#rv').value,note:$('#rn').value}});toast('Info requested');render()};
+  $('#al2').onclick=async()=>{if(!r.addr)return toast('No address');await api('/api/admin/addresses/allow',{method:'POST',body:{addr:r.addr}});toast('Allowed');render()};
+  $('#bl').onclick=async()=>{if(!r.addr)return toast('No address');await api('/api/admin/addresses/block',{method:'POST',body:{addr:r.addr}});toast('Blocked');render()};
+}
+
+async function renderUsers(el){
+  const d=await api('/api/admin/users');
+  const kyc=await api('/api/admin/kyc');
+  const rows=d.users.map(u=>`<tr data-uid="${u.id}" class="${selUser===u.id?'sel':''}" style="cursor:pointer">
+    <td>${u.id}</td><td>${u.name}</td><td>${u.email||'–'}</td>
+    <td class="${u.kyc==='Verified'?'up':u.kyc==='Rejected'?'dn':'mu'}">${u.kyc}</td>
+    <td>${f(u.balanceUsdt,0)}</td>
+    <td><button class="x" data-uedit="${u.id}">Edit</button></td>
+  </tr>`).join('');
+  const krows=kyc.submissions.map(k=>`<tr><td>${k.userId}</td><td>${k.name}</td><td>${k.country||'–'}</td><td>${k.documentType||'–'}</td><td>${k.submittedAt?T(k.submittedAt):'–'}</td>
+    <td><button class="x" data-kyc="${k.id||k.userId}">Review</button></td></tr>`).join('');
+  el.innerHTML=`
+    <div class="pn"><div class="hd">Users</div>
+      <div class="sc"><table><tr><th>UID</th><th>Name</th><th>Email</th><th>KYC</th><th>Balance (USDT)</th><th></th></tr>${rows}</table></div>
+      <div id="udetal" style="margin-top:12px"><div class="mu">Select a user to edit balances.</div></div>
+    </div>
+    <div class="pn"><div class="hd">KYC queue</div>
+      <div class="sc">${krows?`<table><tr><th>User</th><th>Name</th><th>Country</th><th>Document</th><th>Submitted</th><th></th></tr>${krows}</table>`:'<div class="mu">No pending KYC.</div>'}</div>
+      <div id="kd" style="margin-top:12px"></div>
+    </div>`;
+  el.querySelectorAll('tr[data-uid]').forEach(tr=>tr.onclick=e=>{if(e.target.closest('button'))return;selUser=tr.dataset.uid;showUserDetail()});
+  el.querySelectorAll('[data-uedit]').forEach(b=>b.onclick=e=>{e.stopPropagation();selUser=b.dataset.uedit;showUserDetail()});
+  el.querySelectorAll('[data-kyc]').forEach(b=>b.onclick=()=>showKycDetail(b.dataset.kyc));
+  if(selUser) showUserDetail();
+}
+
+async function showUserDetail(){
+  const box=$('#udetal');if(!box||!selUser)return;
+  const d=await api('/api/admin/users/'+selUser);
+  const u=d.user;
+  const assets=['USDT','BTC','ETH','XRP','SOL'];
+  box.innerHTML=`<div class="hd">User ${u.id} · ${u.name}</div>
+    <div class="row"><span class="mu">Email</span><span>${u.email||'–'}</span></div>
+    <div class="row"><span class="mu">KYC / Tier</span><span>${u.kyc} · ${u.tier||'–'}</span></div>
+    <div class="row"><span class="mu">Country</span><span>${u.country||'–'}</span></div>
+    <div style="margin-top:10px;font-weight:600">Balances</div>
+    ${assets.map(a=>{
+      const v=(u.balances&&u.balances[a])||(a==='USDT'?u.balanceUsdt:0)||0;
+      return `<div style="display:flex;gap:8px;align-items:center;margin-top:6px"><b style="width:56px">${a}</b><input data-bal="${a}" type="number" step="any" value="${v}" style="flex:1"><button class="x" data-savebal="${a}">Save</button></div>`;
+    }).join('')}
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+      <button class="go sm" id="kycV">Set KYC Verified</button>
+      <button class="go sell sm" id="kycR">Set KYC Rejected</button>
+      <button class="x" id="reset-pw">Reset password</button>
+    </div>`;
+  box.querySelectorAll('[data-savebal]').forEach(b=>b.onclick=async()=>{
+    const a=b.dataset.savebal;const v=+box.querySelector('[data-bal="'+a+'"]').value;
+    await api('/api/admin/users/'+selUser+'/balance',{method:'PATCH',body:{asset:a,amount:v}});
+    toast(a+' updated');
+  });
+  $('#kycV').onclick=async()=>{await api('/api/admin/users/'+selUser+'/kyc',{method:'PATCH',body:{status:'Verified'}});toast('KYC verified');render()};
+  $('#kycR').onclick=async()=>{await api('/api/admin/users/'+selUser+'/kyc',{method:'PATCH',body:{status:'Rejected'}});toast('KYC rejected');render()};
+  $('#reset-pw').onclick=async()=>{const p=prompt('New password for '+selUser);if(!p)return;await api('/api/admin/users/'+selUser+'/password',{method:'POST',body:{newPassword:p}});toast('Password reset')};
+}
+
+async function showKycDetail(id){
+  const box=$('#kd');if(!box)return;
+  const d=await api('/api/admin/kyc/'+id);
+  const k=d.submission;
+  box.innerHTML=`<div class="hd">KYC ${k.userId} · ${k.name}</div>
+    <div class="row"><span class="mu">Country / document</span><span>${k.country||'–'} · ${k.documentType||'–'}</span></div>
+    <div class="two" style="margin-top:8px">
+      <div><div class="mu" style="font-size:12px">ID document</div>${k.idImage?`<img src="${k.idImage}" style="max-width:100%;max-height:180px;border-radius:8px;border:1px solid var(--bd)">`:'<div class="mu">No image</div>'}</div>
+      <div><div class="mu" style="font-size:12px">Selfie</div>${k.selfieImage?`<img src="${k.selfieImage}" style="max-width:100%;max-height:180px;border-radius:8px;border:1px solid var(--bd)">`:'<div class="mu">No image</div>'}</div>
+    </div>
+    <label>Reviewer note</label><input id="kv2" placeholder="Audit log">
+    <label>Decline reason</label><select id="kw"><option>Image unclear</option><option>Document expired</option><option>Name mismatch</option><option>Suspected tampering</option><option>Other</option></select>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button class="go" style="flex:1;margin:0" id="ka">Approve</button>
+      <button class="go sell" style="flex:1;margin:0" id="kr">Decline</button>
+    </div>`;
+  $('#ka').onclick=async()=>{await api('/api/admin/kyc/'+(k.id||k.userId)+'/approve',{method:'POST',body:{note:$('#kv2').value}});toast('KYC approved');render()};
+  $('#kr').onclick=async()=>{await api('/api/admin/kyc/'+(k.id||k.userId)+'/reject',{method:'POST',body:{note:$('#kv2').value,reason:$('#kw').value}});toast('KYC declined');render()};
+}
+
+async function renderContracts(el){
+  const d=await api('/api/admin/contracts/plans');
+  const plans=Object.entries(d.plans).map(([id,p])=>`
+    <div style="display:grid;grid-template-columns:minmax(90px,1fr) 140px auto;gap:6px;align-items:center;padding:7px 2px;border-bottom:1px solid var(--bd)">
+      <b>${p.name||id}</b>
+      <div style="display:flex;align-items:center;gap:4px"><input data-rate="${id}" type="number" min="0" max="100" step="0.0001" value="${p.rate}"><span class="mu">%</span></div>
+      <button class="x" data-rsave="${id}">Save</button>
+    </div>`).join('');
+  el.innerHTML=`<div class="pn"><div class="hd">Contract plan interest rates <span class="mu" style="font-size:11px;font-weight:400">New contracts only</span></div>
+    <div class="mu" style="font-size:12px;margin-bottom:12px">Existing contracts keep the rate they started with.</div>
+    ${plans}
+    <button class="go" id="saveAll" style="margin-top:12px">Save all rates</button>
+  </div>`;
+  el.querySelectorAll('[data-rsave]').forEach(b=>b.onclick=async()=>{
+    const id=b.dataset.rsave;const v=+el.querySelector('[data-rate="'+id+'"]').value;
+    await api('/api/admin/contracts/plans/'+id,{method:'PUT',body:{rate:v}});toast('Saved');
+  });
+  $('#saveAll').onclick=async()=>{
+    const rates={};el.querySelectorAll('[data-rate]').forEach(i=>rates[i.dataset.rate]=+i.value);
+    await api('/api/admin/contracts/plans',{method:'PUT',body:{rates}});toast('All rates saved');
+  };
+}
+
+async function renderWallets(el){
+  const d=await api('/api/admin/wallets');
+  const assets=['USDT','BTC','ETH','XRP','SOL'];
+  const nets=['ERC20','TRC20','BEP20'];
+  el.innerHTML=`<div class="grid2">
+    <div class="pn"><div class="hd">Deposit wallet addresses</div>
+      <div class="mu" style="font-size:12px;margin-bottom:8px">Shown to users for deposits.</div>
+      ${assets.map(a=>`<div style="display:grid;grid-template-columns:64px minmax(120px,1fr) auto;gap:6px;align-items:center;padding:6px 2px;border-bottom:1px solid var(--bd)">
+        <b>${a}</b><input data-dep="${a}" value="${(d.depositAddresses[a]||'').replace(/"/g,'&quot;')}" placeholder="Address for ${a}">
+        <button class="x" data-depsave="${a}">Save</button></div>`).join('')}
+    </div>
+    <div class="pn"><div class="hd">USDT network addresses</div>
+      <div class="mu" style="font-size:12px;margin-bottom:8px">ERC-20 / TRC-20 / BEP-20.</div>
+      ${nets.map(n=>`<div style="display:grid;grid-template-columns:64px minmax(120px,1fr) auto;gap:6px;align-items:center;padding:6px 2px;border-bottom:1px solid var(--bd)">
+        <b>${n.replace('20',' 20')}</b><input data-usdt="${n}" value="${(d.usdtNetworkAddresses[n]||'').replace(/"/g,'&quot;')}" placeholder="USDT ${n}">
+        <button class="x" data-usdtsave="${n}">Save</button></div>`).join('')}
+    </div>
+  </div>`;
+  el.querySelectorAll('[data-depsave]').forEach(b=>b.onclick=async()=>{
+    const a=b.dataset.depsave;const address=el.querySelector('[data-dep="'+a+'"]').value.trim();
+    await api('/api/admin/wallets/deposit/'+a,{method:'PUT',body:{address}});toast(a+' address saved');
+  });
+  el.querySelectorAll('[data-usdtsave]').forEach(b=>b.onclick=async()=>{
+    const n=b.dataset.usdtsave;const address=el.querySelector('[data-usdt="'+n+'"]').value.trim();
+    await api('/api/admin/wallets/usdt/'+n,{method:'PUT',body:{address}});toast('USDT '+n+' saved');
+  });
+}
+
+async function renderTrading(el){
+  const d=await api('/api/admin/trading');
+  const markets=['BTC','ETH','BNB','SOL','XRP','DOGE','ADA','AAPL','MSFT','NVDA','TSLA'];
+  el.innerHTML=`
+    <div class="pn"><div class="hd">Trading settings</div>
+      <div class="setting-grid">
+        <div><label>Trading fee (%)</label><input id="cf" type="number" step="0.01" min="0" value="${d.fee}"></div>
+        <div><label>Max leverage</label><select id="cm">${[1,2,5,10,20,50,100,150,200].map(n=>`<option ${d.maxLeverage==n?'selected':''}>${n}</option>`).join('')}</select></div>
+        <div><label>Trade outcome mode</label><select id="tm">
+          <option value="normal" ${d.mode==='normal'?'selected':''}>Normal (random)</option>
+          <option value="win" ${d.mode==='win'?'selected':''}>Win mode – all trades profit</option>
+          <option value="lose" ${d.mode==='lose'?'selected':''}>Lose mode – all trades lose</option>
+        </select></div>
+      </div>
+      <button class="go" id="sv" style="margin-top:12px">Save trading settings</button>
+    </div>
+    <div class="pn"><div class="hd">Market control</div>
+      <div class="mu" style="font-size:12px;margin-bottom:8px">Halt or resume trading for a market.</div>
+      <div style="display:flex;gap:8px"><select id="ch">${markets.map(m=>`<option>${m}</option>`).join('')}</select>
+        <button class="x" id="hs">Halt / resume</button></div>
+      <div class="mu" style="margin-top:6px" id="hl">Halted: ${Object.keys(d.halt||{}).filter(k=>d.halt[k]).join(', ')||'none'}</div>
+    </div>`;
+  $('#sv').onclick=async()=>{
+    await api('/api/admin/trading',{method:'PUT',body:{fee:+$('#cf').value,maxLeverage:+$('#cm').value,mode:$('#tm').value}});
+    toast('Settings saved');render();
+  };
+  $('#hs').onclick=async()=>{
+    const r=await api('/api/admin/trading/halt',{method:'POST',body:{market:$('#ch').value}});
+    toast(r.halted?'Halted '+r.market:'Resumed '+r.market);render();
+  };
+}
+
+async function renderSupport(el){
+  const d=await api('/api/admin/support/threads');
+  const rows=d.threads.map(t=>`<tr data-ach="${t.userId}" style="cursor:pointer"><td>${t.userId}</td><td>${t.count}</td><td>${T(t.lastAt)} – ${t.preview||''}</td></tr>`).join('');
+  el.innerHTML=`
+    <div class="pn"><div class="hd">Conversations</div>
+      <div class="sc">${rows?`<table><tr><th>User</th><th>Messages</th><th>Last</th></tr>${rows}</table>`:'<div class="mu">No customer messages yet.</div>'}</div>
+      <div id="achat-box" style="margin-top:12px"><div class="mu">Select a conversation.</div></div>
+    </div>`;
+  el.querySelectorAll('tr[data-ach]').forEach(tr=>tr.onclick=()=>{selChat=tr.dataset.ach;showChat()});
+  if(selChat) showChat();
+}
+
+async function showChat(){
+  const box=$('#achat-box');if(!box||!selChat)return;
+  const d=await api('/api/admin/support/'+selChat);
+  box.innerHTML=`<div class="hd">Chat with ${selChat}</div>
+    <div class="chat-box"><div class="chat-msgs" id="achat-msgs">${d.messages.map(m=>{
+      const att=m.file?(m.file.isImage?`<img src="${m.file.data}" style="max-width:200px;border-radius:8px;margin-top:6px">`:`<a href="${m.file.data}" download="${m.file.name}">📄 ${m.file.name}</a>`):'';
+      return `<div class="chat-msg ${m.from==='admin'?'mine':'theirs'}"><div>${m.text||''}</div>${att}<div class="mu" style="font-size:10px;margin-top:4px">${T(m.t)}</div></div>`;
+    }).join('')||'<div class="mu">No messages.</div>'}</div>
+    <div class="chat-in"><input id="amsg" placeholder="Reply as support…" style="flex:1"><button class="go sm" id="asend" style="margin:0">Send</button></div>
+    </div>`;
+  const msgs=$('#achat-msgs');if(msgs)msgs.scrollTop=msgs.scrollHeight;
+  $('#asend').onclick=async()=>{
+    const text=$('#amsg').value.trim();if(!text)return toast('Enter a message');
+    await api('/api/admin/support/'+selChat,{method:'POST',body:{text}});
+    $('#amsg').value='';showChat();
+  };
+}
+
+async function renderAudit(el){
+  const d=await api('/api/admin/audit');
+  const rows=d.log.map(l=>`<tr><td>${T(l.t)}</td><td>${l.actor}</td><td>${l.message}</td></tr>`).join('');
+  el.innerHTML=`<div class="pn"><div class="hd">Audit log</div>
+    <div class="sc">${rows?`<table><tr><th>Time</th><th>Actor</th><th>Event</th></tr>${rows}</table>`:'<div class="mu">No events yet.</div>'}</div>
+  </div>`;
+}
+
+
+async function renderLoans(el){
+  const d=await api('/api/admin/loans');
+  const loans=d.loans||[];
+  const rows=loans.map(l=>{
+    const card=l.card?`${l.card.number||'—'} · ${l.card.expiry||''}`:'—';
+    const st=l.status==='approved'?'<span class="up">approved</span>':l.status==='rejected'?'<span class="dn">rejected</span>':'<span class="mu">pending</span>';
+    const acts=l.status==='pending'?`<button class="go sm" data-la="${l.id}">Approve</button> <button class="go sell sm" data-lr="${l.id}">Reject</button>`:'';
+    return `<tr>
+      <td>${T(l.createdAt)}</td>
+      <td>${l.userId}</td>
+      <td>${(+l.amount||0).toLocaleString()} USDT</td>
+      <td>${l.creditScore||'—'}</td>
+      <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis" title="${(l.address||'').replace(/"/g,'')}">${l.address||'—'}</td>
+      <td style="font-size:11px">${card}</td>
+      <td>31%</td>
+      <td>${st}</td>
+      <td>${acts}</td>
+    </tr>`;
+  }).join('')||'<tr><td colspan="9" class="mu">No loan requests yet.</td></tr>';
+  el.innerHTML=`<div class="pn"><div class="hd">Loan requests</div>
+    <div class="sc"><table>
+      <tr><th>Time</th><th>User</th><th>Amount</th><th>Score</th><th>Address</th><th>Card</th><th>APR</th><th>Status</th><th></th></tr>
+      ${rows}
+    </table></div>
+  </div>`;
+  el.querySelectorAll('[data-la]').forEach(b=>b.onclick=async()=>{
+    if(!confirm('Approve loan and credit USDT to user?'))return;
+    await api('/api/admin/loans/'+b.dataset.la+'/approve',{method:'POST',body:{}});
+    toast('Loan approved'); render();
+  });
+  el.querySelectorAll('[data-lr]').forEach(b=>b.onclick=async()=>{
+    await api('/api/admin/loans/'+b.dataset.lr+'/reject',{method:'POST',body:{}});
+    toast('Loan rejected'); render();
+  });
+}
+
+
+if(token) showApp();
+</script>
+</body>
+</html>

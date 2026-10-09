@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>CC Web3</title>
+<style>
+:root {
+  --bg:#0b0e11; --sb:#12151a; --pn:#1a1d24; --pn2:#22262f;
+  --tx:#e8ecf3; --mu:#8b94a7; --bd:#2a2f3a;
+  --up:#0ecb81; --dn:#f6465d; --ac:#7c5cfc; --ac2:#9b7cff;
+  --ban:#f0b90b;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button,select,input,textarea{font:inherit;color:var(--tx)}
+.ban{background:var(--ban);color:#222;text-align:center;font-weight:600;padding:6px 10px;font-size:12px}
+.app{display:flex;min-height:100vh}
+/* Sidebar */
+.side{width:220px;background:var(--sb);border-right:1px solid var(--bd);display:flex;flex-direction:column;padding:12px 10px;flex-shrink:0}
+.side .logo{padding:8px 12px 18px;letter-spacing:.3px}
+.brand-logo{width:48px;height:48px;object-fit:contain;flex-shrink:0;border-radius:12px}
+.brand-logo.sm{width:40px;height:40px;border-radius:10px}
+.letty-text{font-size:20px;font-weight:800;line-height:1.15;color:#5b4dff}
+.letty-text span{display:block;font-size:13px;font-weight:700;color:#5b4dff;letter-spacing:.6px;text-transform:none}
+.topbar b{font-size:18px;font-weight:800;color:#5b4dff}
+.side nav{display:flex;flex-direction:column;gap:2px;flex:1}
+.side nav button{display:flex;align-items:center;gap:10px;background:none;border:0;color:var(--mu);padding:10px 12px;border-radius:8px;cursor:pointer;text-align:left;width:100%}
+.side nav button:hover{background:var(--pn);color:var(--tx)}
+.side nav button.on{background:var(--ac);color:#fff;font-weight:600}
+.side .acc{border-top:1px solid var(--bd);padding-top:10px;margin-top:8px}
+.side .acc button{color:#f6465d}
+/* Main */
+.main{flex:1;overflow:auto;padding:20px 24px;max-width:1100px}
+.up{color:var(--up)}.dn{color:var(--dn)}.mu{color:var(--mu)}
+.pn{background:var(--pn);border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:14px}
+.hd{font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.row{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums;padding:6px 0;font-size:13px;border-bottom:1px solid transparent}
+.row:not(:last-child){border-bottom-color:var(--bd)}
+label{display:block;color:var(--mu);font-size:12px;margin:8px 0 4px}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--bg)}
+textarea{min-height:80px;resize:vertical}
+.go{width:100%;margin-top:12px;padding:12px;border:0;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;background:var(--ac)}
+.go:hover{background:var(--ac2)}
+.go.sell{background:var(--dn)}.go.up{background:var(--up)}
+.go.sm{width:auto;margin:0;padding:6px 12px;font-size:12px;display:inline-block}
+.x{background:var(--pn2);border:1px solid var(--bd);border-radius:8px;cursor:pointer;padding:6px 12px;color:var(--tx)}
+.x:hover{border-color:var(--ac)}
+table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--bd)}th{color:var(--mu);font-weight:500}
+.sc{overflow-x:auto}
+code{word-break:break-all;background:var(--bg);padding:6px 8px;border-radius:6px;display:block;font-size:12px}
+.two{display:grid;gap:14px;grid-template-columns:1fr}@media(min-width:800px){.two{grid-template-columns:1fr 1fr}}
+.grid{display:grid;gap:14px;grid-template-columns:1fr}@media(min-width:900px){.grid{grid-template-columns:2fr 1fr 1fr}}
+.tb{display:flex;gap:4px;margin-bottom:10px}.tb button{flex:1;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:8px;cursor:pointer;color:var(--mu)}
+.tb button.on{background:var(--pn2);color:var(--tx);font-weight:600;border-color:var(--ac)}
+.q{display:flex;gap:4px;margin-top:6px}.q button{flex:1;padding:6px;border:1px solid var(--bd);background:var(--bg);border-radius:6px;cursor:pointer;color:var(--mu)}
+#cv{width:100%;height:360px;display:block}
+#pairs{display:block;margin:0;padding:0}
+#pairs.mkt-list-vert button{/* vertical list styles below */}
+/* Home */
+.bal-card{background:linear-gradient(135deg,#1a1d28 0%,#221e35 100%);border:1px solid var(--bd);border-radius:16px;padding:24px;margin-bottom:16px}
+.bal-card .lbl{color:var(--mu);font-size:13px}
+.bal-card .amt{font-size:32px;font-weight:700;margin:6px 0 4px}
+.bal-card .sub{color:var(--mu);font-size:12px;margin-bottom:16px}
+.bal-card .btns{display:flex;gap:10px}
+.bal-card .btns button{padding:10px 20px;border-radius:8px;border:0;font-weight:600;cursor:pointer}
+.bal-card .btns .dep{background:var(--ac);color:#fff}
+.bal-card .btns .wd{background:var(--pn2);color:var(--tx);border:1px solid var(--bd)}
+.user-bar{display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:12px 16px;background:var(--pn);border-radius:10px;margin-bottom:20px;font-size:13px;border:1px solid var(--bd)}
+.user-bar b{color:var(--ac)}
+.mkt-list{display:flex;flex-direction:column;gap:0}
+.mkt-row{display:flex;align-items:center;gap:12px;padding:14px 12px;border-radius:10px;cursor:pointer;border-bottom:1px solid var(--bd)}
+.mkt-row:hover{background:var(--pn2)}
+.mkt-ico{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;flex-shrink:0}
+.mkt-row .info{flex:1;min-width:0}
+.mkt-row .info b{display:block}
+.mkt-row .info span{color:var(--mu);font-size:12px}
+.mkt-row .px{text-align:right;font-variant-numeric:tabular-nums}
+.mkt-row .px b{display:block}
+.spark{width:80px;height:28px}
+/* Cards admin */
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin-bottom:14px}
+.cards .pn{margin:0}.big2{font-size:18px;font-weight:700;margin-top:4px}
+/* Admin control center */
+.admin-shell{display:flex;min-height:calc(100vh - 40px);margin:-4px 0 20px;background:var(--bg);border:1px solid var(--bd);border-radius:16px;overflow:hidden}
+.admin-menu{width:220px;background:#11141a;border-right:1px solid var(--bd);padding:18px 12px;display:flex;flex-direction:column;flex-shrink:0}
+.admin-brand{display:flex;align-items:center;gap:10px;padding:4px 8px 20px}.admin-brand b{display:block;font-size:15px}.admin-brand span{display:block;color:var(--mu);font-size:11px;margin-top:2px}.admin-brand-mark{width:34px;height:34px;border-radius:10px;background:var(--ac);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff}
+.admin-menu-title{font-size:10px;color:#667084;letter-spacing:1.2px;padding:4px 10px 8px}.admin-nav{display:flex;flex-direction:column;gap:3px}.admin-nav button{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;color:var(--mu);padding:10px 11px;border-radius:9px;text-align:left;cursor:pointer}.admin-nav button:hover{background:var(--pn);color:var(--tx)}.admin-nav button.on{background:rgba(124,92,252,.16);color:#fff;box-shadow:inset 3px 0 0 var(--ac)}.admin-nav .mi{width:20px;text-align:center;font-size:15px;color:inherit}.admin-menu-foot{margin-top:auto;border-top:1px solid var(--bd);padding:12px 8px 2px;color:var(--mu);font-size:10px}.admin-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--up);margin-right:6px}
+.admin-content{flex:1;min-width:0;padding:22px;overflow:auto}.admin-topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:20px}.admin-kicker{font-size:10px;letter-spacing:1.5px;color:var(--ac);font-weight:700}.admin-topbar h1{font-size:25px;margin:2px 0 2px}.admin-status{padding:6px 10px;border:1px solid var(--bd);border-radius:20px;color:var(--mu);font-size:11px;white-space:nowrap}.admin-status .admin-dot{margin-right:5px}.admin-grid-2{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}.admin-setting-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.admin-pill{font-size:10px;padding:4px 7px;border-radius:12px;background:rgba(124,92,252,.14);color:var(--ac2);font-weight:600}
+.admin-section>.pn{box-shadow:0 4px 18px rgba(0,0,0,.12)}
+@media(max-width:900px){.admin-menu{width:175px}.admin-grid-2,.admin-setting-grid{grid-template-columns:1fr}}
+@media(max-width:650px){.admin-shell{margin:0 -12px 12px;border-radius:0;border-left:0;border-right:0}.admin-menu{width:62px;padding:12px 6px}.admin-brand{justify-content:center;padding-bottom:16px}.admin-brand>div:last-child,.admin-menu-title,.admin-menu-foot{display:none}.admin-brand-mark{width:38px;height:38px}.admin-nav button{justify-content:center;padding:11px 4px}.admin-nav button .mi{width:auto}.admin-content{padding:14px}.admin-topbar h1{font-size:21px}}
+/* Modal */
+#md{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:20}
+#md.s{display:flex}
+.mc{background:var(--pn);border:1px solid var(--bd);border-radius:16px;padding:24px;width:min(360px,92%)}
+.big{font-size:28px;font-weight:700;text-align:center;margin:8px 0}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#fff;color:#111;padding:10px 16px;border-radius:10px;opacity:0;transition:.2s;pointer-events:none;z-index:30;font-weight:500}
+#toast.s{opacity:1}
+.warn{background:rgba(240,185,11,.12);border:1px solid #f0b90b;border-radius:8px;padding:10px;font-size:12px;margin-bottom:8px}
+.kp{max-height:140px;max-width:100%;margin-top:6px;border-radius:6px;border:1px solid var(--bd)}
+.kb{width:100%;height:180px;object-fit:contain;background:var(--bg);border:1px solid var(--bd);border-radius:8px}
+tr.sel{background:rgba(124,92,252,.12)}
+/* Chat */
+.chat-box{display:flex;flex-direction:column;height:360px;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.chat-msgs{flex:1;overflow-y:auto;padding:12px;background:var(--bg)}
+.chat-msg{max-width:80%;margin-bottom:10px;padding:8px 12px;border-radius:10px;font-size:13px}
+.chat-msg.user{background:var(--ac);color:#fff;margin-left:auto;border-bottom-right-radius:2px}
+.chat-msg.admin{background:var(--pn2);margin-right:auto;border-bottom-left-radius:2px}
+/* In admin panel: admin's own messages on the right in blue */
+.chat-msg.mine{background:var(--ac);color:#fff;margin-left:auto;margin-right:0;border-bottom-right-radius:2px;border-bottom-left-radius:10px}
+.chat-msg.theirs{background:var(--pn2);margin-right:auto;margin-left:0;border-bottom-left-radius:2px;border-bottom-right-radius:10px}
+.chat-msg .tm{font-size:10px;opacity:.7;margin-top:4px}
+.chat-msg img.att{max-width:220px;max-height:160px;border-radius:8px;margin-top:6px;display:block;cursor:pointer}
+.chat-msg a.att{display:inline-block;margin-top:6px;padding:6px 10px;background:rgba(0,0,0,.2);border-radius:6px;color:inherit;text-decoration:none;font-size:12px}
+.chat-msg a.att:hover{text-decoration:underline}
+.chat-in{display:flex;gap:8px;padding:10px;border-top:1px solid var(--bd);background:var(--pn)}
+.chat-in input{flex:1}
+.badge{background:var(--dn);color:#fff;font-size:10px;padding:1px 6px;border-radius:10px;margin-left:6px}
+.notif-item{padding:12px;border-bottom:1px solid var(--bd);cursor:pointer}
+.notif-item:hover{background:var(--pn2)}
+.notif-item.unread{border-left:3px solid var(--ac)}
+
+
+.contract-shell{overflow:hidden}.contract-tabs{display:flex;gap:4px;overflow:auto}.contract-tabs button{white-space:nowrap}.contract-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}.contract-card{border:1px solid var(--bd);background:rgba(255,255,255,.025);border-radius:15px;padding:20px;min-width:0}.contract-card .cc-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}.contract-card .cc-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;background:var(--ac);color:#fff;flex:none}.contract-card .cc-name{font-size:17px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.contract-card .cc-rate{margin-left:auto;background:rgba(0,200,150,.10);color:var(--up);padding:5px 8px;border-radius:5px;font-weight:800;font-size:12px;white-space:nowrap}.contract-card .cc-row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;color:var(--mu);font-size:13px}.contract-card .cc-row b{color:var(--tx);text-align:right}.contract-card .cc-profit b{color:var(--up)}.contract-card .cc-buy{width:100%;margin-top:12px}.contract-note{font-size:12px;color:var(--mu);margin-top:12px;line-height:1.45}.contract-active-card{border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:10px;background:rgba(255,255,255,.02)}.contract-status{font-size:11px;padding:4px 7px;border-radius:5px;background:rgba(0,200,150,.10);color:var(--up);font-weight:700}.contract-status.done{background:rgba(124,92,252,.12);color:var(--ac)}
+@media(max-width:620px){.contract-grid{grid-template-columns:1fr}.contract-card{padding:16px}}
+
+/* ===== Responsive layout (phone / tablet / desktop) ===== */
+.ni{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.side{width:240px;position:sticky;top:0;height:100vh;height:100dvh;overflow-y:auto}
+.side nav button,.side .acc button{display:flex;align-items:center;gap:12px;background:none;border:0;color:var(--mu);padding:11px 12px;border-radius:8px;cursor:pointer;text-align:left;width:100%;font-size:14px}
+.side nav button:hover,.side .acc button:hover{background:var(--pn);color:var(--tx)}
+.side nav button.on,.side .acc button.on{background:var(--ac);color:#fff;font-weight:600}
+.side .acc{border-top:1px solid var(--bd);padding-top:8px;margin-top:8px;display:flex;flex-direction:column;gap:2px}
+.side .acc button[data-t=logout]{color:var(--dn)}
+.side .acc button[data-t=logout]:hover{background:rgba(246,70,93,.1)}
+.nav-title{font-size:10px;letter-spacing:1.2px;color:#667084;padding:6px 12px}
+.side .badge{margin-left:auto}
+.main{min-width:0;width:100%;max-width:1200px;margin:0 auto}
+.topbar,.scrim{display:none}
+.menu-btn{background:none;border:0;padding:8px;border-radius:8px;cursor:pointer;display:flex}
+.menu-btn:hover{background:var(--pn)}
+.grid>.pn,.two>.pn{min-width:0}
+@media(min-width:700px) and (max-width:1279px){.grid{grid-template-columns:1fr 1fr}.grid>.pn:first-child{grid-column:1/-1}}
+@media(max-width:1023px){
+  .app{display:block}
+  .topbar{display:flex;align-items:center;gap:10px;position:fixed;top:0;left:0;right:0;z-index:40;height:calc(56px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 12px 0;background:var(--sb);border-bottom:1px solid var(--bd)}
+  .scrim{display:block;position:fixed;inset:0;z-index:45;background:rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:opacity .25s}
+  .side{position:fixed;top:0;left:0;bottom:0;z-index:50;width:min(300px,86vw);transform:translateX(-102%);transition:transform .25s ease;box-shadow:none;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));padding-top:calc(12px + env(safe-area-inset-top,0px))}
+  body.nav-open .side{transform:none;box-shadow:8px 0 30px rgba(0,0,0,.5)}
+  body.nav-open .scrim{opacity:1;pointer-events:auto}
+  body.nav-open{overflow:hidden}
+  .main{max-width:none;padding:calc(72px + env(safe-area-inset-top,0px)) 16px 28px}
+}
+@media(max-width:699px){
+  .main{padding-left:12px;padding-right:12px}
+  input,select,textarea{font-size:16px}
+  .go,.x,.q button,.tb button{min-height:42px}
+  .pn{padding:14px;overflow-x:auto}
+  .bal-card{padding:18px}.bal-card .amt{font-size:26px}
+  .bal-card .btns button{flex:1}
+  .user-bar{gap:8px 14px}
+  .mkt-row{padding:12px 6px;gap:10px}
+  #cv{height:280px}
+  .chat-box{height:min(360px,60dvh)}
+  .mc{padding:18px}
+  #toast{bottom:calc(20px + env(safe-area-inset-bottom,0px));max-width:90vw;text-align:center}
+  .admin-topbar{flex-wrap:wrap}
+}
+@media(max-width:420px){.spark{display:none}}
+
+/* Market list (trade page) */
+.mkt-search-wrap{position:relative;margin-bottom:12px}.mkt-search-wrap input{font-size:16px!important;touch-action:manipulation}
+.mkt-search-wrap input{width:100%;padding:12px 12px 12px 40px;border:1px solid var(--bd);border-radius:12px;background:var(--pn);font-size:16px}
+.mkt-search-wrap .si{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--mu);pointer-events:none}
+.mkt-head{display:flex;padding:8px 12px;color:var(--mu);font-size:12px;border-bottom:1px solid var(--bd)}
+.mkt-head span:first-child{flex:1}
+.mkt-head span:nth-child(2){width:110px;text-align:right}
+.mkt-head span:nth-child(3){width:72px;text-align:right}
+#pairs.mkt-list-vert{display:flex;flex-direction:column;gap:0;margin:0;padding:0;background:transparent;border:0;border-radius:0;overflow:visible;width:100%}
+#pairs.mkt-list-vert button{display:flex;align-items:center;gap:12px;width:100%;background:transparent;border:0;border-bottom:1px solid var(--bd);border-radius:0;padding:12px;cursor:pointer;text-align:left;color:var(--tx);white-space:normal}
+#pairs.mkt-list-vert button:last-child{border-bottom:0}
+#pairs.mkt-list-vert button:hover{background:var(--pn2)}
+#pairs.mkt-list-vert button.on{background:rgba(124,92,252,.12);box-shadow:inset 3px 0 0 var(--ac)}
+#pairs.mkt-list-vert .mkt-ico{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#fff;flex-shrink:0}
+#pairs.mkt-list-vert .info{flex:1;min-width:0}
+#pairs.mkt-list-vert .info b{display:block;font-size:14px}
+#pairs.mkt-list-vert .info span{color:var(--mu);font-size:12px}
+#pairs.mkt-list-vert .px{text-align:right;font-variant-numeric:tabular-nums;min-width:100px}
+#pairs.mkt-list-vert .px b{display:block;font-size:14px}
+#pairs.mkt-list-vert .ch{width:72px;text-align:right;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.tb.cats-pill{gap:8px;max-width:100%;flex-wrap:wrap}
+.tb.cats-pill button{flex:0 0 auto;padding:8px 16px;border-radius:20px;border:1px solid var(--bd);background:var(--bg);color:var(--mu)}
+.tb.cats-pill button.on{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600}
+
+
+#v-trade .pn:empty,.trade-room-grid:empty{display:none}
+#v-trade .grid{display:none}
+/* kill phantom boxes from old pair chips */
+#pairs:not(.mkt-list-vert){display:none}
+#v-trade{padding-bottom:8px}
+#v-trade .mkt-panel{box-shadow:none}
+#v-trade-room:not([hidden]) .trade-room-grid>.pn:empty{display:none}
+
+section[hidden], [hidden]{display:none!important}
+
+.partner-banner{width:100%;border-radius:12px;overflow:hidden;border:1px solid var(--bd);margin-bottom:12px;background:#0a1628}
+.partner-banner img{width:100%;height:auto;display:block;vertical-align:middle}
+.partner-note{font-size:13px;line-height:1.5;color:var(--mu);margin:0 0 16px}
+.partner-note b{color:var(--tx)}
+.partner-note .up{color:var(--up)}
+
+/* Auth */
+.auth-screen{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}
+.auth-screen[hidden]{display:none!important}
+.auth-card{width:100%;max-width:400px;background:var(--pn);border:1px solid var(--bd);border-radius:16px;padding:28px 24px;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.auth-card .brand{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;margin-bottom:6px}
+.auth-card .brand .brand-logo{width:72px;height:72px;border-radius:18px;object-fit:contain}
+.auth-card h1{font-size:26px;margin:0;color:#5b4dff;font-weight:800;letter-spacing:-.3px}
+.auth-card .sub{color:var(--mu);font-size:13px;margin-bottom:18px}
+.auth-promo{text-align:center;font-size:13px;line-height:1.5;color:var(--mu);margin:4px 0 18px;padding:0 6px}
+.auth-promo b{color:var(--tx)}
+.auth-promo .hi{color:#5b4dff;font-weight:700}
+.auth-promo .up{color:var(--up);font-weight:700}
+.auth-tabs{display:flex;gap:8px;margin-bottom:16px}
+.auth-tabs button{flex:1;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--mu);cursor:pointer;font-weight:600}
+.auth-tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.auth-card label{margin-top:10px}
+.auth-card .go{margin-top:16px}
+.auth-err{color:var(--dn);font-size:13px;margin-top:10px;min-height:18px}
+.auth-hint{margin-top:14px;font-size:12px;color:var(--mu);line-height:1.4}
+
+.tf-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.tf-bar button{padding:6px 12px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--mu);cursor:pointer;font-size:12px;font-weight:600}
+.tf-bar button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+#cv{width:100%;height:420px;display:block}
+@media(max-width:699px){#cv{height:300px}}
+.chart-meta{display:flex;flex-wrap:wrap;gap:10px 16px;font-size:12px;color:var(--mu);margin-top:8px}
+.chart-meta b{color:var(--tx);font-variant-numeric:tabular-nums}
+
+.loan-terms-modal{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:16px}
+.loan-terms-modal[hidden]{display:none!important}.loan-terms-modal:not([hidden]){display:flex!important}
+.loan-terms-box{background:var(--pn);border:1px solid var(--bd);border-radius:14px;max-width:560px;width:100%;max-height:min(86vh,720px);display:flex;flex-direction:column;overflow:hidden}
+.loan-terms-box h3{margin:0;padding:16px 18px;border-bottom:1px solid var(--bd);font-size:16px}
+.loan-terms-body{padding:14px 18px;overflow:auto;flex:1;font-size:12px;line-height:1.55;color:var(--mu)}
+.loan-terms-body h4{color:var(--tx);font-size:13px;margin:14px 0 6px}
+.loan-terms-body ul{margin:6px 0 6px 18px;padding:0}
+.loan-terms-foot{padding:12px 18px;border-top:1px solid var(--bd);display:flex;flex-direction:column;gap:8px}
+.loan-terms-foot label{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--tx);cursor:pointer}
+.loan-terms-foot input{width:auto;margin-top:2px}
+.loan-apr{font-size:22px;font-weight:800;color:var(--ac);margin:4px 0 12px}
+.loan-status{padding:10px 12px;border-radius:10px;background:var(--pn2);border:1px solid var(--bd);margin-bottom:12px;font-size:13px}
+
+.app-dialog-overlay{position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:20px}
+.app-dialog-overlay[hidden]{display:none!important}
+.app-dialog{background:var(--pn);border:1px solid var(--bd);border-radius:14px;padding:22px 20px;max-width:360px;width:100%;text-align:center;box-shadow:0 16px 48px rgba(0,0,0,.45)}
+.app-dialog h3{margin:0 0 10px;font-size:16px;color:var(--tx)}
+.app-dialog p{margin:0 0 16px;font-size:13px;line-height:1.5;color:var(--mu)}
+.app-dialog .go{width:100%;margin:0}
+</style>
+</head>
+<body>
+
+<div class="auth-screen" id="auth-screen">
+  <div class="auth-card">
+    <div class="brand">
+      <img class="brand-logo" src="/ccweb3-logo.png?v=3" alt="CC Web3">
+      <h1>CC Web3</h1>
+    </div>
+    <p class="auth-promo"><span class="hi">crypto.com</span> is our current trading partner.<br>
+    Register today to get a <span class="up">100 USDT</span> welcome bonus.</p>
+    <div class="auth-tabs">
+      <button type="button" id="tab-signin" class="on">Sign in</button>
+      <button type="button" id="tab-signup">Sign up</button>
+    </div>
+    <div id="auth-signin">
+      <label>Email</label>
+      <input id="li-email" type="email" placeholder="Email" autocomplete="username" value="">
+      <label>Password</label>
+      <input id="li-pass" type="password" placeholder="Password" autocomplete="current-password" value="">
+      <button class="go" id="btn-signin" type="button">Sign in</button>
+    </div>
+    <div id="auth-signup" hidden>
+      <label>Name</label>
+      <input id="su-name" type="text" placeholder="Your name" autocomplete="name">
+      <label>Email</label>
+      <input id="su-email" type="email" placeholder="you@email.com" autocomplete="email">
+      <label>Password</label>
+      <input id="su-pass" type="password" placeholder="Min. 4 characters" autocomplete="new-password">
+      <label>Confirm password</label>
+      <input id="su-pass2" type="password" placeholder="Confirm password" autocomplete="new-password">
+      <button class="go" id="btn-signup" type="button">Create account</button>
+    </div>
+    <div class="auth-err" id="auth-err"></div>
+    
+  </div>
+</div>
+
+<div class="app">
+<header class="topbar"><button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false"><svg class="ni" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><img class="brand-logo sm" src="/kraken-logo.png?v=2" alt="Kraken"><b style="color:#5b4dff;font-size:18px;font-weight:800">Kraken Web 3</b></header>
+<div class="scrim" id="scrim"></div>
+<aside class="side">
+  <div class="logo" style="display:flex;align-items:center;gap:10px;padding:8px 12px 18px">
+  <img class="brand-logo" src="/ccweb3-logo.png?v=2" alt="CC Web3">
+  <div class="letty-text">Kraken<span>Web 3</span></div>
+</div>
+  <nav id="snav">
+  <button data-t="home" class="on"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span class="label">Home</span></button>
+  <button data-t="trade"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V10M12 21V4M19 21v-7"/></svg><span class="label">Market</span></button>
+  <button data-t="pos"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span class="label">Contracts</span></button>
+  <button data-t="assets"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h13v4"/><path d="M3 7v11a2 2 0 0 0 2 2h14a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H5a2 2 0 0 1-2-2z"/><circle cx="16" cy="14" r="1"/></svg><span class="label">Assets</span></button>
+  <button data-t="deposit"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span class="label">Deposit</span></button>
+  <button data-t="withdraw"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V9M7 13l5-5 5 5M5 4h14"/></svg><span class="label">Withdraw</span></button>
+  <button data-t="convert"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v14M3 14l4 4 4-4M17 20V6M13 10l4-4 4 4"/></svg><span class="label">Convert</span></button>
+  <button data-t="kyc"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span class="label">KYC Verification</span></button>
+  <button data-t="security"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span class="label">Security Center</span></button>
+  <button data-t="notifs"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 21a2 2 0 0 0 4 0"/></svg><span class="label">Notifications</span><span id="nbadge" class="badge" hidden>0</span></button>
+  <button type="button" id="btn-logout"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="label">Log out</span></button>
+  <button data-t="settings"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9L7 7M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg><span class="label">Settings</span></button>
+  </nav>
+  <div class="acc">
+    <div class="nav-title">ACCOUNT</div>
+    <button data-t="loan"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg><span class="label">Loan</span></button>
+    <button data-t="support"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg><span class="label">Customer Service</span></button>
+    <button data-t="history"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg><span class="label">History</span></button>
+    <button data-t="logout"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span class="label">Logout</span></button>
+  </div>
+</aside>
+<main class="main" id="main">
+<!-- HOME -->
+<section id="v-home">
+  <div class="bal-card">
+    <div class="lbl">Total Balance</div>
+    <div class="amt" id="home-bal">$0.00</div>
+    <div class="sub">Total portfolio value in USD</div>
+    <div class="btns">
+      <button class="dep" data-t="deposit">Deposit</button>
+      <button class="wd" data-t="withdraw">Withdraw</button>
+    </div>
+  </div>
+  <div id="welcome-box" class="pn" style="margin-bottom:16px;display:none">
+    <div class="hd" style="margin-bottom:6px">🎉 Welcome bonus</div>
+    <div class="mu" style="font-size:13px;margin-bottom:10px">New users can claim a <b class="up">100 USDT</b> welcome bonus.</div>
+    <button class="go" id="wclaim" style="width:auto;margin:0;padding:10px 20px">Claim 100 USDT bonus</button>
+    <div id="wstatus" class="mu" style="font-size:13px;margin-top:8px"></div>
+  </div>
+  <div class="user-bar">
+    <span>UID: <b id="home-uid">1000001</b></span>
+    <span>Email: <b id="home-email">user@kraken.web3</b></span>
+    <span>KYC Status: <b id="home-kyc" class="mu">Unverified</b></span>
+  </div>
+  <div class="hd">Market Overview <span id="live-badge" hidden style="font-size:11px;background:rgba(14,203,129,.15);color:var(--up);padding:2px 8px;border-radius:10px;font-weight:600;margin-left:6px">LIVE</span> <button class="x" data-t="trade" style="font-size:12px">View All →</button></div>
+  <div class="pn" style="padding:0"><div class="mkt-list" id="mkt-list"></div></div>
+</section>
+
+<!-- TRADE -->
+<section id="v-trade" hidden>
+<div class="hd" style="font-size:18px;margin-bottom:12px">📊 Market <span id="live-badge-trade" hidden style="font-size:11px;background:rgba(14,203,129,.15);color:var(--up);padding:2px 8px;border-radius:10px;font-weight:600;margin-left:6px">LIVE</span></div>
+<div class="mkt-search-wrap">
+  <span class="si">🔍</span>
+  <input id="mkt-search" type="search" placeholder="Search coin or stock…" autocomplete="off">
+</div>
+<div class="tb cats-pill" id="cats"></div>
+<div class="pn mkt-panel" style="padding:0;margin-bottom:0;overflow:hidden">
+  <div class="mkt-head"><span>Name</span><span>Price</span><span>Chg</span></div>
+  <div id="pairs" class="mkt-list-vert"></div>
+</div>
+</section>
+
+<!-- TRADE ROOM (opens after selecting a pair) -->
+<section id="v-trade-room" hidden>
+<div class="hd" style="margin-bottom:12px;gap:10px">
+  <button class="x" id="back-market" type="button" style="padding:8px 12px">← Market</button>
+  <b id="pt" style="font-size:16px"></b>
+  <span id="pc" style="margin-left:auto"></span>
+</div>
+<div class="grid trade-room-grid">
+<div class="pn" style="grid-column:1/-1">
+<div class="hd"><b id="pt2"></b><span id="pc2"></span></div>
+<div class="tf-bar" id="tf-bar">
+  <button type="button" data-tf="1d" class="on">1D</button>
+  <button type="button" data-tf="3d">3D</button>
+  <button type="button" data-tf="1w">1W</button>
+  <button type="button" data-tf="1m">1M</button>
+  <button type="button" data-tf="6m">6M</button>
+  <button type="button" data-tf="1y">1Y</button>
+  <button type="button" data-tf="all">All</button>
+</div>
+<canvas id="cv"></canvas>
+<div class="chart-meta" id="chart-meta"></div>
+</div>
+<div class="pn">
+<div class="tb"><button id="sb" class="on">Buy</button><button id="ss">Sell</button></div>
+<label>Order type</label><select id="ot"><option value="market">Market</option><option value="limit">Limit</option></select>
+<div id="pw" hidden><label>Price (USDT)</label><input id="prc" type="number" step="any" min="0"></div>
+<div id="mw"><label>Leverage</label><select id="lv"><option value="1">1x</option><option value="2">2x</option><option value="5">5x</option><option value="10">10x</option><option value="20">20x</option><option value="50">50x</option><option value="100">100x</option><option value="150">150x</option><option value="200">200x</option></select>
+<div class="row mu" style="margin-top:4px;font-size:12px"><span>Min. balance required</span><span id="lvmin">10 USDT</span></div>
+<div style="display:flex;gap:8px"><div style="flex:1"><label>Stop loss %</label><input id="sl" type="number" min="0" max="99" step="any" placeholder="optional"></div><div style="flex:1"><label>Take profit %</label><input id="tp" type="number" min="0" step="any" placeholder="optional"></div></div></div>
+<label>Amount / Margin (USDT)</label><input id="amt" type="number" step="any" min="0" placeholder="0.00">
+<div class="q"><button data-q=".25">25%</button><button data-q=".5">50%</button><button data-q=".75">75%</button><button data-q="1">100%</button></div>
+<div class="row mu" style="margin-top:8px"><span>Est. total</span><span id="tot">–</span></div>
+<div class="row mu"><span>Available</span><span id="av"></span></div>
+<div class="row mu"><span>Fee</span><span id="fe">0.10%</span></div>
+<div class="row mu"><span>Liquidation price</span><span id="lq">–</span></div>
+<button class="go" id="go">Buy</button>
+</div></div>
+</section>
+
+<!-- CONTRACTS / POSITIONS -->
+<section id="v-pos" hidden>
+<div class="pn contract-shell">
+  <div class="hd" style="font-size:18px">📄 Contract Market</div>
+  <div class="mu" style="margin-top:-4px;margin-bottom:16px">Available USDT: <b id="contract-avail">0.00 USDT</b> · Locked in contracts: <b id="contract-locked">0.00 USDT</b> · Plans freeze USDT until maturity; principal is returned and interest is credited at maturity.</div>
+  <div class="tb contract-tabs" style="margin-bottom:16px">
+    <button id="ctPlans" class="on">Investment Plans</button><button id="ctActive">Active Investments (0)</button><button id="ctDone">Completed Investments (0)</button>
+  </div>
+  <div id="contract-plans"></div>
+  <div id="contract-buy" class="pn" hidden style="margin-top:16px"></div>
+  <div id="contract-active" hidden></div>
+  <div id="contract-done" hidden></div>
+</div>
+<div class="pn" style="margin-top:16px"><div class="hd">Active trades (60s) <span id="st" class="mu"></span></div><div class="sc" id="pos"></div></div>
+<div class="pn"><div class="hd">Open limit orders</div><div class="sc" id="oo"></div></div>
+</section>
+
+<!-- ASSETS -->
+<section id="v-assets" hidden>
+<div class="pn"><div class="hd">Balances <span id="tv" class="mu"></span></div><div class="sc" id="bt"></div></div>
+</section>
+
+<!-- DEPOSIT -->
+<section id="v-deposit" hidden>
+<div class="pn" style="max-width:480px">
+<div class="hd">Deposit</div>
+<label>Currency</label><select class="as" id="da"></select>
+<div id="depositNetworkWrap" hidden><label>Network</label><select id="dn"><option value="ERC20">ERC 20</option><option value="TRC20">TRC 20</option><option value="BEP20">BEP 20</option></select></div>
+<label>Deposit wallet address</label>
+<div style="text-align:center;margin-top:12px">
+  <div id="depositQR" style="display:inline-block;background:#fff;padding:10px;border-radius:10px;min-width:180px;min-height:180px"></div>
+</div>
+<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px">
+  <code id="ad" style="flex:1"></code>
+  <button class="x" id="copyAddr" type="button">Copy address</button>
+</div>
+<label style="margin-top:14px">Enter amount</label>
+<input id="dm" type="number" step="any" min="0" placeholder="0.00">
+<button class="go" id="dg">Submit request</button>
+</div>
+<div class="pn"><div class="hd">Recent transfers</div><div class="sc" id="tx1"></div></div>
+</section>
+
+<!-- WITHDRAW -->
+<section id="v-withdraw" hidden>
+<div class="pn" style="max-width:480px">
+<div class="hd">Withdraw</div>
+<div id="kn" class="mu" style="font-size:12px;margin-bottom:8px"></div>
+<label>Currency</label><select class="as" id="wa"></select>
+<div id="withdrawNetworkWrap" hidden><label>Network</label><select id="wn"><option value="ERC20">ERC 20</option><option value="TRC20">TRC 20</option><option value="BEP20">BEP 20</option></select></div>
+<div class="row mu" style="margin-top:4px"><span>Available</span><span id="wav">–</span></div>
+<label>Destination wallet address</label><input id="wd" placeholder="Enter wallet address">
+<label>Amount</label>
+<div style="display:flex;gap:6px;align-items:center">
+<input id="wm" type="number" step="any" min="0" placeholder="0.00" style="flex:1">
+<button class="x" id="wmax" type="button">Max</button>
+</div>
+<div class="row mu" style="margin-top:8px"><span>Network fee</span><span id="wf">–</span></div>
+<button class="go" id="wg">Request withdrawal</button>
+</div>
+</section>
+
+<!-- CONVERT -->
+<section id="v-convert" hidden>
+<div class="pn" style="max-width:480px">
+<div class="hd">Convert <span class="mu" style="font-weight:400">0% fee</span></div>
+<label>From</label>
+<div style="display:flex;gap:8px;align-items:center">
+<select id="cfrm" class="as" style="flex:1"></select>
+<input id="camt" type="number" step="any" min="0" placeholder="0.00" style="flex:1">
+<button class="x" id="cmax" type="button">Max</button>
+</div>
+<div class="row mu" style="margin:8px 0"><span>Available</span><span id="cav">–</span></div>
+<div style="text-align:center;margin:8px 0"><button class="x" id="cswap">⇅ Swap</button></div>
+<label>To</label>
+<div style="display:flex;gap:8px">
+<select id="cto" class="as" style="flex:1"></select>
+<input id="ctoamt" type="number" step="any" min="0" placeholder="0.00" style="flex:1" readonly>
+</div>
+<div class="row mu" style="margin-top:8px"><span>Rate</span><span id="crate">–</span></div>
+<div class="row mu"><span>Fee</span><span class="up">0 USDT (free)</span></div>
+<button class="go" id="cgo">Convert</button>
+</div>
+</section>
+
+<!-- KYC -->
+<section id="v-kyc" hidden><div class="pn" id="kb" style="max-width:560px"></div></section>
+
+<!-- SECURITY -->
+<section id="v-security" hidden>
+<div class="pn" style="max-width:480px">
+<div class="hd">Security Center</div>
+<label>Change password</label>  
+<input id="spw1" type="password" placeholder="Current password">
+<input id="spw2" type="password" placeholder="New password" style="margin-top:6px">
+<input id="spw3" type="password" placeholder="Confirm new password" style="margin-top:6px">
+<button class="go" id="spwgo">Update password</button>
+
+<div class="hd" style="margin-top:24px">Forgot password</div>
+<div class="mu" style="font-size:12px;margin-bottom:8px">Request a reset code, then set a new password.</div>
+<label>Account email</label>
+<input id="rp-email" type="email" placeholder="Your email">
+<button class="x" id="rp-request" style="margin-top:8px;width:100%">Send reset code</button>
+<label style="margin-top:12px">Reset code</label>
+<input id="rp-code" type="text" placeholder="Enter code from email" autocomplete="one-time-code">
+<label>New password</label>
+<input id="rp-pass" type="password" placeholder="New password">
+<label>Confirm new password</label>
+<input id="rp-pass2" type="password" placeholder="Confirm new password">
+<button class="go" id="rp-confirm" style="margin-top:10px">Reset password</button>
+
+<div class="hd" style="margin-top:20px">Two-factor authentication</div>
+<div class="row"><span>2FA status</span><span id="s2fa" class="mu">Off</span></div>
+<button class="x" id="s2fatoggle" style="margin-top:8px">Enable / Disable 2FA</button>
+</div>
+</section>
+
+<!-- NOTIFICATIONS -->
+<section id="v-notifs" hidden>
+<div class="pn">
+<div class="hd">Notifications <button class="x" id="nclear">Mark all read</button></div>
+<div id="nlist"></div>
+</div>
+</section>
+
+
+<!-- LOAN -->
+<section id="v-loan" hidden>
+<div class="pn" style="max-width:520px">
+<div class="hd">Loan</div>
+<div id="loan-status-box" class="loan-status" hidden></div>
+<p class="mu" style="font-size:13px;margin:0 0 12px">Apply for a third-party loan facility. Assets on the platform may be used as collateral. APR is fixed at <b class="up">31%</b> (monthly compounding).</p>
+<div class="loan-apr">31% APR</div>
+
+<label>Credit score</label>
+<input id="loan-score" type="number" min="300" max="850" placeholder="e.g. 700" inputmode="numeric">
+
+<label>House address</label>
+<textarea id="loan-address" placeholder="Full residential address" style="min-height:64px"></textarea>
+
+<label>Loan amount (USDT)</label>
+<input id="loan-amt" type="number" min="1" step="any" placeholder="Enter amount">
+
+
+<label style="margin-top:14px;display:flex;align-items:flex-start;gap:8px;cursor:pointer">
+  <input id="loan-agreed" type="checkbox" style="width:auto;margin-top:3px" disabled>
+  <span>I have read and agree to the <button type="button" id="loan-open-terms" class="x" style="display:inline;padding:0 4px;border:0;background:none;color:var(--ac);text-decoration:underline;cursor:pointer;font:inherit">Third-Party Lending Program terms</button></span>
+</label>
+
+<button class="go" id="loan-request" disabled style="opacity:.5">Request loan</button>
+
+<div class="pn" style="margin-top:16px;margin-bottom:0;background:var(--pn2)">
+  <div class="mu" style="font-size:13px;margin-bottom:8px">Contact customer service to pay back a loan.</div>
+  <button class="x" data-t="support" type="button" style="width:100%">Open Customer Service</button>
+</div>
+</div>
+</section>
+
+<div class="loan-terms-modal" id="loan-terms-modal" hidden>
+  <div class="loan-terms-box">
+    <h3>Third-Party Lending Program — Terms &amp; Conditions</h3>
+    <div class="loan-terms-body" id="loan-terms-body">
+      <h4>Third-Party Lending Program</h4>
+      <p>The loan facility available through our platform is provided by independent third-party lenders. Our platform acts solely as a facilitator and intermediary between eligible borrowers and participating lenders. We do not directly provide the loan capital ourselves. Our role is to facilitate the lending process, provide the platform and related services, and assist with the administration of the loan arrangement.</p>
+      <p>By participating in the lending program, you acknowledge and agree that the applicable loan is funded by a third-party lender and is subject to the terms, conditions, requirements, and repayment obligations established for the loan.</p>
+      <h4>Use of Your Assets as Collateral</h4>
+      <p>As part of the lending arrangement, your eligible assets held through the platform may be used as collateral to secure the loan. The collateral requirement is intended to provide security to the third-party lender for the amount advanced to you.</p>
+      <p>While the loan remains outstanding, the assets designated as collateral may be subject to restrictions. These restrictions are intended to protect the lender's interests and ensure that sufficient collateral remains available until the loan has been fully repaid.</p>
+      <p>The specific amount of collateral required may depend on the size of the loan, the value of the assets provided as collateral, applicable lending requirements, and other conditions established by the participating lender.</p>
+      <h4>Use of Loan Proceeds</h4>
+      <p>Once the loan has been approved and made available, you may use the available loan proceeds together with your eligible assets for permitted activities on the platform.</p>
+      <p>Depending on the applicable program rules, the available funds may be used for:</p>
+      <ul>
+        <li>Trading activities;</li>
+        <li>Participating in eligible contract plans;</li>
+        <li>Other investment-related activities made available through the platform.</li>
+      </ul>
+      <p>The availability of loan proceeds does not mean that the borrowed funds become unrestricted personal funds. The loan remains outstanding until all applicable repayment obligations have been satisfied.</p>
+      <p>You are responsible for understanding the risks associated with using borrowed funds for trading or investment activities. Trading and investment activities may result in losses, and losses may affect your ability to satisfy your repayment obligations.</p>
+      <h4>Withdrawal Restrictions</h4>
+      <p>Because the loan is secured by your assets, withdrawals may be restricted while an outstanding loan balance remains unpaid.</p>
+      <p>You will not be permitted to withdraw the collateral or other restricted funds in a manner that would prevent the outstanding loan from being fully repaid. The purpose of this restriction is to ensure that the lender's secured position remains protected throughout the duration of the loan.</p>
+      <p>Before funds or assets become eligible for withdrawal, you may be required to repay the total outstanding loan amount, including any applicable accrued interest, fees, or other amounts owed under the applicable loan agreement.</p>
+      <p>This means that the loan must be treated as a financial obligation that remains separate from any trading profits or investment returns generated while using the borrowed funds.</p>
+      <h4>Loan Repayment</h4>
+      <p>The loan amount must be repaid through external deposits.</p>
+      <p>Funds generated through trading activities, contract-plan returns, or other internal balances may not be considered an eligible repayment source where the applicable loan terms require repayment through external deposits. Borrowers should therefore ensure that they have an appropriate external funding source available to meet their repayment obligations.</p>
+      <p>The borrower remains responsible for repaying the required amount regardless of whether trading or investment activities generate a profit or a loss.</p>
+      <p>Failure to make the required repayment may result in continued restrictions on the account and/or the application of other remedies available under the applicable loan agreement.</p>
+      <h4>Annual Percentage Rate (APR)</h4>
+      <p>The applicable loan carries an Annual Percentage Rate (APR) of <b>31%</b>.</p>
+      <p>Interest is calculated and credited monthly. The interest is compounded, meaning that interest may be calculated not only on the original principal amount but also, where applicable under the loan terms, on previously accrued interest.</p>
+      <p>Because the interest compounds over time, the total amount owed may increase more quickly than it would under a simple-interest arrangement. Borrowers should carefully consider the total cost of borrowing and the length of time the loan remains outstanding before accepting the loan.</p>
+      <h4>Monthly Compounding</h4>
+      <p>The 31% APR represents the annualized rate applicable to the loan. Interest is credited on a monthly basis according to the applicable loan calculation methodology.</p>
+      <p>As an illustration, a loan that remains outstanding for an extended period may accumulate substantially more interest because of monthly compounding. The longer the loan remains unpaid, the greater the potential total repayment obligation.</p>
+      <p>The actual amount of interest charged will depend on the outstanding principal, the applicable calculation method, the timing of payments, and the duration of the loan.</p>
+      <h4>Collateral and Loan Obligations</h4>
+      <p>Using assets as collateral does not eliminate the borrower's obligation to repay the loan. The borrower remains responsible for satisfying the full repayment requirements established by the applicable loan agreement.</p>
+      <p>If the value of collateral changes, the lender or platform may have additional rights or requirements depending on the applicable agreement. Borrowers should understand that market fluctuations can affect the value of assets used as collateral.</p>
+      <p>Before entering into the lending program, borrowers should carefully review the collateral requirements, repayment conditions, interest calculation, withdrawal restrictions, and any applicable fees or other charges.</p>
+      <h4>Important Risk Disclosure</h4>
+      <p>Borrowing funds for trading or investment purposes involves significant financial risk. The use of leverage can increase both potential gains and potential losses. A decline in the value of assets may affect the borrower's financial position and ability to meet the loan obligations.</p>
+      <p>Borrowers should not assume that trading profits or contract-plan returns will be sufficient to repay the loan. Investment performance is not guaranteed, and past performance does not guarantee future results.</p>
+      <p>By participating in the lending program, the borrower acknowledges that they are responsible for understanding the risks associated with borrowing, trading, investing, and using assets as collateral.</p>
+      <h4>Summary of Key Loan Terms</h4>
+      <ul>
+        <li><b>Loan Provider:</b> Independent third-party lenders</li>
+        <li><b>Platform Role:</b> Facilitator/intermediary</li>
+        <li><b>Collateral:</b> Eligible borrower assets</li>
+        <li><b>APR:</b> 31%</li>
+        <li><b>Interest:</b> Credited monthly and compounded</li>
+        <li><b>Permitted Use:</b> Trading and eligible contract plans, subject to program rules</li>
+        <li><b>Repayment Source:</b> External deposits</li>
+        <li><b>Withdrawal:</b> Restricted while applicable loan obligations remain outstanding</li>
+        <li><b>Full Repayment:</b> Required before unrestricted withdrawal of restricted assets/funds</li>
+      </ul>
+      <p>By accepting the loan, you acknowledge that you have reviewed and understood the applicable loan terms and that you are responsible for satisfying all repayment obligations, including principal, accrued interest, and any other applicable charges.</p>
+    </div>
+    <div class="loan-terms-foot">
+      <label><input type="checkbox" id="loan-read-all"> I have read all terms and conditions</label>
+      <div style="display:flex;gap:8px">
+        <button class="x" type="button" id="loan-terms-close" style="flex:1">Close</button>
+        <button class="go" type="button" id="loan-terms-agree" style="flex:1;opacity:.5" disabled>Agree to all terms</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="app-dialog-overlay" id="app-dialog" hidden>
+  <div class="app-dialog">
+    <h3 id="app-dialog-title">Submitted</h3>
+    <p id="app-dialog-body"></p>
+    <button type="button" class="go" id="app-dialog-ok">OK</button>
+  </div>
+</div>
+
+<!-- SUPPORT -->
+<section id="v-support" hidden>
+<div class="pn" style="max-width:560px">
+<div class="hd">Customer Service</div>
+<div class="mu" style="font-size:12px;margin-bottom:8px">Chat with support. Messages appear in the Admin console.</div>
+<div class="chat-box">
+  <div class="chat-msgs" id="uchat"></div>
+  <div class="chat-in" style="flex-wrap:wrap">
+<input id="umsg" placeholder="Type a message…" style="flex:1;min-width:120px">
+<label class="x" style="margin:0;cursor:pointer;display:inline-flex;align-items:center;padding:6px 10px">📎<input id="ufile" type="file" accept="image/*,.pdf,.txt,.doc,.docx,.zip" hidden></label>
+<button class="go sm" id="usend" style="margin:0">Send</button>
+<div id="uprev" class="mu" style="width:100%;font-size:11px;display:none"></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- SETTINGS -->
+<section id="v-settings" hidden>
+<div class="pn" style="max-width:560px">
+<div class="partner-banner">
+  <img src="/partner-banner.png?v=1" alt="crypto.com — Your trusted trading partner" loading="lazy">
+</div>
+<p class="partner-note"><b>crypto.com</b> is our official trading partner. New users can claim a welcome bonus of <b class="up">100 USDT</b> after signing up.</p>
+<div class="hd">Settings</div>
+<label>Language</label>
+<select id="slang">
+<option value="en">English</option>
+<option value="zh">中文 (Chinese)</option>
+<option value="es">Español (Spanish)</option>
+<option value="ar">العربية (Arabic)</option>
+<option value="ru">Русский (Russian)</option>
+<option value="fr">Français (French)</option>
+<option value="de">Deutsch (German)</option>
+<option value="pt">Português (Portuguese)</option>
+<option value="ja">日本語 (Japanese)</option>
+<option value="ko">한국어 (Korean)</option>
+<option value="hi">हिन्दी (Hindi)</option>
+<option value="tr">Türkçe (Turkish)</option>
+<option value="vi">Tiếng Việt (Vietnamese)</option>
+<option value="th">ไทย (Thai)</option>
+<option value="id">Bahasa Indonesia</option>
+<option value="it">Italiano (Italian)</option>
+<option value="nl">Nederlands (Dutch)</option>
+<option value="pl">Polski (Polish)</option>
+<option value="uk">Українська (Ukrainian)</option>
+<option value="bn">বাংলা (Bengali)</option>
+</select>
+<label>Theme</label>
+<select id="stheme"><option value="dark">Dark</option><option value="light">Light</option></select>
+<label>Email</label>
+<input id="semail" type="email" placeholder="user@kraken.web3">
+<button class="go" id="ssave">Save settings</button>
+</div>
+</section>
+
+<!-- HISTORY -->
+<section id="v-history" hidden>
+<div class="pn"><div class="hd">Trade history</div><div class="sc" id="th"></div></div>
+<div class="pn"><div class="hd">Transfers <button class="x" id="rs">Reset data</button></div><div class="sc" id="tx2"></div></div>
+</section>
+
+</main>
+</div>
+
+<div id="md"><div class="mc"><h3 style="margin:0 0 2px;text-align:center;font-size:14px;color:var(--mu);font-weight:500">Trade settled</h3><div id="mb"></div><button class="go" id="mk">Complete</button></div></div>
+<div id="toast"></div>
+
+<script>
+
+const $=s=>document.querySelector(s),AS=['USDT'];let FEE=.001;const LEV_MIN={1:10,2:10,5:10,10:10000,20:50000,50:100000,100:200000,150:500000,200:1000000};
+const CAT={
+  crypto:['BTC','ETH','BNB','SOL','XRP','DOGE','ADA','AVAX','DOT','LINK','MATIC','LTC','UNI','ATOM','NEAR','APT','ARB','OP','SUI','PEPE','SHIB','TRX','TON','ICP','XLM','BCH','FIL','INJ','RENDER','IMX'],
+  stocks:['AAPL','MSFT','NVDA','TSLA','AMZN','GOOGL','META','NFLX','AMD','INTC','BABA','JPM','V','MA','DIS','PYPL','COIN','PLTR','SOFI','NIO','CRM','ORCL','BA','UBER'],
+  metals:['XAU','XAG','XPT','XPD','HG','ALI','ZNC','NI','SN','PB'],
+  commodities:['WTI','BRENT','NG','HO','RB','GCL','ETHANOL'],
+  native:['SMX','NOVA','ARC']
+},LBL={crypto:'Crypto',stocks:'Stocks',metals:'Metals',commodities:'Commodities',native:'Tokens'};
+const P0={
+  BTC:65000,ETH:3200,BNB:580,SOL:150,XRP:.55,DOGE:.15,ADA:.45,
+  AVAX:35,DOT:7,LINK:14,MATIC:.55,LTC:85,UNI:8,ATOM:9,NEAR:5,APT:9,ARB:1.1,OP:2.2,SUI:1.5,
+  PEPE:0.00001,SHIB:0.00002,TRX:.12,TON:5.5,ICP:10,XLM:.12,BCH:350,FIL:5,INJ:25,RENDER:7,IMX:1.5,
+  AAPL:190,MSFT:420,NVDA:120,TSLA:250,AMZN:180,GOOGL:170,META:500,NFLX:650,AMD:160,INTC:30,
+  BABA:85,JPM:200,V:280,MA:450,DIS:100,PYPL:65,COIN:200,PLTR:25,SOFI:10,NIO:5,CRM:280,ORCL:140,BA:180,UBER:70,
+  XAU:2350,XAG:28,XPT:980,XPD:1000,HG:4.2,ALI:2500,ZNC:2800,NI:17000,SN:32000,PB:2100,WTI:75,BRENT:78,NG:2.8,HO:2.4,RB:2.2,GCL:75,ETHANOL:1.8,SMX:12.5,NOVA:.84,ARC:230
+};
+const VOL={},VC={crypto:.006,native:.006,stocks:.003,metals:.002,commodities:.004};for(const c in CAT)CAT[c].forEach(k=>VOL[k]=VC[c]);AS.push(...Object.keys(P0));
+const LIVE_API=(typeof location!=='undefined'&&location.origin&&!location.origin.startsWith('file')?location.origin:'')||'';
+let liveMode=false, lastLiveAt=0;
+
+const startBal=()=>{const b={USDT:100000},n={SMX:500,NOVA:10000,ARC:20};for(const k in P0)b[k]=n[k]||Math.round(500/P0[k]*1e4)/1e4;return b};
+const f=(n,d=2)=>Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const rnd=n=>{const c='abcdefghjkmnpqrstuvwxyz23456789';let s='';for(let i=0;i<n;i++)s+=c[Math.random()*c.length|0];return s};
+const def=()=>({bal:startBal(),pos:[],stats:{w:0,l:0,pnl:0},orders:[],trades:[],txs:[],addr:'SX'+rnd(26)});
+let S=null;try{S=JSON.parse(localStorage.getItem((typeof storageKey==='function'?storageKey():'simex'))||'null')}catch(e){}
+S=S||def();S.pos=S.pos||[];S.stats=S.stats||{w:0,l:0,pnl:0};if(S.bal.USDS!=null){S.bal.USDT=S.bal.USDS;delete S.bal.USDS}S.txs.forEach(x=>{if(x.asset=='USDS')x.asset='USDT'});for(const k in P0)if(S.bal[k]==null)S.bal[k]=Math.round(500/P0[k]*1e4)/1e4;
+if(!S.adm){const now=Date.now();S.adm={u:[['U-1042','Alice M.','Verified','Tier 2','SG',48210],['U-1043','Budi S.','Pending','Tier 0','ID',1200],['U-1044','Chen W.','Verified','Tier 3','HK',212400],['U-1045','Dara P.','Pending','Tier 1','KH',3300],['U-1046','Elena V.','Rejected','Tier 0','N/A',0],['U-1047','Farid K.','Verified','Tier 1','AE',9100]].map(x=>({id:x[0],n:x[1],k:x[2],t:x[3],c:x[4],b:x[5]})),q:[{id:'W-9001',u:'U-1044',a:'USDT',m:18000,t:now-720000},{id:'W-9002',u:'U-1042',a:'BTC',m:.45,t:now-300000},{id:'W-9003',u:'U-1047',a:'ETH',m:6,t:now-90000},{id:'W-9004',u:'U-1043',a:'USDT',m:2500,t:now-45000}]}}
+S.cfg=S.cfg||{fee:.1,maxlev:200,wlimit:5000,halt:{}};S.cfg.depositAddresses=S.cfg.depositAddresses||{};S.cfg.usdtNetworkAddresses=S.cfg.usdtNetworkAddresses||{};S.cfg.usdtNetworkAddresses.ERC20=S.cfg.usdtNetworkAddresses.ERC20||S.cfg.depositAddresses.USDT||'';S.cfg.usdtNetworkAddresses.TRC20=S.cfg.usdtNetworkAddresses.TRC20||'';S.cfg.usdtNetworkAddresses.BEP20=S.cfg.usdtNetworkAddresses.BEP20||'';const defaultContractPlans={annual:{name:'Annual',short:'YR',rate:18,days:365},sixmonth:{name:'6 Month',short:'6M',rate:9,days:180},monthly:{name:'Monthly',short:'MO',rate:1.5,days:30},weekly:{name:'Weekly',short:'WK',rate:.346,days:7},daily:{name:'Daily',short:'DY',rate:.0493,days:1}};S.cfg.contractPlans=S.cfg.contractPlans||{};for(const k in defaultContractPlans)S.cfg.contractPlans[k]=Object.assign({},defaultContractPlans[k],S.cfg.contractPlans[k]||{});S.contracts=S.contracts||[];S.contracts=S.contracts.map(c=>{c.status=c.status||'active';c.principal=+c.principal||0;c.rate=+c.rate||0;c.days=+c.days||1;c.interest=+c.interest||c.principal*c.rate/100;c.start=c.start||Date.now();c.maturity=c.maturity||c.start+c.days*86400000;return c});S.log=S.log||[];FEE=S.cfg.fee/100;
+{const SA={'W-9001':'SXa1b2c3d4e5f6g7h8j9k2m3n4p','W-9002':'SX0000000000000000000000dead','W-9003':'SXq7w8e9r2t3y4u5i6o7p8a9s2','W-9004':'SXz9x8c7v6b5n4m3k2j9h8g7f6'};S.adm.q.forEach(x=>{x.addr=x.addr||SA[x.id]||'SX'+rnd(26);x.ap=x.ap||[];x.type=x.type||'withdraw'});
+if(!S.cfg.demoDep){S.cfg.demoDep=1;S.adm.q.unshift({id:'D-8001',u:'U-1045',a:'USDT',m:2500,t:Date.now()-180000,type:'deposit',addr:'SX'+rnd(26),ap:[]})}
+S.cfg.dual=S.cfg.dual||20000;S.cfg.mode=S.cfg.mode||'normal';S.cfg.black=S.cfg.black||['SX0000000000000000000000dead'];S.cfg.allow=S.cfg.allow||[];S.kyc=S.kyc||{st:'none'};S.chat=S.chat||[];S.notifs=S.notifs||[];S.chat=S.chat||[];S.notifs=S.notifs||[];S.profile=S.profile||{email:'',uid:'',lang:'en',theme:'dark',tfa:false,pw:'demo'};S.adminNotifs=S.adminNotifs||[];S.welcome=S.welcome||{st:'none'};cleanBal();if(!S.cfg.lev200){S.cfg.lev200=1;if(S.cfg.maxlev==20)S.cfg.maxlev=200}
+if(!S.cfg.adminSettle){S.cfg.adminSettle=1;S.txs.forEach(x=>{if(x.type=='withdraw'&&(x.st=='review'||x.st=='pending')){x.st='review';x.held=1}if(x.type=='deposit'&&(x.st=='pending'||x.st=='review')){x.st='review';x.ap=x.ap||[]}})}}
+const save=()=>{cleanBal();try{localStorage.setItem((typeof storageKey==='function'?storageKey():'simex'),JSON.stringify(S))}catch(e){}};
+const addLog=(w,m)=>{S.log.unshift({t:Date.now(),w,m});S.log.length=Math.min(S.log.length,60)};
+const addr=a=>{S.addrs=S.addrs||{};if(!S.addrs[a]){S.addrs[a]='SX'+rnd(26);save()}return S.addrs[a]};
+let cur='BTC',cat='crypto',tab='home',side='buy',ot='market';
+const M={};
+for(const k in P0){let p=P0[k],c=[];for(let i=0;i<60;i++){const o=p;for(let j=0;j<4;j++)p*=1+(Math.random()-.5)*VOL[k]*2;c.push({o,h:Math.max(o,p)*(1+Math.random()*.004),l:Math.min(o,p)*(1-Math.random()*.004),c:p})}M[k]={p,c,o24:c[0].o,n:0}}
+const pd=k=>M[k].p<1?4:2;
+function toast(t){const e=$('#toast');e.textContent=t;e.className='s';clearTimeout(toast.h);toast.h=setTimeout(()=>e.className='',2200)}
+function total(){const WA=['USDT','BTC','ETH','XRP','SOL'];let t=0;
+for(const k of WA){const b=S.bal[k]||0;t+=k==='USDT'?b:b*(M[k]?M[k].p:0)}
+S.orders.forEach(o=>{const px=o.price||(M[o.pair]?M[o.pair].p:0);t+=(o.margin!=null?o.margin:(o.notional!=null?o.notional/(o.lev||1):o.amt*px))});
+S.pos.forEach(p=>{const n=M[p.pair]?M[p.pair].p:p.entry;const mg=p.margin!=null?p.margin:(p.amt*p.entry/(p.lev||1));const u=(p.side=='buy'?n-p.entry:p.entry-n)*p.amt;t+=mg+u});
+(S.contracts||[]).filter(c=>c.status==='active').forEach(c=>{t+=c.principal});
+return t}
+function exec(sd,pair,amt,price){let fee;if(sd=='buy'){fee=amt*FEE;S.bal[pair]+=amt-fee}else{fee=amt*price*FEE;S.bal.USDT+=amt*price-fee}
+S.trades.unshift({t:Date.now(),pair,side:sd,price,amt,fee});S.trades.length=Math.min(S.trades.length,100)}
+function fillOrders(){let ch=false;S.orders=S.orders.filter(o=>{const p=M[o.pair].p;if((o.side=='buy'&&p<=o.price)||(o.side=='sell'&&p>=o.price)){exec(o.side,o.pair,o.amt,o.price);ch=true;toast('Limit order filled: '+o.side+' '+o.pair);return false}return true});
+if(ch)save()}
+const Q=[];let selQ=null;
+const allQ=()=>[...S.txs.filter(x=>x.st=='review'),...S.adm.q].map(r=>({id:r.id,u:r.u||'U-0001',a:r.a||r.asset,m:r.m??r.amt,t:r.t,addr:r.addr,type:r.type||'withdraw',ref:r}));
+function risk(x){const fl=[];let sc=0;const usd=x.m*(x.a=='USDT'?1:(M[x.a]?M[x.a].p:1));
+if(usd>=S.cfg.dual){fl.push('Very large amount (dual approval)');sc+=40}else if(usd>=S.cfg.wlimit){fl.push('Above review threshold');sc+=20}
+if(x.type=='deposit'){if(usd>=100000){fl.push('Large deposit');sc+=10}}
+else if(S.cfg.black.includes(x.addr)){fl.push('Address on blocklist');sc+=60}else if(S.cfg.allow.includes(x.addr))fl.push('Address on allowlist');else if(!S.txs.some(t=>t.type=='withdraw'&&t.addr==x.addr&&t.st=='completed')){fl.push('New destination address');sc+=15}
+const ku=S.adm.u.find(u=>u.id==x.u);if(ku&&ku.k!='Verified'){fl.push('KYC '+ku.k.toLowerCase());sc+=30}if(x.u=='U-0001'&&S.kyc.st!='verified'){fl.push('KYC '+KL[S.kyc.st].toLowerCase());sc+=30}
+sc=Math.min(100,sc);return{sc,fl,usd,lv:sc>=60?'High':sc>=30?'Medium':'Low'}}
+const KL={none:'Not submitted',pending:'Pending',verified:'Verified',rejected:'Rejected'};let selK=null,kImg=null,kSelf=null;
+function img(file,cb){const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,700/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.72))};im.onerror=()=>toast('Could not read that image');im.src=rd.result};rd.readAsDataURL(file)}
+function renderKyc(){const k=S.kyc,st={none:['Not verified','mu'],pending:['Under review','mu'],verified:['Verified','up'],rejected:['Rejected','dn']}[k.st];kImg=kSelf=null;
+let h=`<div class="hd">Identity verification <b class="${st[1]}">${st[0]}</b></div>`;
+if(k.st=='verified')h+='<div>Your identity is verified. Withdrawals are enabled.</div>';
+else if(k.st=='pending')h+=`<div class="mu">Submitted ${T(k.sub)}. Your documents are under review.</div><div class="row" style="margin-top:8px"><span class="mu">Phone</span><span>${k.phone||'–'}</span></div><div class="row"><span class="mu">Address</span><span>${k.address||'–'}</span></div><div style="display:flex;gap:10px;margin-top:10px"><img class="kp" src="${k.id}"><img class="kp" src="${k.selfie}"></div>`;
+else{if(k.st=='rejected')h+=`<div class="dn" style="margin-bottom:8px">Declined: ${k.reason||'see support'}. Please resubmit.</div>`;
+h+=`<div class="warn">Upload a clear photo of your ID and a selfie holding the document. Images stay private.</div>
+<label>Full legal name</label><input id="kn1" placeholder="As on your ID">
+<label>Phone number</label><input id="kphone" type="tel" placeholder="+1 555 000 0000" autocomplete="tel">
+<label>Home address</label><textarea id="kaddr" placeholder="Street, city, postal code" style="min-height:64px"></textarea>
+<label>Country</label><input id="kc1" placeholder="Country of residence">
+<label>Document type</label><select id="kt"><option>Passport</option><option>National ID card</option><option>Driver's license</option></select>
+<label>ID document photo</label><input id="kf" type="file" accept="image/*"><img id="kp1" class="kp" hidden>
+<label>Selfie holding the document</label><input id="ks" type="file" accept="image/*"><img id="kp2" class="kp" hidden>
+<button class="go ac" id="ksub">Submit for review</button>`}
+$('#kb').innerHTML=h}
+function settle(){const now=Date.now();let ch=false;S.pos=S.pos.filter(p=>{
+// Always wait full 60 seconds — no early TP/SL/liquidation close
+if(now-p.t0<60000)return true;
+ch=true;
+let ex=M[p.pair].p,L=p.lev||1;
+const mg=p.margin!=null?p.margin:(p.amt*p.entry/L);
+const notional=p.notional!=null?p.notional:(mg*L);
+let u=(p.side=='buy'?ex-p.entry:p.entry-ex)*p.amt;
+let why='60s settlement';
+const mode=S.cfg.mode||'normal';
+const tpTarget=p.tp?notional*(p.tp/100):null;
+const slTarget=p.sl?notional*(p.sl/100):null;
+if(mode==='win'){
+  const pct=p.tp||(3+Math.random()*2);
+  u=notional*(pct/100);
+  if(p.side==='buy') ex=p.entry+u/p.amt; else ex=p.entry-u/p.amt;
+} else if(mode==='lose'){
+  const pct=p.sl||(3+Math.random()*2);
+  u=-notional*(pct/100);
+  if(p.side==='buy') ex=p.entry+u/p.amt; else ex=p.entry-u/p.amt;
+} else {
+  // Normal: settle at market after 60s (still show TP/SR ratios that were set)
+  if(p.side==='buy') ex=M[p.pair].p; else ex=M[p.pair].p;
+  u=(p.side=='buy'?ex-p.entry:p.entry-ex)*p.amt;
+}
+ex=Math.max(1e-6,ex);
+const fee=notional*FEE;
+const pnl=Math.max(-mg,u);
+S.bal.USDT+=mg+pnl-fee;
+S.trades.unshift({t:now,pair:p.pair,side:p.side,price:ex,amt:p.amt,fee,pnl});S.trades.length=Math.min(S.trades.length,100);
+pnl>=0?S.stats.w++:S.stats.l++;S.stats.pnl+=pnl;Q.push({...p,ex,pnl,why,fee,notional,margin:mg});return false});
+if(ch)save();if(Q.length&&!$('#md').classList.contains('s'))pop()}
+function pop(){const q=Q.shift();
+const L=q.lev||1;
+const mg=q.margin!=null?q.margin:(q.amt*q.entry/L);
+const val=q.notional!=null?q.notional:(mg*L);
+const fee=q.fee!=null?q.fee:(q.amt*q.ex*FEE);
+const tpR=q.tp?f(q.tp,1)+'%':'-';
+const slR=q.sl?f(q.sl,1)+'%':'-';
+const dir=q.side=='buy'?'Long / Buy':'Short / Sell';
+const pnlStr=(q.pnl>=0?'+':'')+f(q.pnl);
+$('#mb').innerHTML=`<div class="big ${q.pnl>=0?'up':'dn'}" style="margin:4px 0 16px">${pnlStr} USDT</div>
+<div class="row"><span class="mu">Direction</span><span class="${q.side=='buy'?'up':'dn'}">${dir}</span></div>
+<div class="row"><span class="mu">Leverage</span><span>${L}x</span></div>
+<div class="row"><span class="mu">Value</span><span>${f(val)} USDT</span></div>
+<div class="row"><span class="mu">TP Ratio</span><span>${tpR}</span></div>
+<div class="row"><span class="mu">SR Ratio</span><span>${slR}</span></div>
+<div class="row"><span class="mu">Fee</span><span>${f(fee)} USDT</span></div>
+<div class="row"><span class="mu">Profit</span><span class="${q.pnl>=0?'up':'dn'}">${pnlStr} USDT</span></div>
+<div class="row mu" style="margin-top:6px;font-size:12px"><span>Closed by</span><span>${q.why}</span></div>`;
+$('#md').classList.add('s')}
+function contractPlanList(){
+  const d=S.cfg.contractPlans||{};
+  return [
+    ['annual','YR'],['sixmonth','6M'],['monthly','MO'],['weekly','WK'],['daily','DY']
+  ].map(([id,icon])=>{const p=d[id]||{};return {id,icon,name:p.name||id,rate:+p.rate||0,days:+p.days||1,min:50}});
+}
+function contractLocked(){return (S.contracts||[]).filter(c=>c.status==='active').reduce((a,c)=>a+c.principal,0)}
+function contractFmtRate(r){return Number(r||0).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:4})+'%'}
+function contractPlanLabel(days){return days===365?'Annual':days===180?'6 Month':days===30?'Monthly':days===7?'Weekly':'Daily'}
+function renderContracts(){
+  const plans=contractPlanList(),active=(S.contracts||[]).filter(c=>c.status==='active'),done=(S.contracts||[]).filter(c=>c.status==='completed');
+  const av=S.bal.USDT||0,locked=contractLocked();
+  const avEl=$('#contract-avail'),lkEl=$('#contract-locked');if(avEl)avEl.textContent=f(av)+' USDT';if(lkEl)lkEl.textContent=f(locked)+' USDT';
+  const at=$('#ctActive'),dt=$('#ctDone');if(at)at.textContent='Active Investments ('+active.length+')';if(dt)dt.textContent='Completed Investments ('+done.length+')';
+  const plansEl=$('#contract-plans');
+  if(plansEl){plansEl.innerHTML='<div class="contract-grid">'+plans.map(p=>`<div class="contract-card"><div class="cc-top"><div class="cc-icon">${p.icon}</div><div class="cc-name">${p.name}</div><div class="cc-rate">+${contractFmtRate(p.rate)}</div></div><div class="cc-row"><span>Minimum</span><b>50.00 USDT</b></div><div class="cc-row cc-profit"><span>Interest</span><b>${contractFmtRate(p.rate)}</b></div><div class="cc-row"><span>Duration</span><b>${p.days} Day${p.days===1?'':'s'}</b></div><div class="cc-row"><span>Pay with</span><b>USDT · TRC20 / ERC20 / BEP20</b></div><button class="go cc-buy" data-contract-buy="${p.id}">Buy Now</button></div>`).join('')+'</div><div class="contract-note">Your selected amount is locked from trading and withdrawals until maturity. At maturity, the full principal plus the plan interest is credited back to your available USDT balance.</div>'}
+  const buy=$('#contract-buy');
+  if(buy&&!buy.hidden){const id=buy.dataset.plan, p=plans.find(x=>x.id===id);if(p&&buy.dataset.renderedPlan!==id){buy.innerHTML=`<div class="hd">Start ${p.name} Contract</div><div class="mu" style="margin-bottom:10px">Rate: <b class="up">+${contractFmtRate(p.rate)}</b> · Maturity: <b>${p.days} day${p.days===1?'':'s'}</b> · Minimum: <b>50 USDT</b></div><label>Amount (USDT)</label><input id="contract-amount" type="number" min="50" step="0.01" inputmode="decimal" autocomplete="off" placeholder="50.00"><div class="row mu" style="margin-top:6px"><span>Available</span><span>${f(av)} USDT</span></div><div class="row" style="margin-top:6px"><span>Interest at maturity</span><span id="contract-est" class="up">0.00 USDT</span></div><div style="display:flex;gap:8px;margin-top:12px"><button class="go" id="contract-confirm" style="margin:0">Confirm investment</button><button class="x" id="contract-cancel" style="margin:0">Cancel</button></div>`;buy.dataset.renderedPlan=id;const ca=$('#contract-amount');if(ca){ca.addEventListener('input',()=>{const n=+ca.value||0;$('#contract-est').textContent=f(n*p.rate/100,2)+' USDT'});}}}
+  const ae=$('#contract-active'),de=$('#contract-done');
+  const contractRows=(list,isDone)=>list.length?list.map(c=>{const left=Math.max(0,c.maturity-Date.now()),hrs=Math.floor(left/3600000),mins=Math.floor(left%3600000/60000),secs=Math.floor(left%60000/1000),time=isDone?T(c.maturity):(hrs+'h '+mins+'m '+secs+'s');return `<div class="contract-active-card"><div class="row"><span><b>${c.name}</b> · ${contractFmtRate(c.rate)}</span><span class="contract-status ${isDone?'done':''}">${isDone?'Completed':'Active'}</span></div><div class="two" style="margin-top:8px"><div><div class="mu">Principal</div><b>${f(c.principal,2)} USDT</b></div><div><div class="mu">Interest</div><b class="up">+${f(c.interest,2)} USDT</b></div><div><div class="mu">Maturity</div><b>${T(c.maturity)}</b></div><div><div class="mu">${isDone?'Completed':'Time left'}</div><b>${time}</b></div></div>${isDone?'<div class="mu" style="margin-top:8px">Principal + interest credited to available USDT balance.</div>':'<div class="mu" style="margin-top:8px">Locked funds cannot be used for trading or withdrawals until maturity.</div>'}</div>`}).join(''):'<div class="mu">'+(isDone?'No completed investments yet.':'No active investments.')+'</div>';
+  if(ae)ae.innerHTML=contractRows(active,false);if(de)de.innerHTML=contractRows(done,true);
+}
+
+function matureContracts(){const now=Date.now();let changed=false;(S.contracts||[]).forEach(c=>{if(c.status==='active'&&now>=c.maturity){c.status='completed';c.completedAt=now;S.bal.USDT=(S.bal.USDT||0)+c.principal+c.interest;addLog('system','Contract matured: '+c.name+' · '+f(c.principal,2)+' USDT principal + '+f(c.interest,2)+' USDT interest credited');addNotif('Contract matured',c.name+' completed. '+f(c.interest,2)+' USDT interest was credited to your balance.');changed=true}});if(changed)save();return changed}
+function buyContract(id){const p=contractPlanList().find(x=>x.id===id),amount=+$('#contract-amount').value;if(!p)return;if(!(amount>=p.min))return toast('Minimum contract amount is '+p.min+' USDT');if(amount>S.bal.USDT+1e-9)return toast('Insufficient available USDT');const c={id:'C-'+Date.now(),plan:id,name:p.name,principal:amount,rate:p.rate,days:p.days,interest:amount*p.rate/100,start:Date.now(),maturity:Date.now()+p.days*86400000,status:'active'};S.bal.USDT-=amount;S.contracts.unshift(c);addLog('user','Started '+p.name+' contract: '+f(amount,2)+' USDT at '+contractFmtRate(p.rate));save();toast('Contract started – funds locked until maturity');$('#contract-buy').hidden=true;delete $('#contract-buy').dataset.plan;renderContracts();render()}
+function renderPos(){$('#st').textContent=`W ${S.stats.w} * L ${S.stats.l} * P&L ${f(S.stats.pnl)} USDT`;
+$('#pos').innerHTML=tbl(['Pair','Side','Size','Lev','Entry','Now','Unrealized (ROE)','SL/TP %','Time left'],S.pos.map(p=>{const n=M[p.pair].p,u=(p.side=='buy'?n-p.entry:p.entry-n)*p.amt,roe=u/(p.amt*p.entry/(p.lev||1))*100,l=Math.max(0,60-Math.floor((Date.now()-p.t0)/1000));return`<tr><td>${p.pair}</td><td class="${p.side=='buy'?'up':'dn'}">${p.side=='buy'?'long':'short'}</td><td>${f(p.amt,4)}</td><td>${p.lev||1}x</td><td>${f(p.entry,pd(p.pair))}</td><td>${f(n,pd(p.pair))}</td><td class="${u>=0?'up':'dn'}">${f(u)} (${f(roe,1)}%)</td><td>${p.sl||'-'}/${p.tp||'-'}</td><td><b>${l}s</b></td></tr>`}),'No active trades. Market orders settle after 60 seconds, or earlier at stop loss, take profit or liquidation.')}
+function tick(){matureContracts();for(const k in M){const m=M[k];
+  // When live prices are active, only micro-jitter between polls; otherwise full random walk
+  const vol=liveMode?(VOL[k]*0.15):VOL[k];
+  m.p=Math.max(1e-8,m.p*(1+(Math.random()-.5)*vol));
+  const c=m.c[m.c.length-1];c.c=m.p;c.h=Math.max(c.h,m.p);c.l=Math.min(c.l,m.p);
+  if(++m.n%10==0){m.c.push({o:m.p,h:m.p,l:m.p,c:m.p});if(m.c.length>80)m.c.shift()}
+}fillOrders();settle();render()}
+
+
+// ---- Multi-user auth ----
+let loanTermsAgreed=false;
+let AUTH_TOKEN = localStorage.getItem('kw3_token') || '';
+let AUTH_USER = null;
+try { AUTH_USER = JSON.parse(localStorage.getItem('kw3_user') || 'null'); } catch(e) { AUTH_USER = null; }
+
+function storageKey(){
+  const id = (AUTH_USER && (AUTH_USER.id || AUTH_USER.uid)) || 'guest';
+  return 'simex_' + id;
+}
+// Rebind save/load to per-user keys
+const _rawSave = typeof save === 'function' ? null : null;
+function loadState(){
+  try { return JSON.parse(localStorage.getItem(storageKey()) || 'null'); } catch(e){ return null; }
+}
+function persistState(){
+  try { localStorage.setItem(storageKey(), JSON.stringify(S)); } catch(e){}
+}
+
+function showAuth(show){
+  const el = document.getElementById('auth-screen');
+  if(el) el.hidden = !show;
+  document.body.style.overflow = show ? 'hidden' : '';
+}
+function setAuthError(msg){ const e=document.getElementById('auth-err'); if(e) e.textContent=msg||''; }
+
+async function doLogin(email, password){
+  const d = await apiFetch('/api/public/login', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ email, password })
+  });
+  if(!d || !d.token) throw new Error((d && d.error) || 'Sign in failed');
+  AUTH_TOKEN = d.token;
+  AUTH_USER = d.user;
+  localStorage.setItem('kw3_token', AUTH_TOKEN);
+  localStorage.setItem('kw3_user', JSON.stringify(AUTH_USER));
+  applyUserToState(AUTH_USER);
+  showAuth(false);
+  render();
+  syncBackend();
+  return d;
+}
+async function doRegister(name, email, password){
+  const d = await apiFetch('/api/public/register', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ name, email, password })
+  });
+  if(!d || !d.token) throw new Error((d && d.error) || 'Sign up failed');
+  AUTH_TOKEN = d.token;
+  AUTH_USER = d.user;
+  localStorage.setItem('kw3_token', AUTH_TOKEN);
+  localStorage.setItem('kw3_user', JSON.stringify(AUTH_USER));
+  // fresh state for new user
+  applyUserToState(AUTH_USER, true);
+  showAuth(false);
+  render();
+  return d;
+}
+function applyUserToState(user, fresh){
+  if(!user) return;
+  // Load this user's local state if any
+  let loaded = null;
+  try { loaded = JSON.parse(localStorage.getItem(storageKey()) || 'null'); } catch(e){}
+  if(loaded && !fresh){
+    Object.assign(S, loaded);
+  }
+  S.profile = S.profile || {};
+  S.profile.email = user.email;
+  S.profile.uid = user.uid || String(user.id||'').replace(/^U-/,'');
+  S.profile.name = user.name;
+  S.userId = user.id;
+  if(user.balances){
+    S.bal = Object.assign({}, S.bal||{}, user.balances);
+  }
+  if(user.kyc){
+    const map={Verified:'verified',Pending:'pending',Rejected:'rejected',Unverified:'none'};
+    S.kyc = S.kyc || {st:'none'};
+    if(!S.kyc.st || S.kyc.st==='none') S.kyc.st = map[user.kyc]||'none';
+  }
+  if(user.welcome) S.welcome = Object.assign(S.welcome||{}, {st: user.welcome});
+  // rebind save to per-user
+  window._kw3_persist = persistState;
+  persistState();
+  // Update home UI bits
+  try{
+    if($('#home-uid')) $('#home-uid').textContent = S.profile.uid;
+    if($('#home-email')) $('#home-email').textContent = S.profile.email;
+  }catch(e){}
+}
+function doLogout(){
+  if(AUTH_TOKEN) apiFetch('/api/public/logout',{method:'POST',headers:{'Authorization':'Bearer '+AUTH_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({token:AUTH_TOKEN})});
+  persistState();
+  AUTH_TOKEN=''; AUTH_USER=null;
+  localStorage.removeItem('kw3_token');
+  localStorage.removeItem('kw3_user');
+  showAuth(true);
+}
+
+function currentUserId(){
+  return (AUTH_USER && AUTH_USER.id) || (S && S.userId) || 'U-4738165';
+}
+
+// Override save to always use per-user key when logged in
+(function patchSave(){
+  const prev = window.save;
+  // save is const function later - we hook after definition via interval
+})();
+
+document.addEventListener('click', e=>{
+  const t=e.target.closest('button');
+  if(!t) return;
+  if(t.id==='tab-signin'){
+    $('#tab-signin').classList.add('on'); $('#tab-signup').classList.remove('on');
+    $('#auth-signin').hidden=false; $('#auth-signup').hidden=true; setAuthError('');
+  }
+  if(t.id==='tab-signup'){
+    $('#tab-signup').classList.add('on'); $('#tab-signin').classList.remove('on');
+    $('#auth-signup').hidden=false; $('#auth-signin').hidden=true; setAuthError('');
+  }
+  if(t.id==='btn-signin'){
+    const email=$('#li-email').value.trim(), pass=$('#li-pass').value;
+    setAuthError('');
+    doLogin(email, pass).catch(err=>setAuthError(err.message||'Sign in failed'));
+  }
+  if(t.id==='btn-signup'){
+    const name=$('#su-name').value.trim(), email=$('#su-email').value.trim(), p1=$('#su-pass').value, p2=$('#su-pass2').value;
+    setAuthError('');
+    if(p1!==p2) return setAuthError('Passwords do not match');
+    doRegister(name, email, p1).catch(err=>setAuthError(err.message||'Sign up failed'));
+  }
+  if(t.id==='btn-logout'){ doLogout(); }
+});
+
+// Enter key on auth
+document.addEventListener('keydown', e=>{
+  if(e.key==='Enter' && document.getElementById('auth-screen') && !document.getElementById('auth-screen').hidden){
+    if(!$('#auth-signup').hidden) $('#btn-signup').click();
+    else $('#btn-signin').click();
+  }
+});
+
+
+const API_BASES=()=>['', (typeof window!=='undefined'&&window.LETTY_API)||'', location.origin, 'http://127.0.0.1:3847'].filter((v,i,a)=>a.indexOf(v)===i);
+async function apiFetch(path, opts){
+  const o=Object.assign({cache:'no-store'}, opts||{});
+  o.headers = Object.assign({}, o.headers||{});
+  if(typeof AUTH_TOKEN==='string' && AUTH_TOKEN && !o.headers.Authorization){
+    o.headers.Authorization = 'Bearer '+AUTH_TOKEN;
+  }
+  for(const b of API_BASES()){
+    try{
+      const r=await fetch(b+path, o);
+      if(!r.ok){if(o.method&&o.method!=='GET'){try{return await r.json()}catch(e){return null}} continue;}
+      return await r.json();
+    }catch(e){}
+  }
+  return null;
+}
+async function syncBackend(){
+  const buid = currentUserId();
+  let changed=false;
+
+  // Config: fees, leverage, mode, halt, wallets, contracts
+  const cfg=await apiFetch('/api/public/config');
+  if(cfg){
+    if(cfg.fee!=null && S.cfg.fee!==cfg.fee){S.cfg.fee=cfg.fee;FEE=cfg.fee/100;changed=true}
+    if(cfg.maxLeverage!=null && S.cfg.maxlev!==cfg.maxLeverage){S.cfg.maxlev=cfg.maxLeverage;changed=true}
+    if(cfg.mode && S.cfg.mode!==cfg.mode){S.cfg.mode=cfg.mode;changed=true}
+    if(cfg.halt){S.cfg.halt=cfg.halt;changed=true}
+    if(cfg.depositAddresses){S.cfg.depositAddresses=Object.assign({},S.cfg.depositAddresses,cfg.depositAddresses);changed=true}
+    if(cfg.usdtNetworkAddresses){S.cfg.usdtNetworkAddresses=Object.assign({},S.cfg.usdtNetworkAddresses,cfg.usdtNetworkAddresses);changed=true}
+    if(cfg.contractPlans){
+      S.cfg.contractPlans=S.cfg.contractPlans||{};
+      for(const k of Object.keys(cfg.contractPlans)){
+        S.cfg.contractPlans[k]=Object.assign({},S.cfg.contractPlans[k]||{},cfg.contractPlans[k]);
+      }
+      changed=true;
+    }
+  }
+
+  // Welcome bonus
+  const wb=await apiFetch('/api/public/welcome-bonus/'+encodeURIComponent(buid));
+  if(wb && wb.status){
+    const map={none:'none',pending:'pending',approved:'approved',rejected:'rejected'};
+    const st=map[wb.status]||wb.status;
+    if(!S.welcome) S.welcome={st:'none'};
+    if(S.welcome.st!==st){
+      const prev=S.welcome.st;
+      S.welcome.st=st;
+      if(st==='approved' && prev!=='approved'){
+        S.bal.USDT=(S.bal.USDT||0)+(wb.amount||100);
+        addNotif('Welcome bonus approved','You received '+(wb.amount||100)+' USDT welcome bonus');
+      }
+      if(st==='rejected' && prev!=='rejected'){
+        addNotif('Welcome bonus rejected','Your welcome bonus request was declined');
+      }
+      changed=true;
+    }
+  }
+
+  // KYC
+  const kyc=await apiFetch('/api/public/kyc/'+encodeURIComponent(buid));
+  if(kyc && kyc.status){
+    const stMap={Verified:'verified',Pending:'pending',Rejected:'rejected',Unverified:'none','Not submitted':'none'};
+    const st=stMap[kyc.status]||String(kyc.status).toLowerCase();
+    if(!S.kyc) S.kyc={st:'none'};
+    if(S.kyc.st!==st && ['verified','pending','rejected','none'].includes(st)){
+      const prev=S.kyc.st;
+      S.kyc.st=st;
+      if(st==='verified' && prev!=='verified') addNotif('KYC approved','Your identity is verified.');
+      if(st==='rejected' && prev!=='rejected') addNotif('KYC declined', (kyc.submission&&kyc.submission.rejectReason)||'Please resubmit your documents.');
+      changed=true;
+    }
+  }
+
+  // User balances (admin edits)
+  const user=await apiFetch('/api/public/user/'+encodeURIComponent(buid));
+  if(user && user.balances){
+    for(const k of Object.keys(user.balances)){
+      const v=+user.balances[k];
+      if(isFinite(v) && Math.abs((S.bal[k]||0)-v)>1e-8){S.bal[k]=v;changed=true}
+    }
+    if(user.balanceUsdt!=null && Math.abs((S.bal.USDT||0)-user.balanceUsdt)>1e-6){
+      // only apply if admin-side is authoritative and differs significantly after deposit approve
+    }
+  }
+
+  // Notifications from backend
+  const notif=await apiFetch('/api/public/notifications/'+encodeURIComponent(buid));
+  if(notif && Array.isArray(notif.notifications)){
+    S.notifs=S.notifs||[];
+    // Dedupe by title+body (ignore timestamp) so the same event never appears twice
+    const have=new Set(S.notifs.map(n=>((n.title||'')+'|'+(n.body||'')).toLowerCase()));
+    for(const n of notif.notifications.slice().reverse()){
+      const key=((n.title||'')+'|'+(n.body||'')).toLowerCase();
+      if(!have.has(key)){
+        S.notifs.unshift({t:n.t||Date.now(),title:n.title,body:n.body,read:!!n.read});
+        have.add(key);
+        changed=true;
+      }
+    }
+    // collapse duplicates (exact body, or same loan/welcome title)
+    const seen=new Set(); const deduped=[];
+    for(const n of S.notifs){
+      const title=(n.title||'').toLowerCase();
+      let k=((n.title||'')+'|'+(n.body||'')).toLowerCase();
+      if(title==='loan approved'||title==='loan declined'||title==='welcome bonus approved'||title==='welcome bonus rejected')
+        k='title:'+title;
+      if(seen.has(k)) continue;
+      seen.add(k); deduped.push(n);
+    }
+    if(deduped.length!==S.notifs.length){S.notifs=deduped;changed=true}
+    S.notifs=S.notifs.slice(0,50);
+    updateNbadge();
+  }
+
+  // Chat messages from support
+  const chat=await apiFetch('/api/public/chat/'+encodeURIComponent(buid));
+  if(chat && Array.isArray(chat.messages)){
+    S.chat=S.chat||[];
+    const ids=new Set(S.chat.map(m=>m.id|| (m.t+'|'+m.from+'|'+(m.text||''))));
+    for(const m of chat.messages){
+      const id=m.id||(m.t+'|'+m.from+'|'+(m.text||''));
+      if(!ids.has(id)){
+        S.chat.push({id:m.id,t:m.t,from:m.from==='admin'?'admin':'user',uid:buid,text:m.text||'',file:m.file||null});
+        ids.add(id);changed=true;
+      }
+    }
+  }
+
+  // Loan status (notifications + balance come from backend only — no local duplicate)
+  const loanSt=await apiFetch('/api/public/loan/'+encodeURIComponent(buid));
+  if(loanSt && loanSt.loan){
+    const L=loanSt.loan;
+    S.loan=S.loan||{};
+    const prev=S.loan.st;
+    const st=L.status==='approved'?'approved':L.status==='rejected'?'rejected':(L.status==='pending'||L.status==='review')?'pending':(S.loan.st||'none');
+    if(st && S.loan.st!==st){
+      S.loan={st,amt:L.amount,t:L.updatedAt||L.createdAt||Date.now(),id:L.id};
+      changed=true;
+    } else if(L.id && S.loan.id!==L.id){
+      S.loan.id=L.id; S.loan.amt=L.amount; changed=true;
+    }
+  }
+
+  // Deposit/withdraw request statuses
+  const reqs=await apiFetch('/api/public/requests/'+encodeURIComponent(buid));
+  if(reqs && Array.isArray(reqs.requests)){
+    S.txs=S.txs||[];
+    for(const r of reqs.requests){
+      let local=S.txs.find(x=>String(x.id)===String(r.id) || (x._backendId && String(x._backendId)===String(r.id)));
+      const st=r.status==='completed'?'completed':r.status==='rejected'?'rejected':'review';
+      if(!local){
+        S.txs.unshift({id:r.id,_backendId:r.id,t:r.createdAt||Date.now(),type:r.type,asset:r.asset,amt:r.amount,network:r.network||'',st,u:buid});
+        changed=true;
+      } else if(local.st!==st){
+        const prev=local.st;
+        local.st=st;
+        if(st==='completed' && prev!=='completed'){
+          if(r.type==='deposit'){
+            S.bal[r.asset]=(S.bal[r.asset]||0)+r.amount;
+            addNotif('Deposit approved', r.amount+' '+r.asset);
+          } else {
+            addNotif('Withdrawal approved', r.amount+' '+r.asset);
+          }
+        }
+        if(st==='rejected' && prev!=='rejected'){
+          addNotif(r.type==='deposit'?'Deposit rejected':'Withdrawal rejected', r.amount+' '+r.asset);
+        }
+        changed=true;
+      }
+    }
+  }
+
+  if(changed){save();render()}
+}
+
+
+async function pullLivePrices(){
+  const bases=[
+    '',
+    (typeof window!=='undefined'&&window.LETTY_API)||'',
+    LIVE_API,
+    location.origin,
+    'http://127.0.0.1:3847'
+  ];
+  // Also try same host different known ports via relative if page is on tunnel for frontend only
+  const tried=new Set();
+  for(const base of bases){
+    const url=(base||'')+'/api/public/prices';
+    if(tried.has(url)) continue; tried.add(url);
+    try{
+      const r=await fetch(url,{cache:'no-store'});
+      if(!r.ok) continue;
+      const d=await r.json();
+      if(!d||!d.prices) continue;
+      let n=0;
+      for(const k of Object.keys(d.prices)){
+        const px=+d.prices[k];
+        if(!isFinite(px)||px<=0) continue;
+        if(!M[k]){
+          // late-add market
+          let p=px,c=[];for(let i=0;i<60;i++){const o=p;for(let j=0;j<4;j++)p*=1+(Math.random()-.5)*(VOL[k]||0.003)*2;c.push({o,h:Math.max(o,p)*(1+Math.random()*.002),l:Math.min(o,p)*(1-Math.random()*.002),c:p})}
+          M[k]={p:px,c,o24:c[0].o,n:0};
+        }else{
+          const m=M[k];
+          const prev=m.p;
+          m.p=px;
+          const candle=m.c[m.c.length-1];
+          candle.c=px;candle.h=Math.max(candle.h,px);candle.l=Math.min(candle.l,px);
+          // refresh 24h open occasionally from first poll of session
+          if(!m._liveSeed){m.o24=px;m._liveSeed=1}
+        }
+        n++;
+      }
+      if(n){liveMode=true;lastLiveAt=Date.now();const badge=document.getElementById('live-badge');if(badge){badge.hidden=false;badge.textContent='LIVE · '+n+' markets'}}
+      return;
+    }catch(e){/* try next */}
+  }
+  // If no live data for 2 min, fall back to simulation label
+  if(Date.now()-lastLiveAt>120000){liveMode=false;const badge=document.getElementById('live-badge');if(badge)badge.hidden=true}
+}
+
+function place(){const margin=+$('#amt').value,pr=+$('#prc').value,m=M[cur],L=ot=='market'?+$('#lv').value||1:1,sl=ot=='market'?Math.min(99,+$('#sl').value||0):0,tp=ot=='market'?+$('#tp').value||0:0;
+if(!(margin>0))return toast('Enter amount in USDT');if(S.cfg.halt[cur])return toast(cur+' trading is halted by admin');if(L>S.cfg.maxlev)return toast('Max leverage is '+S.cfg.maxlev+'x');
+const minBal=LEV_MIN[L]||10;if((S.bal.USDT||0)<minBal)return toast('Insufficient balance – '+L+'x leverage requires at least '+f(minBal)+' USDT (you have '+f(S.bal.USDT)+' USDT)');if(ot=='limit'&&!(pr>0))return toast('Enter a limit price');
+const px=ot=='market'?(side=='buy'?m.p*1.0005:m.p*.9995):pr;
+const notional=margin*L;
+const qty=notional/px;
+if(margin>S.bal.USDT+1e-9)return toast('Insufficient USDT – need '+f(margin)+', have '+f(S.bal.USDT)+'. Lower the amount or add USDT.');
+S.bal.USDT-=margin;
+if(ot=='market')S.pos.push({id:Date.now(),pair:cur,side,amt:qty,entry:px,lev:L,sl,tp,t0:Date.now(),notional,margin});
+else S.orders.push({id:Date.now(),pair:cur,side,price:pr,amt:qty,notional,margin,lev:L});
+save();$('#amt').value='';toast(ot=='market'?'Trade opened – settles in 60s':'Limit order placed');render()}
+function cancel(id){const i=S.orders.findIndex(o=>o.id==id);if(i<0)return;const o=S.orders[i];S.bal.USDT+=(o.margin!=null?o.margin:(o.notional!=null?o.notional/(o.lev||1):o.amt*o.price));S.orders.splice(i,1);save();render()}
+const wfee=(a,m)=>Math.max(m*.001,a=='USDT'?1:1/M[a].p);
+function decide(id,ok){const r=allQ().find(x=>String(x.id)==String(id));if(!r)return toast('Select a request first');
+if(ok&&r.type!='deposit'&&S.cfg.black.includes(r.addr))return toast('Address is blocked - reject it or unblock first');
+const ref=r.ref,sid=String(r.id).slice(-6),isTx=ref.asset!==undefined,kind=r.type=='deposit'?'deposit':'withdrawal';
+if(isTx){if(ok){if(ref.type=='deposit')S.bal[ref.asset]=(S.bal[ref.asset]||0)+ref.amt;else if(!ref.held){if(ref.amt>S.bal[ref.asset]+1e-9)return toast('Cannot approve: user no longer has '+f(ref.amt,4)+' '+ref.asset);S.bal[ref.asset]-=ref.amt}}else if(ref.held&&ref.type=='withdraw')S.bal[ref.asset]+=ref.amt;ref.st=ok?'completed':'rejected'}else S.adm.q=S.adm.q.filter(y=>y.id!=ref.id);
+selQ=null;save();addLog('admin',(ok?'Approved ':'Rejected ')+kind+' '+sid);toast(ok?(r.type=='deposit'?'Deposit approved - balance credited':'Withdrawal approved - balance deducted'):(kind[0].toUpperCase()+kind.slice(1)+' rejected'));if(r.u==='U-0001'||r.u==='U-0001')addNotif(ok?(r.type=='deposit'?'Deposit approved':'Withdrawal approved'):(kind[0].toUpperCase()+kind.slice(1)+' rejected'),f(r.m,4)+' '+r.a);render()}
+function deposit(){const a=$('#da').value,m=+$('#dm').value,network=a==='USDT'?$('#dn').value:'';if(!(m>0)||m>1e6)return toast('Enter 0 - 1,000,000');const depositAddress=a==='USDT'?(S.cfg.usdtNetworkAddresses[network]||S.cfg.depositAddresses.USDT||addr(a)):(S.cfg.depositAddresses[a]||addr(a));S.txs.unshift({id:Date.now(),t:Date.now(),type:'deposit',asset:a,amt:m,network,addr:depositAddress,ap:[],u:currentUserId(),st:'review'});addLog('user','Deposit requested: '+f(m,4)+' '+a+(network?' via '+network:''));addAdminNotif('Deposit request',f(m,4)+' '+a+(network?' via '+network:'')+' from U-0001');$('#dm').value='';save();toast('Deposit requested');render();apiFetch('/api/public/deposit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userId:currentUserId(),asset:a,amount:m,network,addr:depositAddress})}).then(d=>{if(d&&d.id){const tx=S.txs[0];if(tx){tx._backendId=d.id;tx.id=d.id;save()}}});}
+function withdraw(){const a=$('#wa').value,m=+$('#wm').value,ad=$('#wd').value.trim(),network=a==='USDT'?$('#wn').value:'';if(S.kyc.st!='verified')return toast('Complete KYC verification before withdrawing');
+if(!ad)return toast('Enter a destination wallet address');
+if(!(m>0))return toast('Enter an amount');if(S.cfg.black.includes(ad))return toast('Destination address is blocked by compliance');const fee=wfee(a,m);if(m<=fee)return toast('Amount must exceed fee');if(m>S.bal[a]+1e-9)return toast('Insufficient '+a);
+S.txs.unshift({id:Date.now(),t:Date.now(),type:'withdraw',asset:a,amt:m,fee,network,addr:ad,ap:[],u:currentUserId(),st:'review'});addLog('user','Withdrawal requested: '+f(m,4)+' '+a+(network?' via '+network:''));addAdminNotif('Withdrawal request',f(m,4)+' '+a+(network?' via '+network:'')+' from U-0001');$('#wm').value='';save();toast('Withdrawal requested');render();apiFetch('/api/public/withdraw',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userId:currentUserId(),asset:a,amount:m,network,addr:ad})}).then(d=>{if(d&&d.id){const tx=S.txs[0];if(tx){tx._backendId=d.id;tx.id=d.id;save()}}});}
+const tbl=(h,r,e)=>r.length?'<table><tr>'+h.map(x=>'<th>'+x+'</th>').join('')+'</tr>'+r.join('')+'</table>':'<div class="mu">'+e+'</div>';
+const T=t=>new Date(t).toLocaleTimeString();
+function txRows(){return S.txs.slice(0,20).map(x=>`<tr><td>${T(x.t)}</td><td>${x.type}</td><td>${x.asset}</td><td>${f(x.amt,4)}</td><td>${x.st=='completed'?'<span class="up">completed</span>':x.st=='rejected'?'<span class="dn">rejected</span>':x.st=='review'?'<span class="mu">'+(x.info?'info requested':'requested')+'</span>':'<span class="mu">processing</span>'}</td></tr>`)}
+
+let chartTF='1d';
+let chartCandles=[]; // {t,o,h,l,c}
+let chartLoading=false;
+
+async function loadOHLC(sym, tf){
+  if(!sym) return;
+  chartLoading=true;
+  const meta=$('#chart-meta');
+  if(meta) meta.innerHTML='Loading chart…';
+  try{
+    const d=await apiFetch('/api/public/ohlc?symbol='+encodeURIComponent(sym)+'&range='+encodeURIComponent(tf||chartTF));
+    if(d && Array.isArray(d.candles) && d.candles.length){
+      chartCandles=d.candles;
+      // sync last price into market if live
+      const last=chartCandles[chartCandles.length-1];
+      if(M[sym] && last && last.c>0){
+        M[sym].p=last.c;
+        if(!M[sym]._liveSeed){M[sym].o24=chartCandles[0].o;M[sym]._liveSeed=1}
+      }
+    } else {
+      // fallback: use in-memory simulated candles
+      chartCandles=(M[sym]&&M[sym].c)?M[sym].c.map((x,i)=>({t:Date.now()-(M[sym].c.length-i)*60000,o:x.o,h:x.h,l:x.l,c:x.c})): [];
+    }
+  }catch(e){
+    chartCandles=(M[sym]&&M[sym].c)?M[sym].c.map((x,i)=>({t:Date.now()-(M[sym].c.length-i)*60000,o:x.o,h:x.h,l:x.l,c:x.c})): [];
+  }
+  chartLoading=false;
+  draw();
+  updateChartMeta();
+}
+
+function updateChartMeta(){
+  const meta=$('#chart-meta');
+  if(!meta||!chartCandles.length){if(meta)meta.innerHTML='';return}
+  const first=chartCandles[0], last=chartCandles[chartCandles.length-1];
+  const ch=((last.c-first.o)/first.o)*100;
+  const hi=Math.max(...chartCandles.map(x=>x.h));
+  const lo=Math.min(...chartCandles.map(x=>x.l));
+  meta.innerHTML=`<span>O <b>${f(first.o,pd(cur))}</b></span><span>H <b>${f(hi,pd(cur))}</b></span><span>L <b>${f(lo,pd(cur))}</b></span><span>C <b>${f(last.c,pd(cur))}</b></span><span class="${ch>=0?'up':'dn'}">${ch>=0?'+':''}${f(ch)}%</span><span>${chartCandles.length} candles · ${chartTF.toUpperCase()}</span>`;
+}
+
+function draw(){
+  const cv=$('#cv'); if(!cv) return;
+  const w=cv.clientWidth, h=cv.clientHeight, d=devicePixelRatio||1;
+  if(!w) return;
+  if(cv.width!==Math.round(w*d)){cv.width=Math.round(w*d);cv.height=Math.round(h*d)}
+  const x=cv.getContext('2d');
+  x.setTransform(d,0,0,d,0,0);
+  x.clearRect(0,0,w,h);
+  const cs=getComputedStyle(document.documentElement);
+  const g=n=>cs.getPropertyValue(n).trim();
+  const up=g('--up')||'#0ecb81', dn=g('--dn')||'#f6465d', bd=g('--bd')||'#2a2f3a', mu=g('--mu')||'#8b94a7', ac=g('--ac')||'#7c5cfc';
+
+  let c=chartCandles;
+  if(!c || !c.length){
+    // fallback simulated
+    if(M[cur]&&M[cur].c&&M[cur].c.length) c=M[cur].c.map((a,i)=>({t:i,o:a.o,h:a.h,l:a.l,c:a.c}));
+    else {
+      x.fillStyle=mu; x.font='13px system-ui'; x.fillText(chartLoading?'Loading…':'No chart data', 16, h/2);
+      return;
+    }
+  }
+
+  const padT=16, padB=28, padL=8, padR=64;
+  const hi=Math.max(...c.map(a=>a.h));
+  const lo=Math.min(...c.map(a=>a.l));
+  const span=(hi-lo)||1;
+  const plotW=w-padL-padR, plotH=h-padT-padB;
+  const n=c.length;
+  const cw=plotW/n;
+  const y=v=>padT+((hi-v)/span)*plotH;
+
+  // background grid
+  x.font='10px system-ui,sans-serif';
+  x.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    const v=lo+(hi-lo)*i/4;
+    const yy=y(v);
+    x.strokeStyle=bd; x.globalAlpha=0.55;
+    x.beginPath(); x.moveTo(padL,yy); x.lineTo(w-padR,yy); x.stroke();
+    x.globalAlpha=1; x.fillStyle=mu;
+    x.fillText(v>=1?v.toFixed(Math.min(2,pd(cur))):v.toPrecision(4), w-padR+6, yy+3);
+  }
+
+  // volume-style underlay none — pure candles
+  // candles
+  for(let i=0;i<n;i++){
+    const a=c[i];
+    const bull=a.c>=a.o;
+    x.strokeStyle=x.fillStyle=bull?up:dn;
+    const cx=padL+i*cw+cw/2;
+    // wick
+    x.lineWidth=1;
+    x.beginPath(); x.moveTo(cx,y(a.h)); x.lineTo(cx,y(a.l)); x.stroke();
+    // body
+    const bw=Math.max(2, cw*0.7);
+    const top=Math.min(y(a.o),y(a.c));
+    const bh=Math.max(1, Math.abs(y(a.o)-y(a.c)));
+    x.fillRect(cx-bw/2, top, bw, bh);
+  }
+
+  // current / last close line
+  const last=c[c.length-1];
+  const p=last.c;
+  x.setLineDash([4,3]); x.strokeStyle=ac; x.lineWidth=1;
+  x.beginPath(); x.moveTo(padL,y(p)); x.lineTo(w-padR,y(p)); x.stroke();
+  x.setLineDash([]);
+  const label=(p>=1?p.toFixed(Math.min(4,pd(cur))):p.toPrecision(4));
+  const tw=x.measureText(label).width+10;
+  const by=y(p)-9;
+  x.fillStyle=ac;
+  x.fillRect(w-padR, by, Math.min(padR-2,tw+4), 18);
+  x.fillStyle='#fff'; x.font='11px system-ui'; x.fillText(label, w-padR+4, y(p)+4);
+
+  // time labels (first / mid / last)
+  x.fillStyle=mu; x.font='10px system-ui';
+  const fmt=t=>{
+    if(!t||t<1e11) return '';
+    const d=new Date(t);
+    if(chartTF==='1d'||chartTF==='3d') return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+    if(chartTF==='1w'||chartTF==='1m') return (d.getMonth()+1)+'/'+d.getDate();
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+  };
+  if(c[0]&&c[0].t) x.fillText(fmt(c[0].t), padL, h-8);
+  if(c[Math.floor(n/2)]&&c[Math.floor(n/2)].t) {
+    const t=fmt(c[Math.floor(n/2)].t);
+    x.fillText(t, padL+plotW/2-x.measureText(t).width/2, h-8);
+  }
+  if(c[n-1]&&c[n-1].t) {
+    const t=fmt(c[n-1].t);
+    x.fillText(t, w-padR-x.measureText(t).width-4, h-8);
+  }
+}
+
+
+function book(){if(!$('#ob'))return;const m=M[cur],d=pd(cur),b=Math.floor(Date.now()/3000);let a='',bi='';
+for(let i=8;i>=1;i--){const pr=m.p*(1+i*.0008),s=(1+((i*37+b*13)%17))*200/m.p;a+=`<div class="row"><span class="dn">${f(pr,d)}</span><span>${f(s,m.p>1000?4:m.p>50?3:2)}</span></div>`}
+for(let i=1;i<=8;i++){const pr=m.p*(1-i*.0008),s=(1+((i*53+b*7)%19))*200/m.p;bi+=`<div class="row"><span class="up">${f(pr,d)}</span><span>${f(s,m.p>1000?4:m.p>50?3:2)}</span></div>`}
+$('#ob').innerHTML=a+`<div class="row" style="font-weight:700;font-size:16px;padding:6px 0"><span>${f(m.p,d)}</span></div>`+bi}
+function updateNetworkFields(){
+  const da=$('#da'),wa=$('#wa');
+  const dw=$('#depositNetworkWrap'),ww=$('#withdrawNetworkWrap');
+  if(dw)dw.hidden=!da||da.value!=='USDT';
+  if(ww)ww.hidden=!wa||wa.value!=='USDT';
+}
+function render(){
+updateNetworkFields();
+const _eq=$('#eq');if(_eq)_eq.textContent='Portfolio ~ '+f(total())+' USDT';
+if(tab=='trade'){
+  const catLabels={crypto:'Digital Currency',stocks:'Stock',metals:'Metals',commodities:'Commodities',native:'Tokens'};
+  const NAMES={BTC:'Bitcoin',ETH:'Ethereum',BNB:'BNB',SOL:'Solana',XRP:'XRP',DOGE:'Dogecoin',ADA:'Cardano',AVAX:'Avalanche',DOT:'Polkadot',LINK:'Chainlink',MATIC:'Polygon',LTC:'Litecoin',UNI:'Uniswap',ATOM:'Cosmos',NEAR:'NEAR',APT:'Aptos',ARB:'Arbitrum',OP:'Optimism',SUI:'Sui',PEPE:'Pepe',SHIB:'Shiba Inu',TRX:'TRON',TON:'Toncoin',ICP:'Internet Computer',XLM:'Stellar',BCH:'Bitcoin Cash',FIL:'Filecoin',INJ:'Injective',RENDER:'Render',IMX:'Immutable',AAPL:'Apple',MSFT:'Microsoft',NVDA:'NVIDIA',TSLA:'Tesla',AMZN:'Amazon',GOOGL:'Alphabet',META:'Meta',NFLX:'Netflix',AMD:'AMD',INTC:'Intel',BABA:'Alibaba',JPM:'JPMorgan',V:'Visa',MA:'Mastercard',DIS:'Disney',PYPL:'PayPal',COIN:'Coinbase',PLTR:'Palantir',SOFI:'SoFi',NIO:'NIO',CRM:'Salesforce',ORCL:'Oracle',BA:'Boeing',UBER:'Uber',XAU:'Gold',XAG:'Silver',XPT:'Platinum',XPD:'Palladium',HG:'Copper',ALI:'Aluminum',ZNC:'Zinc',NI:'Nickel',SN:'Tin',PB:'Lead',WTI:'Crude Oil WTI',BRENT:'Brent Crude',NG:'Natural Gas',HO:'Heating Oil',RB:'RBOB Gasoline',GCL:'Crude Oil',ETHANOL:'Ethanol',SMX:'SMX',NOVA:'Nova',ARC:'Arc'};
+  const ICO_C={BTC:'#f7931a',ETH:'#627eea',BNB:'#f3ba2f',SOL:'#9945ff',XRP:'#23292f',DOGE:'#c2a633',ADA:'#0033ad',AVAX:'#e84142',LINK:'#2a5ada',DOT:'#e6007a',AAPL:'#555',NVDA:'#76b900',TSLA:'#cc0000',META:'#0866ff',MSFT:'#00a4ef',AMZN:'#ff9900',GOOGL:'#4285f4',WTI:'#2d2d2d',BRENT:'#1a1a1a',NG:'#00b4d8',HO:'#f77f00',RB:'#e63946',GCL:'#333',ETHANOL:'#2a9d8f'};
+  $('#cats').innerHTML=Object.keys(CAT).filter(c=>c!=='native').map(c=>`<button data-k="${c}" class="${c==cat?'on':''}">${catLabels[c]||LBL[c]}</button>`).join('');
+  const q=(($('#mkt-search')&&$('#mkt-search').value)||'').trim().toLowerCase();
+  let list;
+  if(q){
+    // Search across all categories (crypto, stocks, metals, native)
+    const all=[].concat(...Object.keys(CAT).map(c=>CAT[c]));
+    list=all.filter(k=>{
+      const name=(NAMES[k]||k).toLowerCase();
+      return k.toLowerCase().includes(q)||name.includes(q)||(k+'/usdt').includes(q);
+    });
+  } else {
+    list=CAT[cat].slice();
+  }
+  $('#pairs').innerHTML=list.length?list.map(k=>{
+    if(!M[k])return '';
+    const c=(M[k].p/M[k].o24-1)*100;
+    const col=ICO_C[k]||'#7c5cfc';
+    return `<button data-p="${k}" class="${k==cur?'on':''}" type="button">
+      <div class="mkt-ico" style="background:${col}">${k.slice(0,2)}</div>
+      <div class="info"><b>${k}/USDT</b><span>${NAMES[k]||k}</span></div>
+      <div class="px"><b>$${f(M[k].p,pd(k))}</b></div>
+      <div class="ch ${c>=0?'up':'dn'}">${c>=0?'+':''}${f(c)}%</div>
+    </button>`;
+  }).join(''):'<div class="mu" style="padding:20px;text-align:center">No markets match your search.</div>';
+  const lb=$('#live-badge-trade'),lb2=$('#live-badge');
+  if(lb){lb.hidden=!liveMode;if(liveMode)lb.textContent='LIVE'}
+  if(lb2){lb2.hidden=!liveMode}
+}
+if(tab=='trade-room'){const m=M[cur],ch=(m.p/m.o24-1)*100;if(!$('#pt'))return;
+$('#pt').textContent=cur+'/USDT';$('#pc').innerHTML=`${f(m.p,pd(cur))} <span class="${ch>=0?'up':'dn'}">${f(ch)}%</span>`;
+if($('#pt2'))$('#pt2').textContent=cur+'/USDT';
+if($('#pc2'))$('#pc2').innerHTML=`${f(m.p,pd(cur))} <span class="${ch>=0?'up':'dn'}">${f(ch)}%</span>`;
+document.querySelectorAll('#tf-bar button').forEach(b=>b.classList.toggle('on',b.dataset.tf===chartTF));
+if(!chartCandles.length&&!chartLoading)loadOHLC(cur,chartTF);else {draw();updateChartMeta();}
+book();
+const px=ot=='limit'?+$('#prc').value||0:m.p,a=+$('#amt').value||0;const L=ot=='market'?+$('#lv').value||1:1;$('#tot').textContent=a?('Margin '+f(a,2)+(L>1?' · position '+f(a*L,2):'')+' USDT'):'-';$('#lq').textContent=L>1?f(side=='buy'?m.p*(1-1/L):m.p*(1+1/L),pd(cur)):'-';
+$('#fe').textContent=f(FEE*100)+'%';$('#av').textContent=f(S.bal.USDT)+' USDT';
+const _Lm=ot=='market'?+$('#lv').value||1:1;const _mn=LEV_MIN[_Lm]||10;const _lvmin=$('#lvmin');if(_lvmin){_lvmin.textContent=f(_mn)+' USDT';_lvmin.style.color=(S.bal.USDT||0)>=_mn?'var(--up)':'var(--dn)';}
+}
+
+if(tab=='wallet'||tab=='withdraw'){$('#kn').textContent=S.kyc.st=='verified'?'':'KYC verification required to withdraw - open the KYC tab.';const depAsset=$('#da').value,depNetwork=depAsset==='USDT'?$('#dn').value:'';$('#ad').textContent=(depAsset==='USDT'?(S.cfg.usdtNetworkAddresses[depNetwork]||S.cfg.depositAddresses.USDT||addr(depAsset)):(S.cfg.depositAddresses[depAsset]||addr(depAsset)));$('#tv').textContent='~ '+f(total())+' USDT total';
+$('#bt').innerHTML=tbl(['Asset','Available','Value (USDT)'],AS.map(k=>`<tr><td><b>${k}</b></td><td>${f(S.bal[k],4)}</td><td>${f(S.bal[k]*(k=='USDT'?1:M[k].p))}</td></tr>`),'');
+const w=+$('#wm').value||0,a=$('#wa').value;
+$('#wav').textContent=f(S.bal[a]||0,4)+' '+a;
+$('#wf').textContent=w?f(wfee(a,w),4)+' '+a:'0.1% (min ~ 1 USDT)';
+$('#tx1').innerHTML=tbl(['Time','Type','Asset','Amount','Status'],txRows(),'No transfers yet.')}
+if(tab=='history'){$('#th').innerHTML=tbl(['Time','Pair','Side','Price','Amount','Fee','P&L'],S.trades.map(t=>`<tr><td>${T(t.t)}</td><td>${t.pair}</td><td class="${t.side=='buy'?'up':'dn'}">${t.side}</td><td>${f(t.price,pd(t.pair))}</td><td>${f(t.amt,4)}</td><td>${f(t.fee,4)}</td><td class="${t.pnl==null?'mu':t.pnl>=0?'up':'dn'}">${t.pnl==null?'-':f(t.pnl)}</td></tr>`),'No trades yet.');
+$('#tx2').innerHTML=tbl(['Time','Type','Asset','Amount','Status'],txRows(),'No transfers yet.')}
+
+if(tab=='home'){
+  $('#home-bal').textContent='$'+f(total());
+  $('#home-uid').textContent=S.profile.uid;
+  $('#home-email').textContent=S.profile.email;
+  const ks=S.kyc.st==='verified'?'Verified':S.kyc.st==='pending'?'Pending':S.kyc.st==='rejected'?'Rejected':'Unverified';
+  $('#home-kyc').textContent=ks;
+  $('#home-kyc').className=S.kyc.st==='verified'?'up':S.kyc.st==='rejected'?'dn':'mu';
+  const wb=$('#welcome-box'),ws=$('#wstatus'),wc=$('#wclaim');
+  if(wb){
+    const st=(S.welcome&&S.welcome.st)||'none';
+    if(st==='approved'){wb.style.display='none';}
+    else{
+      wb.style.display='block';
+      if(st==='none'){if(wc)wc.style.display='';if(ws)ws.innerHTML='';}
+      else if(st==='pending'){if(wc)wc.style.display='none';if(ws)ws.innerHTML='<span class="mu">Status: <b>Requested</b></span>';}
+      else if(st==='rejected'){if(wc)wc.style.display='';if(ws)ws.innerHTML='<span class="dn">Previous request was rejected. You may claim again.</span>';}
+    }
+  }
+  const icos={BTC:'#f7931a',ETH:'#627eea',BNB:'#f3ba2f',SOL:'#9945ff',XRP:'#23292f',DOGE:'#c2a633',ADA:'#0033ad',AVAX:'#e84142',LINK:'#2a5ada',DOT:'#e6007a',AAPL:'#555',NVDA:'#76b900',TSLA:'#cc0000',META:'#0866ff'};
+  const top=['BTC','ETH','BNB','SOL','XRP','DOGE','ADA','AVAX','LINK','DOT','AAPL','NVDA','TSLA','META'];
+  $('#mkt-list').innerHTML=top.map(k=>{
+    const ch=(M[k].p/M[k].o24-1)*100;
+    const c=icos[k]||'#7c5cfc';
+    return `<div class="mkt-row" data-gotrade="${k}"><div class="mkt-ico" style="background:${c}">${k.slice(0,2)}</div><div class="info"><b>${k}/USDT</b><span>${k}</span></div><div class="px"><b>$${f(M[k].p,pd(k))}</b><span class="${ch>=0?'up':'dn'}">${ch>=0?'+':''}${f(ch)}%</span></div></div>`;
+  }).join('');
+}
+if(tab=='pos'){matureContracts();renderContracts();renderPos();
+  $('#oo').innerHTML=tbl(['Pair','Side','Price','Amount',''],S.orders.map(o=>`<tr><td>${o.pair}</td><td class="${o.side=='buy'?'up':'dn'}">${o.side}</td><td>${f(o.price,pd(o.pair))}</td><td>${f(o.amt,4)}</td><td><button class="x" data-c="${o.id}">Cancel</button></td></tr>`),'No open orders.');
+}
+if(tab=='assets'){
+  $('#tv').textContent='≈ '+f(total())+' USDT total';
+  $('#bt').innerHTML=tbl(['Asset','Available','Value (USDT)'],['USDT','BTC','ETH','XRP','SOL'].map(k=>{
+  const b=S.bal[k]||0;
+  const val=k==='USDT'?b:b*(M[k]?M[k].p:0);
+  return `<tr><td><b>${k}</b></td><td>${b===0?'0':f(b,k==='USDT'?2:6)}</td><td>${f(val)}</td></tr>`;
+}),'');
+}
+if(tab=='deposit'){
+  const depAsset=$('#da').value,depNetwork=depAsset==='USDT'?$('#dn').value:'';
+  $('#ad').textContent=(depAsset==='USDT'?(S.cfg.usdtNetworkAddresses[depNetwork]||S.cfg.depositAddresses.USDT||addr(depAsset)):(S.cfg.depositAddresses[depAsset]||addr(depAsset)));
+  updateDepositQR();
+  $('#tx1').innerHTML=tbl(['Time','Type','Asset','Amount','Status'],txRows(),'No transfers yet.');
+}
+if(tab=='convert'){
+  const a=$('#cfrm').value||'USDT',b=$('#cto').value||'BTC';
+  $('#cav').textContent=f(S.bal[a]||0,4)+' '+a;
+  const amt=+$('#camt').value||0;
+  let rate=1;
+  if(a==='USDT'&&b!=='USDT')rate=1/(M[b]?M[b].p:1);
+  else if(b==='USDT'&&a!=='USDT')rate=M[a]?M[a].p:1;
+  else if(a!=='USDT'&&b!=='USDT')rate=(M[a]?M[a].p:1)/(M[b]?M[b].p:1);
+  $('#crate').textContent='1 '+a+' ≈ '+f(rate,6)+' '+b;
+  $('#ctoamt').value=amt?f(amt*rate,6).replace(/,/g,''):'';
+}
+if(tab=='notifs')renderNotifs();
+if(tab=='support')renderUserChat();
+
+}
+function show(t){
+  if(t==='logout'){try{localStorage.removeItem('simex')}catch(e){}location.reload();return;}
+  tab=t;
+  const views=['home','trade','trade-room','pos','assets','deposit','withdraw','convert','kyc','security','notifs','loan','support','settings','history'];
+  views.forEach(n=>{const el=$('#v-'+n);if(el)el.hidden=n!==t;});
+  document.querySelectorAll('.side button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t===t||(t==='trade-room'&&b.dataset.t==='trade')));
+  if(t==='kyc')renderKyc();
+  if(t==='support')renderUserChat();
+  if(t==='notifs'){(S.notifs||[]).forEach(n=>n.read=true);save();renderNotifs();}
+  if(t==='loan')renderLoan();
+if(t==='settings'){if($('#semail'))$('#semail').value=S.profile.email;if($('#slang'))$('#slang').value=S.profile.lang;if($('#stheme'))$('#stheme').value=S.profile.theme;}
+  if(t==='security'){$('#s2fa').textContent=S.profile.tfa?'On':'Off';}
+  render();
+}
+function sd(s){side=s;const sb=$('#sb'),ss=$('#ss'),g=$('#go');if(sb)sb.classList.toggle('on',s=='buy');if(ss)ss.classList.toggle('on',s=='sell');if(g){g.textContent=(s=='buy'?'Buy ':'Sell ')+cur+(ot=='market'?' · 60s trade':'');g.className='go'+(s=='sell'?' sell':'');}render()}
+
+
+function cleanBal(){
+  const WA=['USDT','BTC','ETH','XRP','SOL'];
+  for(const k of Object.keys(S.bal||{})){
+    let v=+S.bal[k]||0;
+    if(!isFinite(v)||v<0)v=0;
+    // Treat dust as zero (float residue)
+    if(k==='USDT'){if(v<1e-6)v=0}else{if(v<1e-8)v=0}
+    S.bal[k]=v;
+  }
+  // Ensure wallet assets exist
+  WA.forEach(k=>{if(S.bal[k]==null)S.bal[k]=0});
+}
+
+function addNotif(title,body){S.notifs.unshift({t:Date.now(),title,body,read:false});S.notifs=S.notifs.slice(0,50);save();updateNbadge()}
+function addAdminNotif(title,body){S.adminNotifs=S.adminNotifs||[];S.welcome=S.welcome||{st:'none'};cleanBal();S.adminNotifs.unshift({t:Date.now(),title,body,read:false});S.adminNotifs=S.adminNotifs.slice(0,80);save()}
+function updateNbadge(){const n=(S.notifs||[]).filter(x=>!x.read).length;const b=$('#nbadge');if(b){b.hidden=!n;b.textContent=n}}
+function renderNotifs(){const list=S.notifs||[];
+$('#nlist').innerHTML=list.length?list.map((n,i)=>`<div class="notif-item ${n.read?'':'unread'}" data-nr="${i}"><b>${n.title}</b><div class="mu" style="font-size:12px">${n.body}</div><div class="mu" style="font-size:11px;margin-top:4px">${T(n.t)}</div></div>`).join(''):'<div class="mu">No notifications yet.</div>';
+updateNbadge()}
+function renderUserChat(){const box=$('#uchat');if(!box)return;
+box.innerHTML=(S.chat||[]).map(m=>{
+  let att='';
+  if(m.file){if(m.file.isImage)att='<img class="att" src="'+m.file.data+'" alt="'+m.file.name+'">';else att='<a class="att" href="'+m.file.data+'" download="'+m.file.name+'">📄 '+m.file.name+'</a>';}
+  return '<div class="chat-msg '+m.from+'"><div>'+(m.text||'')+'</div>'+att+'<div class="tm">'+T(m.t)+' · '+(m.from==='user'?'You':'Support')+'</div></div>';
+}).join('')||'<div class="mu">No messages yet. Say hello!</div>';
+box.scrollTop=box.scrollHeight}
+let selChat=null,selUser=null;
+document.addEventListener('click',e=>{
+// Loan terms link (not a button)
+const loanLink=e.target.closest('#loan-open-terms');
+if(loanLink){
+  e.preventDefault();
+  const m=document.getElementById('loan-terms-modal');
+  if(m){m.hidden=false;m.style.display='flex';}
+  return;
+}
+const t=e.target.closest('button');
+if(!t) return;
+if(t.dataset.t)show(t.dataset.t);else if(t.dataset.k){cat=t.dataset.k;cur=CAT[cat][0];sd(side)}else if(t.dataset.tf){chartTF=t.dataset.tf;document.querySelectorAll('#tf-bar button').forEach(b=>b.classList.toggle('on',b.dataset.tf===chartTF));loadOHLC(cur,chartTF)}
+else if(t.dataset.p){cur=t.dataset.p;sd(side);chartCandles=[];show('trade-room');window.scrollTo(0,0);loadOHLC(cur,chartTF)}else if(t.dataset.c)cancel(t.dataset.c);
+else if(t.dataset.q){const q=+t.dataset.q;$('#amt').value=(S.bal.USDT*q*.998).toFixed(2);render()}
+else if(t.id=='sb')sd('buy');else if(t.id=='ss')sd('sell');else if(t.id=='go')place();else if(t.id=='dg')deposit();else if(t.id=='wg')withdraw();
+else if(t.id=='wmax'){const a=$('#wa').value;const avail=S.bal[a]||0;const fee=wfee(a,avail);const maxAmt=Math.max(0,avail-fee);$('#wm').value=maxAmt>0?maxAmt.toFixed(a=='USDT'?2:6):'';render();}
+else if(t.id=='ksub'){const n=$('#kn1').value.trim(),c=$('#kc1').value.trim(),phone=($('#kphone')&&$('#kphone').value||'').trim(),addr=($('#kaddr')&&$('#kaddr').value||'').trim();if(!n||!c)return toast('Enter your name and country');if(!phone)return toast('Enter your phone number');if(!addr)return toast('Enter your home address');if(!kImg||!kSelf)return toast('Upload both images');S.kyc={st:'pending',name:n,country:c,phone,address:addr,type:$('#kt').value,id:kImg,selfie:kSelf,sub:Date.now()};addLog('user','KYC submitted');save();toast('Submitted for review');renderKyc();apiFetch('/api/public/kyc',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userId:currentUserId(),name:n,country:c,phone,address:addr,documentType:$('#kt').value,idImage:kImg,selfieImage:kSelf})});}
+else if(t.dataset.contractBuy){const id=t.dataset.contractBuy;const b=$('#contract-buy');if(b){b.hidden=false;b.dataset.plan=id;renderContracts();b.scrollIntoView({behavior:'smooth',block:'nearest'});}}
+else if(t.id=='contract-cancel'){const b=$('#contract-buy');if(b)b.hidden=true;renderContracts()}
+else if(t.id=='contract-confirm'){const b=$('#contract-buy');if(b)buyContract(b.dataset.plan)}
+else if(t.id=='ctPlans'||t.id=='ctActive'||t.id=='ctDone'){const plans=$('#contract-plans'),active=$('#contract-active'),done=$('#contract-done');plans.hidden=t.id!=='ctPlans';active.hidden=t.id!=='ctActive';done.hidden=t.id!=='ctDone';document.querySelectorAll('.contract-tabs button').forEach(x=>x.classList.toggle('on',x===t));if(t.id==='ctPlans'){const b=$('#contract-buy');if(b)b.hidden=true;}renderContracts()}
+else if(t.id=='tu'){S.bal.USDT+=100000;save();toast('Added 100,000 USDT');render()}
+else if(t.id=='cmax'){const a=$('#cfrm').value;$('#camt').value=(S.bal[a]||0)>0?(S.bal[a]).toFixed(a==='USDT'?2:6):'';render();}
+else if(t.id=='cgo'){const a=$('#cfrm').value,b=$('#cto').value,amt=+$('#camt').value;
+  if(a===b)return toast('Choose different assets');if(!(amt>0))return toast('Enter amount');
+  if(amt>S.bal[a]+1e-9)return toast('Insufficient '+a);
+  let rate=1;if(a==='USDT'&&b!=='USDT')rate=1/(M[b].p);else if(b==='USDT'&&a!=='USDT')rate=M[a].p;else rate=M[a].p/M[b].p;
+  const out=amt*rate;S.bal[a]-=amt;S.bal[b]=(S.bal[b]||0)+out;save();toast('Converted '+f(amt,4)+' '+a+' → '+f(out,4)+' '+b);$('#camt').value='';render()}
+else if(t.id=='cswap'){const a=$('#cfrm').value;$('#cfrm').value=$('#cto').value;$('#cto').value=a;render()}
+else if(t.id=='usend'){const text=$('#umsg').value.trim();const file=window._uchatFile;if(!text&&!file)return toast('Enter a message or attach a file');S.chat.push({t:Date.now(),from:'user',uid:currentUserId(),text:text||'',file:file||null});apiFetch('/api/public/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userId:currentUserId(),text:text||'',file:file||null})});$('#umsg').value='';window._uchatFile=null;const up=$('#uprev');if(up){up.style.display='none';up.textContent=''};const uf=$('#ufile');if(uf)uf.value='';save();renderUserChat();toast('Message sent')}
+else if(t.id=='ssave'){S.profile.email=$('#semail').value||S.profile.email;S.profile.lang=$('#slang').value;S.profile.theme=$('#stheme').value;save();toast('Settings saved')}
+else if(t.id=='spwgo'){const n=$('#spw2').value;if(!n||n!==$('#spw3').value)return toast('Passwords do not match');S.profile.pw=n;$('#spw1').value=$('#spw2').value=$('#spw3').value='';save();toast('Password updated')}
+else if(t.id=='rp-request'){
+  const email=($('#rp-email').value||S.profile.email||'').trim();
+  if(!email)return toast('Enter your email');
+  (async()=>{
+    try{
+      const bases=['',location.origin,'http://127.0.0.1:3847'];
+      let ok=false,code=null;
+      for(const b of bases){
+        try{
+          const r=await fetch(b+'/api/public/password-reset/request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});
+          const d=await r.json();
+          if(r.ok){ok=true;code=d.code||d.resetCode||null;break}
+        }catch(e){}
+      }
+      if(!ok){
+        // offline fallback: local code
+        const c=String(Math.floor(100000+Math.random()*900000));
+        S.profile.resetCode=c;S.profile.resetEmail=email;S.profile.resetExp=Date.now()+30*60*1000;save();
+        toast('Reset code: '+c+' (valid 30 min)');
+        if($('#rp-code'))$('#rp-code').value=c;
+      } else {
+        toast(code?('Reset code: '+code):'Reset code sent');
+        if(code&&$('#rp-code'))$('#rp-code').value=code;
+      }
+    }catch(e){toast('Could not request reset')}
+  })();
+}
+else if(t.id=='rp-confirm'){
+  const email=($('#rp-email').value||S.profile.email||'').trim();
+  const code=($('#rp-code').value||'').trim();
+  const p1=$('#rp-pass').value,p2=$('#rp-pass2').value;
+  if(!email||!code)return toast('Enter email and reset code');
+  if(!p1||p1!==p2)return toast('Passwords do not match');
+  if(p1.length<4)return toast('Password too short');
+  (async()=>{
+    let done=false;
+    const bases=['',location.origin,'http://127.0.0.1:3847'];
+    for(const b of bases){
+      try{
+        const r=await fetch(b+'/api/public/password-reset/confirm',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,code,token:code,newPassword:p1})});
+        const d=await r.json();
+        if(r.ok){done=true;break}
+        if(r.status===400&&d.error){toast(d.error);return}
+      }catch(e){}
+    }
+    if(!done){
+      // local fallback
+      if(S.profile.resetCode&&S.profile.resetCode===code&&S.profile.resetExp>Date.now()&&(S.profile.resetEmail||'').toLowerCase()===email.toLowerCase()){
+        S.profile.pw=p1;delete S.profile.resetCode;delete S.profile.resetExp;delete S.profile.resetEmail;save();done=true;
+      } else return toast('Invalid or expired reset code');
+    }
+    S.profile.pw=p1;save();
+    $('#rp-code').value=$('#rp-pass').value=$('#rp-pass2').value='';
+    toast('Password reset successful');
+  })();
+}
+else if(t.id=='s2fatoggle'){S.profile.tfa=!S.profile.tfa;$('#s2fa').textContent=S.profile.tfa?'On':'Off';save();toast('2FA '+(S.profile.tfa?'enabled':'disabled'))}
+else if(t.id=='nclear'){(S.notifs||[]).forEach(n=>n.read=true);save();renderNotifs()}
+
+else if(t.id==='loan-open-terms'){const m=$('#loan-terms-modal');if(m){m.hidden=false;m.style.display='flex'}}
+else if(t.id==='loan-terms-close'){const m=$('#loan-terms-modal');if(m){m.hidden=true;m.style.display='none'}}
+else if(t.id==='loan-terms-agree'){
+  if(!($('#loan-read-all')&&$('#loan-read-all').checked)) return toast('Please confirm you have read all terms');
+  loanTermsAgreed=true;
+  if($('#loan-agreed')){$('#loan-agreed').disabled=false;$('#loan-agreed').checked=true}
+  const m=$('#loan-terms-modal');if(m){m.hidden=true;m.style.display='none'}
+  updateLoanRequestBtn();
+  toast('Terms accepted');
+}
+else if(t.id==='loan-request'){submitLoanRequest()}
+else if(t.id==='app-dialog-ok'){hideAppDialog()}
+
+else if(t.id=='wclaim'){
+  if(S.welcome&&S.welcome.st==='pending')return toast('Bonus already pending');
+  if(S.welcome&&S.welcome.st==='approved')return toast('Bonus already received');
+  S.welcome={st:'pending',t:Date.now(),amt:100,u:currentUserId()};
+  addLog('user','Welcome bonus claimed');
+  save();toast('Welcome bonus requested');render();
+  apiFetch('/api/public/welcome-bonus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userId:currentUserId()})});
+}
+
+else if(t.dataset.nr!=null){const i=+t.dataset.nr;if(S.notifs[i]){S.notifs[i].read=true;save();renderNotifs()}}
+else if(t.dataset.gotrade){cur=t.dataset.gotrade;for(const c in CAT)if(CAT[c].includes(cur))cat=c;chartCandles=[];show('trade-room');loadOHLC(cur,chartTF)}
+else if(t.id=='back-market'){show('trade')}
+else if(t.id=='mk'){$('#md').classList.remove('s');if(Q.length)pop()}
+else if(t.id=='rs'){try{localStorage.removeItem('simex')}catch(e){}location.reload()}});
+$('#ot').onchange=e=>{ot=e.target.value;$('#pw').hidden=ot!='limit';$('#mw').hidden=ot!='market';if(ot=='limit')$('#prc').value=M[cur].p.toFixed(pd(cur));sd(side)};
+if($('#tm'))$('#tm').onchange=e=>{S.cfg.mode=e.target.value||'normal';addLog('admin','Trade mode set to '+S.cfg.mode);save();toast('Mode: '+(S.cfg.mode=='win'?'Win – all trades profit':S.cfg.mode=='lose'?'Lose – all trades lose':'Normal (random)'));};
+['amt','prc','wm','wa','lv','sl','tp','da','dn','wn'].forEach(i=>{const el=$('#'+i);if(el){el.addEventListener('input',render);el.addEventListener('change',render)}});
+document.addEventListener('change',e=>{const t=e.target;if(t.id=='kf'||t.id=='ks'){const fl=t.files[0];if(!fl)return;if(fl.size>1e7)return toast('Image too large (max 10 MB)');img(fl,d=>{if(t.id=='kf'){kImg=d;$('#kp1').src=d;$('#kp1').hidden=false}else{kSelf=d;$('#kp2').src=d;$('#kp2').hidden=false}})}});
+const WALLET_AS=['USDT','BTC','ETH','XRP','SOL'];document.querySelectorAll('.as').forEach(s=>s.innerHTML=WALLET_AS.map(a=>`<option>${a}</option>`).join(''));
+['cfrm','cto'].forEach(id=>{const el=$('#'+id);if(el)el.innerHTML=WALLET_AS.map(a=>`<option>${a}</option>`).join('');});
+if($('#cto'))$('#cto').value='BTC';
+sd('buy');show('home');updateNbadge();
+document.addEventListener('input',e=>{if(e.target&&e.target.id==='mkt-search'){if(tab==='trade')render()}});
+document.addEventListener('change',e=>{
+  if(e.target&&e.target.id==='loan-read-all'){const b=$('#loan-terms-agree');if(b){b.disabled=!e.target.checked;b.style.opacity=e.target.checked?'1':'.5'}}
+  if(e.target&&e.target.id==='loan-agreed') updateLoanRequestBtn();
+});
+
+(function initAuth(){
+  if(AUTH_TOKEN && AUTH_USER){
+    applyUserToState(AUTH_USER);
+    showAuth(false);
+    // validate token
+    apiFetch('/api/public/me',{headers:{Authorization:'Bearer '+AUTH_TOKEN}}).then(d=>{
+      if(!d||!d.user){ doLogout(); }
+      else { AUTH_USER=d.user; localStorage.setItem('kw3_user',JSON.stringify(d.user)); applyUserToState(d.user); render(); }
+    }).catch(()=>{});
+  } else {
+    showAuth(true);
+  }
+})();
+
+
+function updateLoanRequestBtn(){
+  const btn=$('#loan-request');
+  if(!btn) return;
+  const ok=!!loanTermsAgreed && !!($('#loan-agreed')&&$('#loan-agreed').checked);
+  btn.disabled=!ok;
+  btn.style.opacity=ok?'1':'.5';
+}
+function renderLoan(){
+  const box=$('#loan-status-box');
+  if(!box) return;
+  const L=(S.loan||{});
+  if(L.st==='pending'){
+    box.hidden=false;
+    box.innerHTML='<b>Status:</b> Requested — under review (1–3 business days).';
+  } else if(L.st==='approved'){
+    box.hidden=false;
+    box.innerHTML='<span class="up"><b>Status:</b> Approved</span> — '+f(L.amt||0)+' USDT credited. Contact customer service to repay.';
+  } else if(L.st==='rejected'){
+    box.hidden=false;
+    box.innerHTML='<span class="dn"><b>Status:</b> Declined</span>. You may contact support for details.';
+  } else {
+    box.hidden=true; box.innerHTML='';
+  }
+  updateLoanRequestBtn();
+}
+
+function showAppDialog(title, body){
+  const o=$('#app-dialog'), t=$('#app-dialog-title'), b=$('#app-dialog-body');
+  if(!o){ toast(body||title); return; }
+  if(t) t.textContent=title||'Notice';
+  if(b) b.textContent=body||'';
+  o.hidden=false;
+}
+function hideAppDialog(){
+  const o=$('#app-dialog');
+  if(o) o.hidden=true;
+}
+
+async function submitLoanRequest(){
+  if(!loanTermsAgreed) return toast('Please agree to the terms first');
+  const score=($('#loan-score')&&$('#loan-score').value||'').trim();
+  const address=($('#loan-address')&&$('#loan-address').value||'').trim();
+  const amt=+$('#loan-amt').value;
+  if(!score) return toast('Enter your credit score');
+  if(!address) return toast('Enter your house address');
+  if(!(amt>0)) return toast('Enter a valid loan amount');
+  const payload={
+    userId: currentUserId(),
+    creditScore: score,
+    address,
+    amount: amt,
+    apr: 31,
+    termsAccepted: true
+  };
+  S.loan={st:'pending',amt,t:Date.now(),score,address};
+  save();
+  renderLoan();
+  const d=await apiFetch('/api/public/loan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  if(d && d.error) toast(d.error);
+  else {
+    if(d && d.id){ S.loan.id=d.id; save(); }
+    showAppDialog('Request submitted','Your request has been submitted. It takes 1–3 business days to review. We will update you through email.');
+  }
+}
+
+
+setInterval(tick,1000);pullLivePrices();setInterval(pullLivePrices,20000);syncBackend();setInterval(syncBackend,5000);addEventListener('resize',draw);
+function readChatFile(input, side){
+  const fl=input.files&&input.files[0];if(!fl)return;
+  if(fl.size>5e6)return toast('File too large (max 5 MB)');
+  const rd=new FileReader();
+  rd.onload=()=>{
+    const isImage=fl.type.startsWith('image/');
+    const data=rd.result;
+    if(side==='user'){window._uchatFile={name:fl.name,isImage,data,type:fl.type};const up=$('#uprev');if(up){up.style.display='block';up.textContent='Attached: '+fl.name;}}
+    else{window._achatFile={name:fl.name,isImage,data,type:fl.type};const ap=$('#aprev');if(ap){ap.style.display='block';ap.textContent='Attached: '+fl.name;}}
+    toast('File attached');
+  };
+  rd.readAsDataURL(fl);
+}
+document.addEventListener('change',e=>{
+  if(e.target.id==='ufile')readChatFile(e.target,'user');
+  if(e.target.id==='afile')readChatFile(e.target,'admin');
+});
+
+['camt','cfrm','cto'].forEach(i=>{const el=$('#'+i);if(el)el.addEventListener('input',()=>{if(tab==='convert')render()});});
+
+
+</script><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+function updateDepositQR(){
+  const address = document.querySelector('#ad')?.textContent.trim();
+  const box = document.querySelector('#depositQR');
+  if(!box) return;
+  box.innerHTML='';
+  if(address && window.QRCode){
+    new QRCode(box,{text:address,width:180,height:180,colorDark:'#000000',colorLight:'#ffffff'});
+  }
+}
+function copyDepositAddress(){
+  const address=document.querySelector('#ad')?.textContent.trim();
+  if(!address) return toast('No deposit address available');
+  navigator.clipboard.writeText(address).then(()=>toast('Address copied')).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=address;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Address copied');
+  });
+}
+document.addEventListener('click',e=>{if(e.target.closest('#copyAddr'))copyDepositAddress()});
+const _oldRender=window.render;
+</script>
+<script>
+(function(){
+  const b=document.body,btn=document.getElementById('menuBtn');
+  const close=()=>{b.classList.remove('nav-open');btn.setAttribute('aria-expanded','false')};
+  btn.addEventListener('click',()=>{const o=b.classList.toggle('nav-open');btn.setAttribute('aria-expanded',o)});
+  document.getElementById('scrim').addEventListener('click',close);
+  document.querySelectorAll('.side [data-t]').forEach(x=>x.addEventListener('click',()=>{close();window.scrollTo(0,0)}));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+  window.addEventListener('resize',()=>{if(window.innerWidth>=1024)close()});
+})();
+</script>
+</body></html>
