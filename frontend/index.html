@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<title>AVAWEB3</title>
+<title>CC Web3</title>
 <style>
 :root {
   --bg:#0b0e11; --sb:#12151a; --pn:#1a1d24; --pn2:#22262f;
@@ -121,11 +121,8 @@ tr.sel{background:rgba(124,92,252,.12)}
 .notif-item{padding:12px;border-bottom:1px solid var(--bd);cursor:pointer}
 .notif-item:hover{background:var(--pn2)}
 .notif-item.unread{border-left:3px solid var(--ac)}
-
-
 .contract-shell{overflow:hidden}.contract-tabs{display:flex;gap:4px;overflow:auto}.contract-tabs button{white-space:nowrap}.contract-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}.contract-card{border:1px solid var(--bd);background:rgba(255,255,255,.025);border-radius:15px;padding:20px;min-width:0}.contract-card .cc-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}.contract-card .cc-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;background:var(--ac);color:#fff;flex:none}.contract-card .cc-name{font-size:17px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.contract-card .cc-rate{margin-left:auto;background:rgba(0,200,150,.10);color:var(--up);padding:5px 8px;border-radius:5px;font-weight:800;font-size:12px;white-space:nowrap}.contract-card .cc-row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;color:var(--mu);font-size:13px}.contract-card .cc-row b{color:var(--tx);text-align:right}.contract-card .cc-profit b{color:var(--up)}.contract-card .cc-buy{width:100%;margin-top:12px}.contract-note{font-size:12px;color:var(--mu);margin-top:12px;line-height:1.45}.contract-active-card{border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:10px;background:rgba(255,255,255,.02)}.contract-status{font-size:11px;padding:4px 7px;border-radius:5px;background:rgba(0,200,150,.10);color:var(--up);font-weight:700}.contract-status.done{background:rgba(124,92,252,.12);color:var(--ac)}
 @media(max-width:620px){.contract-grid{grid-template-columns:1fr}.contract-card{padding:16px}}
-
 /* ===== Responsive layout (phone / tablet / desktop) ===== */
 .ni{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .side{width:240px;position:sticky;top:0;height:100vh;height:100dvh;overflow-y:auto}
@@ -169,7 +166,6 @@ tr.sel{background:rgba(124,92,252,.12)}
   .admin-topbar{flex-wrap:wrap}
 }
 @media(max-width:420px){.spark{display:none}}
-
 /* Market list (trade page) */
 .mkt-search-wrap{position:relative;margin-bottom:12px}.mkt-search-wrap input{font-size:16px!important;touch-action:manipulation}
 .mkt-search-wrap input{width:100%;padding:12px 12px 12px 40px;border:1px solid var(--bd);border-radius:12px;background:var(--pn);font-size:16px}
@@ -193,8 +189,6 @@ tr.sel{background:rgba(124,92,252,.12)}
 .tb.cats-pill{gap:8px;max-width:100%;flex-wrap:wrap}
 .tb.cats-pill button{flex:0 0 auto;padding:8px 16px;border-radius:20px;border:1px solid var(--bd);background:var(--bg);color:var(--mu)}
 .tb.cats-pill button.on{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600}
-
-
 #v-trade .pn:empty,.trade-room-grid:empty{display:none}
 #v-trade .grid{display:none}
 /* kill phantom boxes from old pair chips */
@@ -202,15 +196,12 @@ tr.sel{background:rgba(124,92,252,.12)}
 #v-trade{padding-bottom:8px}
 #v-trade .mkt-panel{box-shadow:none}
 #v-trade-room:not([hidden]) .trade-room-grid>.pn:empty{display:none}
-
 section[hidden], [hidden]{display:none!important}
-
 .partner-banner{width:100%;border-radius:12px;overflow:hidden;border:1px solid var(--bd);margin-bottom:12px;background:#0a1628}
 .partner-banner img{width:100%;height:auto;display:block;vertical-align:middle}
 .partner-note{font-size:13px;line-height:1.5;color:var(--mu);margin:0 0 16px}
 .partner-note b{color:var(--tx)}
 .partner-note .up{color:var(--up)}
-
 /* Auth */
 .auth-screen{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}
 .auth-screen[hidden]{display:none!important}
@@ -230,7 +221,6 @@ section[hidden], [hidden]{display:none!important}
 .auth-card .go{margin-top:16px}
 .auth-err{color:var(--dn);font-size:13px;margin-top:10px;min-height:18px}
 .auth-hint{margin-top:14px;font-size:12px;color:var(--mu);line-height:1.4}
-
 .tf-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .tf-bar button{padding:6px 12px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--mu);cursor:pointer;font-size:12px;font-weight:600}
 .tf-bar button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
@@ -238,7 +228,6 @@ section[hidden], [hidden]{display:none!important}
 @media(max-width:699px){#cv{height:300px}}
 .chart-meta{display:flex;flex-wrap:wrap;gap:10px 16px;font-size:12px;color:var(--mu);margin-top:8px}
 .chart-meta b{color:var(--tx);font-variant-numeric:tabular-nums}
-
 .loan-terms-modal{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:16px}
 .loan-terms-modal[hidden]{display:none!important}.loan-terms-modal:not([hidden]){display:flex!important}
 .loan-terms-box{background:var(--pn);border:1px solid var(--bd);border-radius:14px;max-width:560px;width:100%;max-height:min(86vh,720px);display:flex;flex-direction:column;overflow:hidden}
@@ -251,7 +240,6 @@ section[hidden], [hidden]{display:none!important}
 .loan-terms-foot input{width:auto;margin-top:2px}
 .loan-apr{font-size:22px;font-weight:800;color:var(--ac);margin:4px 0 12px}
 .loan-status{padding:10px 12px;border-radius:10px;background:var(--pn2);border:1px solid var(--bd);margin-bottom:12px;font-size:13px}
-
 .app-dialog-overlay{position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:20px}
 .app-dialog-overlay[hidden]{display:none!important}
 .app-dialog{background:var(--pn);border:1px solid var(--bd);border-radius:14px;padding:22px 20px;max-width:360px;width:100%;text-align:center;box-shadow:0 16px 48px rgba(0,0,0,.45)}
@@ -261,12 +249,14 @@ section[hidden], [hidden]{display:none!important}
 </style>
 </head>
 <body>
-
 <div class="auth-screen" id="auth-screen">
   <div class="auth-card">
     <div class="brand">
-      <h1>AVAWEB3</h1>
+      <img class="brand-logo" src="/ccweb3-logo.png?v=3" alt="CC Web3">
+      <h1>CC Web3</h1>
     </div>
+    <p class="auth-promo"><span class="hi">AVAWEB3</span> is our current trading partner.<br>
+    Register today to get a <span class="up">100 USDT</span> welcome bonus.</p>
     <div class="auth-tabs">
       <button type="button" id="tab-signin" class="on">Sign in</button>
       <button type="button" id="tab-signup">Sign up</button>
@@ -293,12 +283,13 @@ section[hidden], [hidden]{display:none!important}
     
   </div>
 </div>
-
 <div class="app">
-<header class="topbar"><button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false"><svg class="ni" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><b style="color:#5b4dff;font-size:18px;font-weight:800">AVAWEB3</b></header><div class="scrim" id="scrim"></div>
+<header class="topbar"><button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false"><svg class="ni" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="letty-text" style="font-size:22px;">AVAWEB3</div><b style="color:#5b4dff;font-size:18px;font-weight:800">AVAWEB3 Web 3</b></header>
+<div class="scrim" id="scrim"></div>
 <aside class="side">
- <div class="logo" style="display:flex;align-items:center;gap:10px;padding:8px 12px 18px">
-  <div class="letty-text" style="font-size:22px;">AVAWEB3</div>
+  <div class="logo" style="display:flex;align-items:center;gap:10px;padding:8px 12px 18px">
+  <img class="brand-logo" src="/ccweb3-logo.png?v=2" alt="CC Web3">
+  <div class="letty-text">AVAWEB3<span>Web 3</span></div>
 </div>
   <nav id="snav">
   <button data-t="home" class="on"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span class="label">Home</span></button>
@@ -342,13 +333,12 @@ section[hidden], [hidden]{display:none!important}
   </div>
   <div class="user-bar">
     <span>UID: <b id="home-uid">1000001</b></span>
-    <span>Email: <b id="home-email">user@kraken.web3</b></span>
+    <span>Email: <b id="home-email">user@avaweb3.web3</b></span>
     <span>KYC Status: <b id="home-kyc" class="mu">Unverified</b></span>
   </div>
   <div class="hd">Market Overview <span id="live-badge" hidden style="font-size:11px;background:rgba(14,203,129,.15);color:var(--up);padding:2px 8px;border-radius:10px;font-weight:600;margin-left:6px">LIVE</span> <button class="x" data-t="trade" style="font-size:12px">View All →</button></div>
   <div class="pn" style="padding:0"><div class="mkt-list" id="mkt-list"></div></div>
 </section>
-
 <!-- TRADE -->
 <section id="v-trade" hidden>
 <div class="hd" style="font-size:18px;margin-bottom:12px">📊 Market <span id="live-badge-trade" hidden style="font-size:11px;background:rgba(14,203,129,.15);color:var(--up);padding:2px 8px;border-radius:10px;font-weight:600;margin-left:6px">LIVE</span></div>
@@ -362,7 +352,6 @@ section[hidden], [hidden]{display:none!important}
   <div id="pairs" class="mkt-list-vert"></div>
 </div>
 </section>
-
 <!-- TRADE ROOM (opens after selecting a pair) -->
 <section id="v-trade-room" hidden>
 <div class="hd" style="margin-bottom:12px;gap:10px">
@@ -401,7 +390,6 @@ section[hidden], [hidden]{display:none!important}
 <button class="go" id="go">Buy</button>
 </div></div>
 </section>
-
 <!-- CONTRACTS / POSITIONS -->
 <section id="v-pos" hidden>
 <div class="pn contract-shell">
@@ -418,12 +406,10 @@ section[hidden], [hidden]{display:none!important}
 <div class="pn" style="margin-top:16px"><div class="hd">Active trades (60s) <span id="st" class="mu"></span></div><div class="sc" id="pos"></div></div>
 <div class="pn"><div class="hd">Open limit orders</div><div class="sc" id="oo"></div></div>
 </section>
-
 <!-- ASSETS -->
 <section id="v-assets" hidden>
 <div class="pn"><div class="hd">Balances <span id="tv" class="mu"></span></div><div class="sc" id="bt"></div></div>
 </section>
-
 <!-- DEPOSIT -->
 <section id="v-deposit" hidden>
 <div class="pn" style="max-width:480px">
@@ -444,7 +430,6 @@ section[hidden], [hidden]{display:none!important}
 </div>
 <div class="pn"><div class="hd">Recent transfers</div><div class="sc" id="tx1"></div></div>
 </section>
-
 <!-- WITHDRAW -->
 <section id="v-withdraw" hidden>
 <div class="pn" style="max-width:480px">
@@ -463,7 +448,6 @@ section[hidden], [hidden]{display:none!important}
 <button class="go" id="wg">Request withdrawal</button>
 </div>
 </section>
-
 <!-- CONVERT -->
 <section id="v-convert" hidden>
 <div class="pn" style="max-width:480px">
@@ -486,20 +470,17 @@ section[hidden], [hidden]{display:none!important}
 <button class="go" id="cgo">Convert</button>
 </div>
 </section>
-
 <!-- KYC -->
 <section id="v-kyc" hidden><div class="pn" id="kb" style="max-width:560px"></div></section>
-
 <!-- SECURITY -->
 <section id="v-security" hidden>
 <div class="pn" style="max-width:480px">
 <div class="hd">Security Center</div>
-<label>Change password</label>
+<label>Change password</label>  
 <input id="spw1" type="password" placeholder="Current password">
 <input id="spw2" type="password" placeholder="New password" style="margin-top:6px">
 <input id="spw3" type="password" placeholder="Confirm new password" style="margin-top:6px">
 <button class="go" id="spwgo">Update password</button>
-
 <div class="hd" style="margin-top:24px">Forgot password</div>
 <div class="mu" style="font-size:12px;margin-bottom:8px">Request a reset code, then set a new password.</div>
 <label>Account email</label>
@@ -512,13 +493,11 @@ section[hidden], [hidden]{display:none!important}
 <label>Confirm new password</label>
 <input id="rp-pass2" type="password" placeholder="Confirm new password">
 <button class="go" id="rp-confirm" style="margin-top:10px">Reset password</button>
-
 <div class="hd" style="margin-top:20px">Two-factor authentication</div>
 <div class="row"><span>2FA status</span><span id="s2fa" class="mu">Off</span></div>
 <button class="x" id="s2fatoggle" style="margin-top:8px">Enable / Disable 2FA</button>
 </div>
 </section>
-
 <!-- NOTIFICATIONS -->
 <section id="v-notifs" hidden>
 <div class="pn">
@@ -526,8 +505,6 @@ section[hidden], [hidden]{display:none!important}
 <div id="nlist"></div>
 </div>
 </section>
-
-
 <!-- LOAN -->
 <section id="v-loan" hidden>
 <div class="pn" style="max-width:520px">
@@ -535,31 +512,23 @@ section[hidden], [hidden]{display:none!important}
 <div id="loan-status-box" class="loan-status" hidden></div>
 <p class="mu" style="font-size:13px;margin:0 0 12px">Apply for a third-party loan facility. Assets on the platform may be used as collateral. APR is fixed at <b class="up">31%</b> (monthly compounding).</p>
 <div class="loan-apr">31% APR</div>
-
 <label>Credit score</label>
 <input id="loan-score" type="number" min="300" max="850" placeholder="e.g. 700" inputmode="numeric">
-
 <label>House address</label>
 <textarea id="loan-address" placeholder="Full residential address" style="min-height:64px"></textarea>
-
 <label>Loan amount (USDT)</label>
 <input id="loan-amt" type="number" min="1" step="any" placeholder="Enter amount">
-
-
 <label style="margin-top:14px;display:flex;align-items:flex-start;gap:8px;cursor:pointer">
   <input id="loan-agreed" type="checkbox" style="width:auto;margin-top:3px" disabled>
   <span>I have read and agree to the <button type="button" id="loan-open-terms" class="x" style="display:inline;padding:0 4px;border:0;background:none;color:var(--ac);text-decoration:underline;cursor:pointer;font:inherit">Third-Party Lending Program terms</button></span>
 </label>
-
 <button class="go" id="loan-request" disabled style="opacity:.5">Request loan</button>
-
 <div class="pn" style="margin-top:16px;margin-bottom:0;background:var(--pn2)">
   <div class="mu" style="font-size:13px;margin-bottom:8px">Contact customer service to pay back a loan.</div>
   <button class="x" data-t="support" type="button" style="width:100%">Open Customer Service</button>
 </div>
 </div>
 </section>
-
 <div class="loan-terms-modal" id="loan-terms-modal" hidden>
   <div class="loan-terms-box">
     <h3>Third-Party Lending Program — Terms &amp; Conditions</h3>
@@ -630,8 +599,6 @@ section[hidden], [hidden]{display:none!important}
     </div>
   </div>
 </div>
-
-
 <div class="app-dialog-overlay" id="app-dialog" hidden>
   <div class="app-dialog">
     <h3 id="app-dialog-title">Submitted</h3>
@@ -639,7 +606,6 @@ section[hidden], [hidden]{display:none!important}
     <button type="button" class="go" id="app-dialog-ok">OK</button>
   </div>
 </div>
-
 <!-- SUPPORT -->
 <section id="v-support" hidden>
 <div class="pn" style="max-width:560px">
@@ -656,10 +622,10 @@ section[hidden], [hidden]{display:none!important}
 </div>
 </div>
 </section>
-
 <!-- SETTINGS -->
 <section id="v-settings" hidden>
 <div class="pn" style="max-width:560px">
+<p class="partner-note"><b>AVAWEB3</b> is our official trading partner. New users can claim a welcome bonus of <b class="up">100 USDT</b> after signing up.</p>
 <div class="hd">Settings</div>
 <label>Language</label>
 <select id="slang">
@@ -687,25 +653,20 @@ section[hidden], [hidden]{display:none!important}
 <label>Theme</label>
 <select id="stheme"><option value="dark">Dark</option><option value="light">Light</option></select>
 <label>Email</label>
-<input id="semail" type="email" placeholder="user@kraken.web3">
+<input id="semail" type="email" placeholder="user@avaweb3.web3">
 <button class="go" id="ssave">Save settings</button>
 </div>
 </section>
-
 <!-- HISTORY -->
 <section id="v-history" hidden>
 <div class="pn"><div class="hd">Trade history</div><div class="sc" id="th"></div></div>
 <div class="pn"><div class="hd">Transfers <button class="x" id="rs">Reset data</button></div><div class="sc" id="tx2"></div></div>
 </section>
-
 </main>
 </div>
-
 <div id="md"><div class="mc"><h3 style="margin:0 0 2px;text-align:center;font-size:14px;color:var(--mu);font-weight:500">Trade settled</h3><div id="mb"></div><button class="go" id="mk">Complete</button></div></div>
 <div id="toast"></div>
-
 <script>
-
 const $=s=>document.querySelector(s),AS=['USDT'];let FEE=.001;const LEV_MIN={1:10,2:10,5:10,10:10000,20:50000,50:100000,100:200000,150:500000,200:1000000};
 const CAT={
   crypto:['BTC','ETH','BNB','SOL','XRP','DOGE','ADA','AVAX','DOT','LINK','MATIC','LTC','UNI','ATOM','NEAR','APT','ARB','OP','SUI','PEPE','SHIB','TRX','TON','ICP','XLM','BCH','FIL','INJ','RENDER','IMX'],
@@ -725,7 +686,6 @@ const P0={
 const VOL={},VC={crypto:.006,native:.006,stocks:.003,metals:.002,commodities:.004};for(const c in CAT)CAT[c].forEach(k=>VOL[k]=VC[c]);AS.push(...Object.keys(P0));
 const LIVE_API=(typeof location!=='undefined'&&location.origin&&!location.origin.startsWith('file')?location.origin:'')||'';
 let liveMode=false, lastLiveAt=0;
-
 const startBal=()=>{const b={USDT:100000},n={SMX:500,NOVA:10000,ARC:20};for(const k in P0)b[k]=n[k]||Math.round(500/P0[k]*1e4)/1e4;return b};
 const f=(n,d=2)=>Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
 const rnd=n=>{const c='abcdefghjkmnpqrstuvwxyz23456789';let s='';for(let i=0;i<n;i++)s+=c[Math.random()*c.length|0];return s};
@@ -812,18 +772,7 @@ const pnl=Math.max(-mg,u);
 S.bal.USDT+=mg+pnl-fee;
 S.trades.unshift({t:now,pair:p.pair,side:p.side,price:ex,amt:p.amt,fee,pnl});S.trades.length=Math.min(S.trades.length,100);
 pnl>=0?S.stats.w++:S.stats.l++;S.stats.pnl+=pnl;Q.push({...p,ex,pnl,why,fee,notional,margin:mg});return false});
-if(ch){save();pushBalancesToServer()}if(Q.length&&!$('#md').classList.contains('s'))pop()}
-async function pushBalancesToServer(){
-  try{
-    const uid=typeof currentUserId==='function'?currentUserId():null;
-    if(!uid) return;
-    await apiFetch('/api/public/balances',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({userId:uid,balances:S.bal||{}})
-    });
-  }catch(e){}
-}
+if(ch)save();if(Q.length&&!$('#md').classList.contains('s'))pop()}
 function pop(){const q=Q.shift();
 const L=q.lev||1;
 const mg=q.margin!=null?q.margin:(q.amt*q.entry/L);
@@ -865,7 +814,6 @@ function renderContracts(){
   const contractRows=(list,isDone)=>list.length?list.map(c=>{const left=Math.max(0,c.maturity-Date.now()),hrs=Math.floor(left/3600000),mins=Math.floor(left%3600000/60000),secs=Math.floor(left%60000/1000),time=isDone?T(c.maturity):(hrs+'h '+mins+'m '+secs+'s');return `<div class="contract-active-card"><div class="row"><span><b>${c.name}</b> · ${contractFmtRate(c.rate)}</span><span class="contract-status ${isDone?'done':''}">${isDone?'Completed':'Active'}</span></div><div class="two" style="margin-top:8px"><div><div class="mu">Principal</div><b>${f(c.principal,2)} USDT</b></div><div><div class="mu">Interest</div><b class="up">+${f(c.interest,2)} USDT</b></div><div><div class="mu">Maturity</div><b>${T(c.maturity)}</b></div><div><div class="mu">${isDone?'Completed':'Time left'}</div><b>${time}</b></div></div>${isDone?'<div class="mu" style="margin-top:8px">Principal + interest credited to available USDT balance.</div>':'<div class="mu" style="margin-top:8px">Locked funds cannot be used for trading or withdrawals until maturity.</div>'}</div>`}).join(''):'<div class="mu">'+(isDone?'No completed investments yet.':'No active investments.')+'</div>';
   if(ae)ae.innerHTML=contractRows(active,false);if(de)de.innerHTML=contractRows(done,true);
 }
-
 function matureContracts(){const now=Date.now();let changed=false;(S.contracts||[]).forEach(c=>{if(c.status==='active'&&now>=c.maturity){c.status='completed';c.completedAt=now;S.bal.USDT=(S.bal.USDT||0)+c.principal+c.interest;addLog('system','Contract matured: '+c.name+' · '+f(c.principal,2)+' USDT principal + '+f(c.interest,2)+' USDT interest credited');addNotif('Contract matured',c.name+' completed. '+f(c.interest,2)+' USDT interest was credited to your balance.');changed=true}});if(changed)save();return changed}
 function buyContract(id){const p=contractPlanList().find(x=>x.id===id),amount=+$('#contract-amount').value;if(!p)return;if(!(amount>=p.min))return toast('Minimum contract amount is '+p.min+' USDT');if(amount>S.bal.USDT+1e-9)return toast('Insufficient available USDT');const c={id:'C-'+Date.now(),plan:id,name:p.name,principal:amount,rate:p.rate,days:p.days,interest:amount*p.rate/100,start:Date.now(),maturity:Date.now()+p.days*86400000,status:'active'};S.bal.USDT-=amount;S.contracts.unshift(c);addLog('user','Started '+p.name+' contract: '+f(amount,2)+' USDT at '+contractFmtRate(p.rate));save();toast('Contract started – funds locked until maturity');$('#contract-buy').hidden=true;delete $('#contract-buy').dataset.plan;renderContracts();render()}
 function renderPos(){$('#st').textContent=`W ${S.stats.w} * L ${S.stats.l} * P&L ${f(S.stats.pnl)} USDT`;
@@ -877,14 +825,11 @@ function tick(){matureContracts();for(const k in M){const m=M[k];
   const c=m.c[m.c.length-1];c.c=m.p;c.h=Math.max(c.h,m.p);c.l=Math.min(c.l,m.p);
   if(++m.n%10==0){m.c.push({o:m.p,h:m.p,l:m.p,c:m.p});if(m.c.length>80)m.c.shift()}
 }fillOrders();settle();render()}
-
-
 // ---- Multi-user auth ----
 let loanTermsAgreed=false;
 let AUTH_TOKEN = localStorage.getItem('kw3_token') || '';
 let AUTH_USER = null;
 try { AUTH_USER = JSON.parse(localStorage.getItem('kw3_user') || 'null'); } catch(e) { AUTH_USER = null; }
-
 function storageKey(){
   const id = (AUTH_USER && (AUTH_USER.id || AUTH_USER.uid)) || 'guest';
   return 'simex_' + id;
@@ -897,30 +842,26 @@ function loadState(){
 function persistState(){
   try { localStorage.setItem(storageKey(), JSON.stringify(S)); } catch(e){}
 }
-
 function showAuth(show){
   const el = document.getElementById('auth-screen');
   if(el) el.hidden = !show;
   document.body.style.overflow = show ? 'hidden' : '';
 }
 function setAuthError(msg){ const e=document.getElementById('auth-err'); if(e) e.textContent=msg||''; }
-
 async function doLogin(email, password){
-  email=String(email||'').trim(); password=String(password||'');
-  if(!email || !password) throw new Error('Enter email and password');
   const d = await apiFetch('/api/public/login', {
     method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify({ email, password })
   });
-  if(!d || !d.token) throw new Error((d && d.error) || 'Sign in failed — check email/password');
+  if(!d || !d.token) throw new Error((d && d.error) || 'Sign in failed');
   AUTH_TOKEN = d.token;
   AUTH_USER = d.user;
   localStorage.setItem('kw3_token', AUTH_TOKEN);
   localStorage.setItem('kw3_user', JSON.stringify(AUTH_USER));
   applyUserToState(AUTH_USER);
   showAuth(false);
-  try{ render(); }catch(e){}
-  try{ syncBackend(); }catch(e){}
+  render();
+  syncBackend();
   return d;
 }
 async function doRegister(name, email, password){
@@ -952,14 +893,8 @@ function applyUserToState(user, fresh){
   S.profile.uid = user.uid || String(user.id||'').replace(/^U-/,'');
   S.profile.name = user.name;
   S.userId = user.id;
-  // Prefer local trading balances (P&L) over server snapshot when local state exists
   if(user.balances){
-    if(fresh || !loaded || !loaded.bal){
-      S.bal = Object.assign({}, S.bal||{}, user.balances);
-    } else {
-      // Local wins for assets already traded; server fills only missing keys
-      S.bal = Object.assign({}, user.balances, S.bal||{});
-    }
+    S.bal = Object.assign({}, S.bal||{}, user.balances);
   }
   if(user.kyc){
     const map={Verified:'verified',Pending:'pending',Rejected:'rejected',Unverified:'none'};
@@ -984,17 +919,14 @@ function doLogout(){
   localStorage.removeItem('kw3_user');
   showAuth(true);
 }
-
 function currentUserId(){
   return (AUTH_USER && AUTH_USER.id) || (S && S.userId) || 'U-4738165';
 }
-
 // Override save to always use per-user key when logged in
 (function patchSave(){
   const prev = window.save;
   // save is const function later - we hook after definition via interval
 })();
-
 document.addEventListener('click', e=>{
   const t=e.target.closest('button');
   if(!t) return;
@@ -1007,11 +939,9 @@ document.addEventListener('click', e=>{
     $('#auth-signup').hidden=false; $('#auth-signin').hidden=true; setAuthError('');
   }
   if(t.id==='btn-signin'){
-    e.preventDefault(); e.stopPropagation();
-    const email=($('#li-email')&&$('#li-email').value||'').trim(), pass=($('#li-pass')&&$('#li-pass').value)||'';
+    const email=$('#li-email').value.trim(), pass=$('#li-pass').value;
     setAuthError('');
     doLogin(email, pass).catch(err=>setAuthError(err.message||'Sign in failed'));
-    return;
   }
   if(t.id==='btn-signup'){
     const name=$('#su-name').value.trim(), email=$('#su-email').value.trim(), p1=$('#su-pass').value, p2=$('#su-pass2').value;
@@ -1021,7 +951,6 @@ document.addEventListener('click', e=>{
   }
   if(t.id==='btn-logout'){ doLogout(); }
 });
-
 // Enter key on auth
 document.addEventListener('keydown', e=>{
   if(e.key==='Enter' && document.getElementById('auth-screen') && !document.getElementById('auth-screen').hidden){
@@ -1029,47 +958,25 @@ document.addEventListener('keydown', e=>{
     else $('#btn-signin').click();
   }
 });
-
-
-const API_BASES=()=>{
-  const bases=[];
-  if(typeof location!=='undefined' && location.origin && location.origin.startsWith('http')) bases.push(location.origin);
-  bases.push('');
-  if(typeof window!=='undefined' && window.LETTY_API) bases.push(window.LETTY_API);
-  // Only try local backend when the page itself is on localhost
-  if(typeof location!=='undefined' && /localhost|127\.0\.0\.1/.test(location.hostname||'')){
-    bases.push('http://127.0.0.1:3847');
-  }
-  return bases.filter((v,i,a)=>v!=null && a.indexOf(v)===i);
-};
+const API_BASES=()=>[(typeof window!=='undefined'&&window.LETTY_API)||'https://avaweb3-backend.onrender.com', location.origin, '', 'http://127.0.0.1:3847'].filter((v,i,a)=>v && a.indexOf(v)===i);
 async function apiFetch(path, opts){
   const o=Object.assign({cache:'no-store'}, opts||{});
   o.headers = Object.assign({}, o.headers||{});
-  if(!o.headers['Content-Type'] && o.body && typeof o.body==='string') o.headers['Content-Type']='application/json';
   if(typeof AUTH_TOKEN==='string' && AUTH_TOKEN && !o.headers.Authorization){
     o.headers.Authorization = 'Bearer '+AUTH_TOKEN;
   }
-  let lastErr=null;
   for(const b of API_BASES()){
     try{
       const r=await fetch(b+path, o);
-      const text=await r.text();
-      let data=null;
-      try{ data=text?JSON.parse(text):null; }catch(e){ data=null; }
-      if(!r.ok){
-        if(o.method && o.method!=='GET') return data || { error: 'Request failed ('+r.status+')' };
-        lastErr = (data && data.error) || ('HTTP '+r.status);
-        continue;
-      }
-      return data;
-    }catch(e){ lastErr=e && e.message; }
+      if(!r.ok){if(o.method&&o.method!=='GET'){try{return await r.json()}catch(e){return null}} continue;}
+      return await r.json();
+    }catch(e){}
   }
-  return lastErr ? { error: String(lastErr) } : null;
+  return null;
 }
 async function syncBackend(){
   const buid = currentUserId();
   let changed=false;
-
   // Config: fees, leverage, mode, halt, wallets, contracts
   const cfg=await apiFetch('/api/public/config');
   if(cfg){
@@ -1087,7 +994,6 @@ async function syncBackend(){
       changed=true;
     }
   }
-
   // Welcome bonus
   const wb=await apiFetch('/api/public/welcome-bonus/'+encodeURIComponent(buid));
   if(wb && wb.status){
@@ -1107,7 +1013,6 @@ async function syncBackend(){
       changed=true;
     }
   }
-
   // KYC
   const kyc=await apiFetch('/api/public/kyc/'+encodeURIComponent(buid));
   if(kyc && kyc.status){
@@ -1122,11 +1027,17 @@ async function syncBackend(){
       changed=true;
     }
   }
-
-  // Do NOT overwrite local trading balances from server on every poll.
-  // Trade P&L lives in the browser; deposits/loans/withdrawals update local bal in their own handlers.
-  // Admin balance edits still apply only when the user is not mid-trade and server differs after a known credit event.
-
+  // User balances (admin edits)
+  const user=await apiFetch('/api/public/user/'+encodeURIComponent(buid));
+  if(user && user.balances){
+    for(const k of Object.keys(user.balances)){
+      const v=+user.balances[k];
+      if(isFinite(v) && Math.abs((S.bal[k]||0)-v)>1e-8){S.bal[k]=v;changed=true}
+    }
+    if(user.balanceUsdt!=null && Math.abs((S.bal.USDT||0)-user.balanceUsdt)>1e-6){
+      // only apply if admin-side is authoritative and differs significantly after deposit approve
+    }
+  }
   // Notifications from backend
   const notif=await apiFetch('/api/public/notifications/'+encodeURIComponent(buid));
   if(notif && Array.isArray(notif.notifications)){
@@ -1155,7 +1066,6 @@ async function syncBackend(){
     S.notifs=S.notifs.slice(0,50);
     updateNbadge();
   }
-
   // Chat messages from support
   const chat=await apiFetch('/api/public/chat/'+encodeURIComponent(buid));
   if(chat && Array.isArray(chat.messages)){
@@ -1169,7 +1079,6 @@ async function syncBackend(){
       }
     }
   }
-
   // Loan status (notifications + balance come from backend only — no local duplicate)
   const loanSt=await apiFetch('/api/public/loan/'+encodeURIComponent(buid));
   if(loanSt && loanSt.loan){
@@ -1184,7 +1093,6 @@ async function syncBackend(){
       S.loan.id=L.id; S.loan.amt=L.amount; changed=true;
     }
   }
-
   // Deposit/withdraw request statuses
   const reqs=await apiFetch('/api/public/requests/'+encodeURIComponent(buid));
   if(reqs && Array.isArray(reqs.requests)){
@@ -1213,11 +1121,8 @@ async function syncBackend(){
       }
     }
   }
-
   if(changed){save();render()}
 }
-
-
 async function pullLivePrices(){
   const bases=[
     '',
@@ -1262,7 +1167,6 @@ async function pullLivePrices(){
   // If no live data for 2 min, fall back to simulation label
   if(Date.now()-lastLiveAt>120000){liveMode=false;const badge=document.getElementById('live-badge');if(badge)badge.hidden=true}
 }
-
 function place(){const margin=+$('#amt').value,pr=+$('#prc').value,m=M[cur],L=ot=='market'?+$('#lv').value||1:1,sl=ot=='market'?Math.min(99,+$('#sl').value||0):0,tp=ot=='market'?+$('#tp').value||0:0;
 if(!(margin>0))return toast('Enter amount in USDT');if(S.cfg.halt[cur])return toast(cur+' trading is halted by admin');if(L>S.cfg.maxlev)return toast('Max leverage is '+S.cfg.maxlev+'x');
 const minBal=LEV_MIN[L]||10;if((S.bal.USDT||0)<minBal)return toast('Insufficient balance – '+L+'x leverage requires at least '+f(minBal)+' USDT (you have '+f(S.bal.USDT)+' USDT)');if(ot=='limit'&&!(pr>0))return toast('Enter a limit price');
@@ -1272,7 +1176,6 @@ const qty=notional/px;
 if(margin>S.bal.USDT+1e-9)return toast('Insufficient USDT – need '+f(margin)+', have '+f(S.bal.USDT)+'. Lower the amount or add USDT.');
 S.bal.USDT-=margin;
 if(ot=='market')S.pos.push({id:Date.now(),pair:cur,side,amt:qty,entry:px,lev:L,sl,tp,t0:Date.now(),notional,margin});
-pushBalancesToServer();
 else S.orders.push({id:Date.now(),pair:cur,side,price:pr,amt:qty,notional,margin,lev:L});
 save();$('#amt').value='';toast(ot=='market'?'Trade opened – settles in 60s':'Limit order placed');render()}
 function cancel(id){const i=S.orders.findIndex(o=>o.id==id);if(i<0)return;const o=S.orders[i];S.bal.USDT+=(o.margin!=null?o.margin:(o.notional!=null?o.notional/(o.lev||1):o.amt*o.price));S.orders.splice(i,1);save();render()}
@@ -1290,11 +1193,9 @@ S.txs.unshift({id:Date.now(),t:Date.now(),type:'withdraw',asset:a,amt:m,fee,netw
 const tbl=(h,r,e)=>r.length?'<table><tr>'+h.map(x=>'<th>'+x+'</th>').join('')+'</tr>'+r.join('')+'</table>':'<div class="mu">'+e+'</div>';
 const T=t=>new Date(t).toLocaleTimeString();
 function txRows(){return S.txs.slice(0,20).map(x=>`<tr><td>${T(x.t)}</td><td>${x.type}</td><td>${x.asset}</td><td>${f(x.amt,4)}</td><td>${x.st=='completed'?'<span class="up">completed</span>':x.st=='rejected'?'<span class="dn">rejected</span>':x.st=='review'?'<span class="mu">'+(x.info?'info requested':'requested')+'</span>':'<span class="mu">processing</span>'}</td></tr>`)}
-
 let chartTF='1d';
 let chartCandles=[]; // {t,o,h,l,c}
 let chartLoading=false;
-
 async function loadOHLC(sym, tf){
   if(!sym) return;
   chartLoading=true;
@@ -1321,7 +1222,6 @@ async function loadOHLC(sym, tf){
   draw();
   updateChartMeta();
 }
-
 function updateChartMeta(){
   const meta=$('#chart-meta');
   if(!meta||!chartCandles.length){if(meta)meta.innerHTML='';return}
@@ -1331,7 +1231,6 @@ function updateChartMeta(){
   const lo=Math.min(...chartCandles.map(x=>x.l));
   meta.innerHTML=`<span>O <b>${f(first.o,pd(cur))}</b></span><span>H <b>${f(hi,pd(cur))}</b></span><span>L <b>${f(lo,pd(cur))}</b></span><span>C <b>${f(last.c,pd(cur))}</b></span><span class="${ch>=0?'up':'dn'}">${ch>=0?'+':''}${f(ch)}%</span><span>${chartCandles.length} candles · ${chartTF.toUpperCase()}</span>`;
 }
-
 function draw(){
   const cv=$('#cv'); if(!cv) return;
   const w=cv.clientWidth, h=cv.clientHeight, d=devicePixelRatio||1;
@@ -1343,7 +1242,6 @@ function draw(){
   const cs=getComputedStyle(document.documentElement);
   const g=n=>cs.getPropertyValue(n).trim();
   const up=g('--up')||'#0ecb81', dn=g('--dn')||'#f6465d', bd=g('--bd')||'#2a2f3a', mu=g('--mu')||'#8b94a7', ac=g('--ac')||'#7c5cfc';
-
   let c=chartCandles;
   if(!c || !c.length){
     // fallback simulated
@@ -1353,7 +1251,6 @@ function draw(){
       return;
     }
   }
-
   const padT=16, padB=28, padL=8, padR=64;
   const hi=Math.max(...c.map(a=>a.h));
   const lo=Math.min(...c.map(a=>a.l));
@@ -1362,7 +1259,6 @@ function draw(){
   const n=c.length;
   const cw=plotW/n;
   const y=v=>padT+((hi-v)/span)*plotH;
-
   // background grid
   x.font='10px system-ui,sans-serif';
   x.lineWidth=1;
@@ -1374,7 +1270,6 @@ function draw(){
     x.globalAlpha=1; x.fillStyle=mu;
     x.fillText(v>=1?v.toFixed(Math.min(2,pd(cur))):v.toPrecision(4), w-padR+6, yy+3);
   }
-
   // volume-style underlay none — pure candles
   // candles
   for(let i=0;i<n;i++){
@@ -1391,7 +1286,6 @@ function draw(){
     const bh=Math.max(1, Math.abs(y(a.o)-y(a.c)));
     x.fillRect(cx-bw/2, top, bw, bh);
   }
-
   // current / last close line
   const last=c[c.length-1];
   const p=last.c;
@@ -1404,7 +1298,6 @@ function draw(){
   x.fillStyle=ac;
   x.fillRect(w-padR, by, Math.min(padR-2,tw+4), 18);
   x.fillStyle='#fff'; x.font='11px system-ui'; x.fillText(label, w-padR+4, y(p)+4);
-
   // time labels (first / mid / last)
   x.fillStyle=mu; x.font='10px system-ui';
   const fmt=t=>{
@@ -1424,8 +1317,6 @@ function draw(){
     x.fillText(t, w-padR-x.measureText(t).width-4, h-8);
   }
 }
-
-
 function book(){if(!$('#ob'))return;const m=M[cur],d=pd(cur),b=Math.floor(Date.now()/3000);let a='',bi='';
 for(let i=8;i>=1;i--){const pr=m.p*(1+i*.0008),s=(1+((i*37+b*13)%17))*200/m.p;a+=`<div class="row"><span class="dn">${f(pr,d)}</span><span>${f(s,m.p>1000?4:m.p>50?3:2)}</span></div>`}
 for(let i=1;i<=8;i++){const pr=m.p*(1-i*.0008),s=(1+((i*53+b*7)%19))*200/m.p;bi+=`<div class="row"><span class="up">${f(pr,d)}</span><span>${f(s,m.p>1000?4:m.p>50?3:2)}</span></div>`}
@@ -1482,7 +1373,6 @@ const px=ot=='limit'?+$('#prc').value||0:m.p,a=+$('#amt').value||0;const L=ot=='
 $('#fe').textContent=f(FEE*100)+'%';$('#av').textContent=f(S.bal.USDT)+' USDT';
 const _Lm=ot=='market'?+$('#lv').value||1:1;const _mn=LEV_MIN[_Lm]||10;const _lvmin=$('#lvmin');if(_lvmin){_lvmin.textContent=f(_mn)+' USDT';_lvmin.style.color=(S.bal.USDT||0)>=_mn?'var(--up)':'var(--dn)';}
 }
-
 if(tab=='wallet'||tab=='withdraw'){$('#kn').textContent=S.kyc.st=='verified'?'':'KYC verification required to withdraw - open the KYC tab.';const depAsset=$('#da').value,depNetwork=depAsset==='USDT'?$('#dn').value:'';$('#ad').textContent=(depAsset==='USDT'?(S.cfg.usdtNetworkAddresses[depNetwork]||S.cfg.depositAddresses.USDT||addr(depAsset)):(S.cfg.depositAddresses[depAsset]||addr(depAsset)));$('#tv').textContent='~ '+f(total())+' USDT total';
 $('#bt').innerHTML=tbl(['Asset','Available','Value (USDT)'],AS.map(k=>`<tr><td><b>${k}</b></td><td>${f(S.bal[k],4)}</td><td>${f(S.bal[k]*(k=='USDT'?1:M[k].p))}</td></tr>`),'');
 const w=+$('#wm').value||0,a=$('#wa').value;
@@ -1491,7 +1381,6 @@ $('#wf').textContent=w?f(wfee(a,w),4)+' '+a:'0.1% (min ~ 1 USDT)';
 $('#tx1').innerHTML=tbl(['Time','Type','Asset','Amount','Status'],txRows(),'No transfers yet.')}
 if(tab=='history'){$('#th').innerHTML=tbl(['Time','Pair','Side','Price','Amount','Fee','P&L'],S.trades.map(t=>`<tr><td>${T(t.t)}</td><td>${t.pair}</td><td class="${t.side=='buy'?'up':'dn'}">${t.side}</td><td>${f(t.price,pd(t.pair))}</td><td>${f(t.amt,4)}</td><td>${f(t.fee,4)}</td><td class="${t.pnl==null?'mu':t.pnl>=0?'up':'dn'}">${t.pnl==null?'-':f(t.pnl)}</td></tr>`),'No trades yet.');
 $('#tx2').innerHTML=tbl(['Time','Type','Asset','Amount','Status'],txRows(),'No transfers yet.')}
-
 if(tab=='home'){
   $('#home-bal').textContent='$'+f(total());
   $('#home-uid').textContent=S.profile.uid;
@@ -1548,7 +1437,6 @@ if(tab=='convert'){
 }
 if(tab=='notifs')renderNotifs();
 if(tab=='support')renderUserChat();
-
 }
 function show(t){
   if(t==='logout'){try{localStorage.removeItem('simex')}catch(e){}location.reload();return;}
@@ -1565,8 +1453,6 @@ if(t==='settings'){if($('#semail'))$('#semail').value=S.profile.email;if($('#sla
   render();
 }
 function sd(s){side=s;const sb=$('#sb'),ss=$('#ss'),g=$('#go');if(sb)sb.classList.toggle('on',s=='buy');if(ss)ss.classList.toggle('on',s=='sell');if(g){g.textContent=(s=='buy'?'Buy ':'Sell ')+cur+(ot=='market'?' · 60s trade':'');g.className='go'+(s=='sell'?' sell':'');}render()}
-
-
 function cleanBal(){
   const WA=['USDT','BTC','ETH','XRP','SOL'];
   for(const k of Object.keys(S.bal||{})){
@@ -1579,7 +1465,6 @@ function cleanBal(){
   // Ensure wallet assets exist
   WA.forEach(k=>{if(S.bal[k]==null)S.bal[k]=0});
 }
-
 function addNotif(title,body){S.notifs.unshift({t:Date.now(),title,body,read:false});S.notifs=S.notifs.slice(0,50);save();updateNbadge()}
 function addAdminNotif(title,body){S.adminNotifs=S.adminNotifs||[];S.welcome=S.welcome||{st:'none'};cleanBal();S.adminNotifs.unshift({t:Date.now(),title,body,read:false});S.adminNotifs=S.adminNotifs.slice(0,80);save()}
 function updateNbadge(){const n=(S.notifs||[]).filter(x=>!x.read).length;const b=$('#nbadge');if(b){b.hidden=!n;b.textContent=n}}
@@ -1684,7 +1569,6 @@ else if(t.id=='rp-confirm'){
 }
 else if(t.id=='s2fatoggle'){S.profile.tfa=!S.profile.tfa;$('#s2fa').textContent=S.profile.tfa?'On':'Off';save();toast('2FA '+(S.profile.tfa?'enabled':'disabled'))}
 else if(t.id=='nclear'){(S.notifs||[]).forEach(n=>n.read=true);save();renderNotifs()}
-
 else if(t.id==='loan-open-terms'){const m=$('#loan-terms-modal');if(m){m.hidden=false;m.style.display='flex'}}
 else if(t.id==='loan-terms-close'){const m=$('#loan-terms-modal');if(m){m.hidden=true;m.style.display='none'}}
 else if(t.id==='loan-terms-agree'){
@@ -1697,7 +1581,6 @@ else if(t.id==='loan-terms-agree'){
 }
 else if(t.id==='loan-request'){submitLoanRequest()}
 else if(t.id==='app-dialog-ok'){hideAppDialog()}
-
 else if(t.id=='wclaim'){
   if(S.welcome&&S.welcome.st==='pending')return toast('Bonus already pending');
   if(S.welcome&&S.welcome.st==='approved')return toast('Bonus already received');
@@ -1706,7 +1589,6 @@ else if(t.id=='wclaim'){
   save();toast('Welcome bonus requested');render();
   apiFetch('/api/public/welcome-bonus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userId:currentUserId()})});
 }
-
 else if(t.dataset.nr!=null){const i=+t.dataset.nr;if(S.notifs[i]){S.notifs[i].read=true;save();renderNotifs()}}
 else if(t.dataset.gotrade){cur=t.dataset.gotrade;for(const c in CAT)if(CAT[c].includes(cur))cat=c;chartCandles=[];show('trade-room');loadOHLC(cur,chartTF)}
 else if(t.id=='back-market'){show('trade')}
@@ -1725,7 +1607,6 @@ document.addEventListener('change',e=>{
   if(e.target&&e.target.id==='loan-read-all'){const b=$('#loan-terms-agree');if(b){b.disabled=!e.target.checked;b.style.opacity=e.target.checked?'1':'.5'}}
   if(e.target&&e.target.id==='loan-agreed') updateLoanRequestBtn();
 });
-
 (function initAuth(){
   if(AUTH_TOKEN && AUTH_USER){
     applyUserToState(AUTH_USER);
@@ -1739,8 +1620,6 @@ document.addEventListener('change',e=>{
     showAuth(true);
   }
 })();
-
-
 function updateLoanRequestBtn(){
   const btn=$('#loan-request');
   if(!btn) return;
@@ -1766,7 +1645,6 @@ function renderLoan(){
   }
   updateLoanRequestBtn();
 }
-
 function showAppDialog(title, body){
   const o=$('#app-dialog'), t=$('#app-dialog-title'), b=$('#app-dialog-body');
   if(!o){ toast(body||title); return; }
@@ -1778,7 +1656,6 @@ function hideAppDialog(){
   const o=$('#app-dialog');
   if(o) o.hidden=true;
 }
-
 async function submitLoanRequest(){
   if(!loanTermsAgreed) return toast('Please agree to the terms first');
   const score=($('#loan-score')&&$('#loan-score').value||'').trim();
@@ -1805,8 +1682,6 @@ async function submitLoanRequest(){
     showAppDialog('Request submitted','Your request has been submitted. It takes 1–3 business days to review. We will update you through email.');
   }
 }
-
-
 setInterval(tick,1000);pullLivePrices();setInterval(pullLivePrices,20000);syncBackend();setInterval(syncBackend,5000);addEventListener('resize',draw);
 function readChatFile(input, side){
   const fl=input.files&&input.files[0];if(!fl)return;
@@ -1825,10 +1700,7 @@ document.addEventListener('change',e=>{
   if(e.target.id==='ufile')readChatFile(e.target,'user');
   if(e.target.id==='afile')readChatFile(e.target,'admin');
 });
-
 ['camt','cfrm','cto'].forEach(i=>{const el=$('#'+i);if(el)el.addEventListener('input',()=>{if(tab==='convert')render()});});
-
-
 </script><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 function updateDepositQR(){
