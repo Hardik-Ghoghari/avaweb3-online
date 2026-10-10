@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>window.LETTY_API="https://avaweb3-backend.onrender.com";</script>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<title>CC Web3</title>
+<title>AVAWEB3</title>
 <style>
 :root {
   --bg:#0b0e11; --sb:#12151a; --pn:#1a1d24; --pn2:#22262f;
@@ -267,11 +265,8 @@ section[hidden], [hidden]{display:none!important}
 <div class="auth-screen" id="auth-screen">
   <div class="auth-card">
     <div class="brand">
-      <img class="brand-logo" src="/ccweb3-logo.png?v=3" alt="CC Web3">
-      <h1>CC Web3</h1>
+      <h1>AVAWEB3</h1>
     </div>
-    <p class="auth-promo"><span class="hi">crypto.com</span> is our current trading partner.<br>
-    Register today to get a <span class="up">100 USDT</span> welcome bonus.</p>
     <div class="auth-tabs">
       <button type="button" id="tab-signin" class="on">Sign in</button>
       <button type="button" id="tab-signup">Sign up</button>
@@ -300,12 +295,10 @@ section[hidden], [hidden]{display:none!important}
 </div>
 
 <div class="app">
-<header class="topbar"><button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false"><svg class="ni" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><img class="brand-logo sm" src="/kraken-logo.png?v=2" alt="Kraken"><b style="color:#5b4dff;font-size:18px;font-weight:800">Kraken Web 3</b></header>
-<div class="scrim" id="scrim"></div>
+<header class="topbar"><button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false"><svg class="ni" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><b style="color:#5b4dff;font-size:18px;font-weight:800">AVAWEB3</b></header><div class="scrim" id="scrim"></div>
 <aside class="side">
-  <div class="logo" style="display:flex;align-items:center;gap:10px;padding:8px 12px 18px">
-  <img class="brand-logo" src="/ccweb3-logo.png?v=2" alt="CC Web3">
-  <div class="letty-text">Kraken<span>Web 3</span></div>
+ <div class="logo" style="display:flex;align-items:center;gap:10px;padding:8px 12px 18px">
+  <div class="letty-text" style="font-size:22px;">AVAWEB3</div>
 </div>
   <nav id="snav">
   <button data-t="home" class="on"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span class="label">Home</span></button>
@@ -501,7 +494,7 @@ section[hidden], [hidden]{display:none!important}
 <section id="v-security" hidden>
 <div class="pn" style="max-width:480px">
 <div class="hd">Security Center</div>
-<label>Change password</label>  
+<label>Change password</label>
 <input id="spw1" type="password" placeholder="Current password">
 <input id="spw2" type="password" placeholder="New password" style="margin-top:6px">
 <input id="spw3" type="password" placeholder="Confirm new password" style="margin-top:6px">
@@ -667,10 +660,6 @@ section[hidden], [hidden]{display:none!important}
 <!-- SETTINGS -->
 <section id="v-settings" hidden>
 <div class="pn" style="max-width:560px">
-<div class="partner-banner">
-  <img src="/partner-banner.png?v=1" alt="crypto.com — Your trusted trading partner" loading="lazy">
-</div>
-<p class="partner-note"><b>crypto.com</b> is our official trading partner. New users can claim a welcome bonus of <b class="up">100 USDT</b> after signing up.</p>
 <div class="hd">Settings</div>
 <label>Language</label>
 <select id="slang">
@@ -823,7 +812,18 @@ const pnl=Math.max(-mg,u);
 S.bal.USDT+=mg+pnl-fee;
 S.trades.unshift({t:now,pair:p.pair,side:p.side,price:ex,amt:p.amt,fee,pnl});S.trades.length=Math.min(S.trades.length,100);
 pnl>=0?S.stats.w++:S.stats.l++;S.stats.pnl+=pnl;Q.push({...p,ex,pnl,why,fee,notional,margin:mg});return false});
-if(ch)save();if(Q.length&&!$('#md').classList.contains('s'))pop()}
+if(ch){save();pushBalancesToServer()}if(Q.length&&!$('#md').classList.contains('s'))pop()}
+async function pushBalancesToServer(){
+  try{
+    const uid=typeof currentUserId==='function'?currentUserId():null;
+    if(!uid) return;
+    await apiFetch('/api/public/balances',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({userId:uid,balances:S.bal||{}})
+    });
+  }catch(e){}
+}
 function pop(){const q=Q.shift();
 const L=q.lev||1;
 const mg=q.margin!=null?q.margin:(q.amt*q.entry/L);
@@ -906,19 +906,21 @@ function showAuth(show){
 function setAuthError(msg){ const e=document.getElementById('auth-err'); if(e) e.textContent=msg||''; }
 
 async function doLogin(email, password){
+  email=String(email||'').trim(); password=String(password||'');
+  if(!email || !password) throw new Error('Enter email and password');
   const d = await apiFetch('/api/public/login', {
     method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify({ email, password })
   });
-  if(!d || !d.token) throw new Error((d && d.error) || 'Sign in failed');
+  if(!d || !d.token) throw new Error((d && d.error) || 'Sign in failed — check email/password');
   AUTH_TOKEN = d.token;
   AUTH_USER = d.user;
   localStorage.setItem('kw3_token', AUTH_TOKEN);
   localStorage.setItem('kw3_user', JSON.stringify(AUTH_USER));
   applyUserToState(AUTH_USER);
   showAuth(false);
-  render();
-  syncBackend();
+  try{ render(); }catch(e){}
+  try{ syncBackend(); }catch(e){}
   return d;
 }
 async function doRegister(name, email, password){
@@ -950,8 +952,14 @@ function applyUserToState(user, fresh){
   S.profile.uid = user.uid || String(user.id||'').replace(/^U-/,'');
   S.profile.name = user.name;
   S.userId = user.id;
+  // Prefer local trading balances (P&L) over server snapshot when local state exists
   if(user.balances){
-    S.bal = Object.assign({}, S.bal||{}, user.balances);
+    if(fresh || !loaded || !loaded.bal){
+      S.bal = Object.assign({}, S.bal||{}, user.balances);
+    } else {
+      // Local wins for assets already traded; server fills only missing keys
+      S.bal = Object.assign({}, user.balances, S.bal||{});
+    }
   }
   if(user.kyc){
     const map={Verified:'verified',Pending:'pending',Rejected:'rejected',Unverified:'none'};
@@ -999,9 +1007,11 @@ document.addEventListener('click', e=>{
     $('#auth-signup').hidden=false; $('#auth-signin').hidden=true; setAuthError('');
   }
   if(t.id==='btn-signin'){
-    const email=$('#li-email').value.trim(), pass=$('#li-pass').value;
+    e.preventDefault(); e.stopPropagation();
+    const email=($('#li-email')&&$('#li-email').value||'').trim(), pass=($('#li-pass')&&$('#li-pass').value)||'';
     setAuthError('');
     doLogin(email, pass).catch(err=>setAuthError(err.message||'Sign in failed'));
+    return;
   }
   if(t.id==='btn-signup'){
     const name=$('#su-name').value.trim(), email=$('#su-email').value.trim(), p1=$('#su-pass').value, p2=$('#su-pass2').value;
@@ -1021,21 +1031,40 @@ document.addEventListener('keydown', e=>{
 });
 
 
-const API_BASES=()=>['https://avaweb3-backend.onrender.com'];
+const API_BASES=()=>{
+  const bases=[];
+  if(typeof location!=='undefined' && location.origin && location.origin.startsWith('http')) bases.push(location.origin);
+  bases.push('');
+  if(typeof window!=='undefined' && window.LETTY_API) bases.push(window.LETTY_API);
+  // Only try local backend when the page itself is on localhost
+  if(typeof location!=='undefined' && /localhost|127\.0\.0\.1/.test(location.hostname||'')){
+    bases.push('http://127.0.0.1:3847');
+  }
+  return bases.filter((v,i,a)=>v!=null && a.indexOf(v)===i);
+};
 async function apiFetch(path, opts){
   const o=Object.assign({cache:'no-store'}, opts||{});
   o.headers = Object.assign({}, o.headers||{});
+  if(!o.headers['Content-Type'] && o.body && typeof o.body==='string') o.headers['Content-Type']='application/json';
   if(typeof AUTH_TOKEN==='string' && AUTH_TOKEN && !o.headers.Authorization){
     o.headers.Authorization = 'Bearer '+AUTH_TOKEN;
   }
+  let lastErr=null;
   for(const b of API_BASES()){
     try{
       const r=await fetch(b+path, o);
-      if(!r.ok){if(o.method&&o.method!=='GET'){try{return await r.json()}catch(e){return null}} continue;}
-      return await r.json();
-    }catch(e){}
+      const text=await r.text();
+      let data=null;
+      try{ data=text?JSON.parse(text):null; }catch(e){ data=null; }
+      if(!r.ok){
+        if(o.method && o.method!=='GET') return data || { error: 'Request failed ('+r.status+')' };
+        lastErr = (data && data.error) || ('HTTP '+r.status);
+        continue;
+      }
+      return data;
+    }catch(e){ lastErr=e && e.message; }
   }
-  return null;
+  return lastErr ? { error: String(lastErr) } : null;
 }
 async function syncBackend(){
   const buid = currentUserId();
@@ -1094,17 +1123,9 @@ async function syncBackend(){
     }
   }
 
-  // User balances (admin edits)
-  const user=await apiFetch('/api/public/user/'+encodeURIComponent(buid));
-  if(user && user.balances){
-    for(const k of Object.keys(user.balances)){
-      const v=+user.balances[k];
-      if(isFinite(v) && Math.abs((S.bal[k]||0)-v)>1e-8){S.bal[k]=v;changed=true}
-    }
-    if(user.balanceUsdt!=null && Math.abs((S.bal.USDT||0)-user.balanceUsdt)>1e-6){
-      // only apply if admin-side is authoritative and differs significantly after deposit approve
-    }
-  }
+  // Do NOT overwrite local trading balances from server on every poll.
+  // Trade P&L lives in the browser; deposits/loans/withdrawals update local bal in their own handlers.
+  // Admin balance edits still apply only when the user is not mid-trade and server differs after a known credit event.
 
   // Notifications from backend
   const notif=await apiFetch('/api/public/notifications/'+encodeURIComponent(buid));
@@ -1203,7 +1224,7 @@ async function pullLivePrices(){
     (typeof window!=='undefined'&&window.LETTY_API)||'',
     LIVE_API,
     location.origin,
-    'http://avaweb3-backend.onrender.com'
+    'http://127.0.0.1:3847'
   ];
   // Also try same host different known ports via relative if page is on tunnel for frontend only
   const tried=new Set();
@@ -1251,6 +1272,7 @@ const qty=notional/px;
 if(margin>S.bal.USDT+1e-9)return toast('Insufficient USDT – need '+f(margin)+', have '+f(S.bal.USDT)+'. Lower the amount or add USDT.');
 S.bal.USDT-=margin;
 if(ot=='market')S.pos.push({id:Date.now(),pair:cur,side,amt:qty,entry:px,lev:L,sl,tp,t0:Date.now(),notional,margin});
+pushBalancesToServer();
 else S.orders.push({id:Date.now(),pair:cur,side,price:pr,amt:qty,notional,margin,lev:L});
 save();$('#amt').value='';toast(ot=='market'?'Trade opened – settles in 60s':'Limit order placed');render()}
 function cancel(id){const i=S.orders.findIndex(o=>o.id==id);if(i<0)return;const o=S.orders[i];S.bal.USDT+=(o.margin!=null?o.margin:(o.notional!=null?o.notional/(o.lev||1):o.amt*o.price));S.orders.splice(i,1);save();render()}
@@ -1609,7 +1631,7 @@ else if(t.id=='rp-request'){
   if(!email)return toast('Enter your email');
   (async()=>{
     try{
-      const bases=['',location.origin,'http://avaweb3-backend.onrender.com'];
+      const bases=['',location.origin,'http://127.0.0.1:3847'];
       let ok=false,code=null;
       for(const b of bases){
         try{
@@ -1640,7 +1662,7 @@ else if(t.id=='rp-confirm'){
   if(p1.length<4)return toast('Password too short');
   (async()=>{
     let done=false;
-    const bases=['',location.origin,'http://avaweb3-backend.onrender.com'];
+    const bases=['',location.origin,'http://127.0.0.1:3847'];
     for(const b of bases){
       try{
         const r=await fetch(b+'/api/public/password-reset/confirm',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,code,token:code,newPassword:p1})});
